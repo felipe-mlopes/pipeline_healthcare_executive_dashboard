@@ -1,0 +1,56 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "155af14b0de78afb29ee",
+  "position": {
+    "x": 49.999999999999993,
+    "y": 1.8181818181818181,
+    "z": 2000,
+    "height": 143.63636363636363,
+    "width": 192.72727272727272,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6865",
+    "query": {
+      "queryState": {
+        "content": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas - PerCapita"
+                    }
+                  },
+                  "Property": "Card PerCapita Total"
+                }
+              },
+              "queryRef": "_Medidas_PerCapita.Card PerCapita Total no Período",
+              "nativeQueryRef": "Card PerCapita Total"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

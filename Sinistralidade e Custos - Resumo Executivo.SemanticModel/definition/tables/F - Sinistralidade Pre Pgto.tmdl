@@ -1,0 +1,66 @@
+table 'F - Sinistralidade Pre Pgto'
+	lineageTag: 2ee3517c-88df-4216-b67b-496d2d16e1aa
+
+	column data_pagamento
+		dataType: dateTime
+		formatString: yyyy-mm
+		lineageTag: a6f8cbce-fd62-4e39-9fb1-f66d42910fb0
+		summarizeBy: none
+		sourceColumn: data_pagamento
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column despesa
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 8ce95940-ae1e-455d-8bff-14bc9e269877
+		summarizeBy: sum
+		sourceColumn: despesa
+
+		annotation SummarizationSetBy = Automatic
+
+	column receita
+		dataType: double
+		formatString: #,0.00
+		lineageTag: baa3e4fe-127c-46b9-9180-46bb1524982b
+		summarizeBy: sum
+		sourceColumn: receita
+
+		annotation SummarizationSetBy = Automatic
+
+	column uf_benef
+		dataType: string
+		lineageTag: 3f1df353-ebf5-4b1a-8c23-dc93f4a95d7b
+		summarizeBy: none
+		sourceColumn: uf_benef
+
+		annotation SummarizationSetBy = Automatic
+
+	column plano
+		dataType: string
+		lineageTag: 7632b79d-6d29-4535-8f28-91ec884ad970
+		summarizeBy: none
+		sourceColumn: plano
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'F - Sinistralidade Pre Pgto' = m
+		mode: import
+		source =
+				let
+				    Fonte = GoogleBigQuery.Database(),
+				    Projeto = Fonte{[Name="mythic-groove-491720-v4"]}[Data],
+				    Dataset = Projeto{[Name="health_care_lifes"]}[Data],
+				    Tabela = Dataset{[Name="sinistralidade_operadora_pre_pgto"]}[Data],
+				    #"Linhas Filtradas" = Table.SelectRows(Tabela, each true)
+				in
+				    #"Linhas Filtradas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

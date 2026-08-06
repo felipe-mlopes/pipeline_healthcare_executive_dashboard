@@ -1,0 +1,25 @@
+table 'D - Empresas'
+	lineageTag: 4a8d6efc-458b-47ca-8f7b-ed68bab6376e
+
+	column Nome_empresa
+		lineageTag: 6d107e87-1790-4c4b-982e-217714c6c606
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: F - Vidas[Nome_Empresa]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'D - Empresas' = calculated
+		mode: import
+		source =
+				
+				FILTER(
+				    SUMMARIZE(
+				        'F - Vidas',
+				        'F - Vidas'[Nome_Empresa]
+				    ),
+				    'F - Vidas'[Nome_Empresa] <> BLANK()
+				)
+
+	annotation PBI_Id = 946eb8846f7b4fd5a8866a221035ef98
+

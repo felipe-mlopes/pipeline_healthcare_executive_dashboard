@@ -1,0 +1,114 @@
+table 'F - Aberturas por Risco'
+	lineageTag: 169c2151-b273-4dcb-aff2-afd4dce42435
+
+	column data_ref
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 2b799b00-33bf-457a-95a4-e8d2d304f066
+		summarizeBy: none
+		sourceColumn: data_ref
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Operadora
+		dataType: string
+		lineageTag: cafe6634-d211-4f45-a60c-25477c8381ee
+		summarizeBy: none
+		sourceColumn: Operadora
+
+		annotation SummarizationSetBy = Automatic
+
+	column plano
+		dataType: string
+		lineageTag: 05bfb9e3-7fa9-4745-889a-ea2bb7d60f2c
+		summarizeBy: none
+		sourceColumn: plano
+
+		annotation SummarizationSetBy = Automatic
+
+	column uf_benef
+		dataType: string
+		lineageTag: 0dd56009-e1d1-4e40-b290-63c751aa0b51
+		summarizeBy: none
+		sourceColumn: uf_benef
+
+		annotation SummarizationSetBy = Automatic
+
+	column empresa
+		dataType: string
+		lineageTag: bba8b684-2a85-426b-8b74-1326eba2c236
+		summarizeBy: none
+		sourceColumn: empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tipo_plano
+		dataType: string
+		lineageTag: e6372b98-2db3-4391-a51b-2dbfc65b84cb
+		summarizeBy: none
+		sourceColumn: Tipo_plano
+
+		annotation SummarizationSetBy = Automatic
+
+	column Benef_farmacia
+		dataType: string
+		lineageTag: fb8cd8f9-01dc-43e7-b8b1-4af83e69ccc4
+		summarizeBy: none
+		sourceColumn: Benef_farmacia
+
+		annotation SummarizationSetBy = Automatic
+
+	column Risco
+		dataType: string
+		lineageTag: c11e196d-6ba3-4a13-8ad8-43f6a5d66d06
+		summarizeBy: none
+		sourceColumn: Risco
+
+		annotation SummarizationSetBy = Automatic
+
+	column cassi
+		dataType: string
+		lineageTag: c68cdf2c-f1ba-400f-9b40-c2ce802afb39
+		summarizeBy: none
+		sourceColumn: cassi
+
+		annotation SummarizationSetBy = Automatic
+
+	column VPP
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 19911907-c0d8-4049-a0d7-9d92833a0232
+		summarizeBy: sum
+		sourceColumn: VPP
+
+		annotation SummarizationSetBy = Automatic
+
+	column Valor
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 9b9a3319-bebd-4f46-b443-ebfd42ed3f4a
+		summarizeBy: sum
+		sourceColumn: Valor
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'F - Aberturas por Risco' = m
+		mode: import
+		source =
+				let
+				    Fonte = GoogleBigQuery.Database(),
+				    Projeto = Fonte{[Name="mythic-groove-491720-v4"]}[Data],
+				    Dataset = Projeto{[Name="health_care_lifes"]}[Data],
+				    Tabela = Dataset{[Name="custo_por_risco_todas_operadoras"]}[Data],
+				    #"Linhas Filtradas" = Table.SelectRows(Tabela, each true)
+				in
+				    #"Linhas Filtradas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

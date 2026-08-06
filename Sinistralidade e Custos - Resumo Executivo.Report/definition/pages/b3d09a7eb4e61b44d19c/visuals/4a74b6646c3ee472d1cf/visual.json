@@ -1,0 +1,56 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "4a74b6646c3ee472d1cf",
+  "position": {
+    "x": 236.77189294696146,
+    "y": 0,
+    "z": 11000,
+    "height": 142.47313038799845,
+    "width": 260.3465835867022,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6865",
+    "query": {
+      "queryState": {
+        "content": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas - PerCapita"
+                    }
+                  },
+                  "Property": "Card PerCapita Grande Risco"
+                }
+              },
+              "queryRef": "_Medidas_PerCapita.Card PerCapita HTML WAFFLE",
+              "nativeQueryRef": "Card PerCapita Grande Risco"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

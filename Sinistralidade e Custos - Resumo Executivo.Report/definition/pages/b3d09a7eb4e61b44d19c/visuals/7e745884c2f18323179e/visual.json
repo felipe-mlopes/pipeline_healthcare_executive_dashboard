@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "7e745884c2f18323179e",
+  "position": {
+    "x": 1017.272962202304,
+    "y": 2.2284183180773365,
+    "z": 5000,
+    "height": 142.61877235694953,
+    "width": 262.9533615331257,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6865",
+    "query": {
+      "queryState": {
+        "content": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas - PerCapita"
+                    }
+                  },
+                  "Property": "Card PerCapita Farmacia"
+                }
+              },
+              "queryRef": "_Medidas_PerCapita.Card PerCapita Farmacia",
+              "nativeQueryRef": "Card PerCapita Farmacia"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

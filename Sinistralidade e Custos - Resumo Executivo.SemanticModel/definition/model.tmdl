@@ -1,0 +1,38 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["D - Grupos Empresas","F - Sinistralidade Pre Pgto","F - Vidas","F - Custo Pos Pgto","F - Aberturas por Risco","D - Tipos de Planos"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table DateTableTemplate_758cd594-63a3-4f2b-ab5f-2294f57f6d8b
+ref table 'D - Tabela Ano'
+ref table 'D - UF Estados'
+ref table 'D - Grupos Empresas'
+ref table '_Medidas - Geral'
+ref table 'D - Tabela Periodos'
+ref table '_Filtro Copart'
+ref table '_Filtro Reciprocidade'
+ref table '_Medidas - PerCapita'
+ref table '_Parametro Vidas'
+ref table 'F - Sinistralidade Pre Pgto'
+ref table 'D - Calendario'
+ref table LocalDateTable_10f447e7-0d15-49fe-b724-a0416fbac14e
+ref table 'F - Vidas'
+ref table 'F - Custo Pos Pgto'
+ref table 'D - Empresas'
+ref table 'D - Planos'
+ref table 'D - Operadora'
+ref table 'F - Aberturas por Risco'
+ref table 'D - Tabela Meses'
+ref table 'D - Tipos de Planos'
+
+ref cultureInfo pt-BR
+

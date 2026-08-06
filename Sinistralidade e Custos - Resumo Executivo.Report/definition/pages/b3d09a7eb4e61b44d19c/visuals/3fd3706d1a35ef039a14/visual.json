@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "3fd3706d1a35ef039a14",
+  "position": {
+    "x": 757.46506012036582,
+    "y": 1.0249865495539456,
+    "z": 4000,
+    "height": 142.47313038799845,
+    "width": 259.32159703714825,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6865",
+    "query": {
+      "queryState": {
+        "content": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas - PerCapita"
+                    }
+                  },
+                  "Property": "Card PerCapita Odonto"
+                }
+              },
+              "queryRef": "_Medidas_PerCapita.Card PerCapita Odonto",
+              "nativeQueryRef": "Card PerCapita Odonto"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

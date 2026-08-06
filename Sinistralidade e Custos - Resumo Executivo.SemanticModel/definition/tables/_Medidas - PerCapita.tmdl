@@ -1,0 +1,2717 @@
+table '_Medidas - PerCapita'
+	lineageTag: b5069a9a-2a62-4210-9411-5bdaf9ed45e7
+
+	measure 'Card PerCapita Grande Risco' =
+			
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                  🎨 PAINEL DE CONTROLE VISUAL                   ║
+			-- ║   Ajuste os parâmetros abaixo sem mexer na lógica da medida      ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔎 ESCALA GERAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR EscalaConteudoPercentual = 43
+			VAR EscalaCardPercentual = 43
+			
+			VAR FatorEscalaConteudo = DIVIDE(EscalaConteudoPercentual, 100)
+			VAR FatorEscalaCard = DIVIDE(EscalaCardPercentual, 100)
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔤 FONTES
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_principal = "Poppins, Segoe UI, Arial, sans-serif"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📝 TEXTOS DO CARD
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR titulo_card = "Per Capita YTD | Grande Risco"
+			VAR texto_comparativo = "vs YTD ano ant."
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📦 CARD / CONTAINER
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR largura_card = ROUND(580 * FatorEscalaCard, 0) & "px"
+			VAR altura_card = ROUND(308 * FatorEscalaCard, 0) & "px"
+			VAR raio_borda = ROUND(34 * FatorEscalaCard, 0) & "px"
+			VAR padding_card = ROUND(38 * FatorEscalaCard, 0) & "px"
+			
+			VAR cor_fundo_card = "#FFFFFF"
+			VAR cor_borda_card = "#E8EAF2"
+			
+			VAR ExibirSombraCard = FALSE()
+			VAR sombra_card =
+			    IF(
+			        ExibirSombraCard,
+			        "0 18px 38px rgba(15, 23, 42, 0.10)",
+			        "none"
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎨 CORES GERAIS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR cor_titulo = "#8A8F9C"
+			VAR cor_valor = "#1F2937"
+			VAR cor_texto_secundario = "#8A8F9C"
+			
+			VAR cor_positivo = "#F43F5E"
+			VAR cor_negativo = "#16C79A"
+			
+			VAR cor_icone_fundo = "#E66C37"
+			VAR cor_icone = "#FFFFFF"
+			
+			VAR cor_waffle_vazio = "#E8EEF5"
+			
+			VAR cor_badge_fundo_positivo = "#FFE4E6"
+			VAR cor_badge_fundo_negativo = "#DFFBF0"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🏷️ TÍTULO
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_titulo = fonte_principal
+			VAR peso_titulo = "700"
+			VAR tamanho_titulo = ROUND(28 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💰 VALOR PRINCIPAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_valor = fonte_principal
+			VAR peso_valor = "700"
+			VAR tamanho_valor = ROUND(56 * FatorEscalaConteudo, 0) & "px"
+			VAR espacamento_letra_valor = "-2.4px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📊 BADGE DE VARIAÇÃO VS MÊS ANTERIOR
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_comparativo = fonte_principal
+			VAR peso_label_comparativo = "700"
+			VAR tamanho_label_comparativo = ROUND(22 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR padding_badge_vertical = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			VAR padding_badge_horizontal = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎯 BLOCO DE META / WAFFLE
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_meta = fonte_principal
+			VAR peso_label_meta = "700"
+			VAR tamanho_label_meta = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR fonte_percentual_meta = fonte_principal
+			VAR peso_percentual_meta = "700"
+			VAR tamanho_percentual_meta = ROUND(38 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR largura_bloco_meta = ROUND(190 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR qtd_bolinhas = 25
+			VAR tamanho_bolinha = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_bolinha = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💲 ÍCONE SVG
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR ExibirIcone = TRUE()
+			
+			VAR tamanho_icone_box = ROUND(58 * FatorEscalaConteudo, 0) & "px"
+			VAR tamanho_icone_svg = ROUND(30 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_icone = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR IconeSVG =
+			    IF(
+			        ExibirIcone,
+			        "<div style='
+			            width:" & tamanho_icone_box & ";
+			            height:" & tamanho_icone_box & ";
+			            border-radius:" & raio_icone & ";
+			            background:" & cor_icone_fundo & ";
+			            color:" & cor_icone & ";
+			            display:flex;
+			            align-items:center;
+			            justify-content:center;
+			            flex:0 0 auto;
+			        '>" &
+			            "<svg viewBox='0 0 24 24' fill='none' stroke='" & cor_icone & "'
+			                stroke-width='2' stroke-linecap='round' stroke-linejoin='round'
+			                style='width:" & tamanho_icone_svg & "; height:" & tamanho_icone_svg & "; display:block;'>" &
+			                "<line x1='12' y1='1' x2='12' y2='23'></line>" &
+			                "<path d='M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'></path>" &
+			            "</svg>" &
+			        "</div>",
+			        ""
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📐 ESPAÇAMENTOS INTERNOS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR gap_header = ROUND(20 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR margin_valor_top = ROUND(20 * FatorEscalaConteudo, 0) & "px"
+			VAR margin_badge_top = ROUND(24 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   ⚙️ LÓGICA DE NEGÓCIO                          ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			VAR PercapitaAtual =
+			    [_YTD_Grande_Risco_Periodo_Atual]
+			
+			VAR PercapitaTotal =
+			    [_YTD_PerCapita_Atual_Global]
+			
+			VAR yoy =
+			    DIVIDE(
+			        PercapitaAtual - [_YTD_Grande_Risco_Periodo_Anterior],
+			        ABS([_YTD_Grande_Risco_Periodo_Anterior])
+			    )
+			
+			VAR Participacao =
+			    DIVIDE(
+			        PercapitaAtual,
+			        PercapitaTotal
+			    )
+			
+			VAR ParticipacaoFormatada =
+			    FORMAT(
+			        Participacao,
+			        "#,##0.0%"
+			    )
+			
+			VAR cor_participacao =
+			    SWITCH(
+			        TRUE(),
+			        Participacao >= 0.50, "#7C3AED",
+			        Participacao >= 0.30, "#2563EB",
+			        Participacao >= 0.15, "#0EA5E9",
+			        "#94A3B8"
+			    )
+			
+			VAR cor_fonte_yoy =
+			    IF(yoy >= 0, cor_positivo, cor_negativo)
+			
+			VAR cor_badge_fundo =
+			    IF(yoy >= 0, cor_badge_fundo_positivo, cor_badge_fundo_negativo)
+			
+			VAR icone_variacao =
+			    IF(yoy >= 0, "↗", "↘")
+			
+			VAR PercapitaAtualAbsoluto =
+			    ABS(PercapitaAtual)
+			
+			VAR valor_formatado =
+			    SWITCH(
+			        TRUE(),
+			        PercapitaAtualAbsoluto >= 1000000000, "R$ " & FORMAT(PercapitaAtual / 1000000000, "#,##0.0") & " B",
+			        PercapitaAtualAbsoluto >= 1000000,    "R$ " & FORMAT(PercapitaAtual / 1000000,    "#,##0.0") & " M",
+			        PercapitaAtualAbsoluto >= 1000,       "R$ " & FORMAT(PercapitaAtual / 1000,       "#,##0.0") & " K",
+			        "R$ " & FORMAT(PercapitaAtual, "#,##0.00")
+			    )
+			
+			VAR yoy_formatado =
+			    FORMAT(ABS(yoy), "0.0%")
+			
+			VAR waffle_html =
+			    CONCATENATEX(
+			        GENERATESERIES(1, qtd_bolinhas, 1),
+			        VAR indice_visual = [Value]
+			        VAR linha = INT((indice_visual - 1) / 5) + 1
+			        VAR coluna = MOD(indice_visual - 1, 5) + 1
+			
+			        VAR indice_preenchimento = (5 - linha) * 5 + coluna
+			
+			        VAR qtd_preenchidas =
+			            ROUNDUP(
+			                MIN(
+			                    1,
+			                    MAX(
+			                        0,
+			                        Participacao
+			                    )
+			                )
+			                    * qtd_bolinhas,
+			                0
+			            )
+			
+			        VAR preenchido = indice_preenchimento <= qtd_preenchidas
+			
+			        VAR cor_bolinha =
+			            IF(
+			                preenchido,
+			                cor_participacao,
+			                cor_waffle_vazio
+			            )
+			
+			        RETURN
+			            "<span style='
+			                width:" & tamanho_bolinha & ";
+			                height:" & tamanho_bolinha & ";
+			                border-radius:50%;
+			                background:" & cor_bolinha & ";
+			                display:block;
+			            '></span>",
+			        ""
+			    )
+			
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   🧱 MONTAGEM DO HTML                           ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			RETURN
+			"
+			<div style='
+			    width:" & largura_card & ";
+			    height:" & altura_card & ";
+			    box-sizing:border-box;
+			    background:" & cor_fundo_card & ";
+			    border:1px solid " & cor_borda_card & ";
+			    border-radius:" & raio_borda & ";
+			    padding:" & padding_card & ";
+			    font-family:" & fonte_principal & ";
+			    box-shadow:" & sombra_card & ";
+			    display:flex;
+			    justify-content:space-between;
+			    align-items:center;
+			    overflow:hidden;
+			'>
+			
+			    <div style='
+			        display:flex;
+			        flex-direction:column;
+			        justify-content:space-between;
+			        height:100%;
+			        min-width:0;
+			    '>
+			
+			        <div style='display:flex; align-items:center; gap:" & gap_header & ";'>
+			            " & IconeSVG & "
+			
+			            <div style='
+			                color:" & cor_titulo & ";
+			                font-family:" & fonte_titulo & ";
+			                font-size:" & tamanho_titulo & ";
+			                font-weight:" & peso_titulo & ";
+			                line-height:1.15;
+			                max-width:220px;
+			                white-space:normal;
+			            '>
+			                " & titulo_card & "
+			            </div>
+			        </div>
+			
+			        <div style='
+			            color:" & cor_valor & ";
+			            font-family:" & fonte_valor & ";
+			            font-size:" & tamanho_valor & ";
+			            font-weight:" & peso_valor & ";
+			            letter-spacing:" & espacamento_letra_valor & ";
+			            line-height:1;
+			            margin-top:" & margin_valor_top & ";
+			            white-space:nowrap;
+			        '>
+			            " & valor_formatado & "
+			        </div>
+			
+			        <div style='
+			            display:flex;
+			            align-items:center;
+			            gap:" & gap_badge & ";
+			            margin-top:" & margin_badge_top & ";
+			            white-space:nowrap;
+			        '>
+			            <div style='
+			                background:" & cor_badge_fundo & ";
+			                color:" & cor_fonte_yoy & ";
+			                border-radius:" & raio_badge & ";
+			                padding:" & padding_badge_vertical & " " & padding_badge_horizontal & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                line-height:1;
+			                white-space:nowrap;
+			            '>
+			                " & icone_variacao & " " & yoy_formatado & "
+			            </div>
+			
+			            <div style='
+			                color:" & cor_texto_secundario & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                white-space:nowrap;
+			            '>
+			                " & texto_comparativo & "
+			            </div>
+			        </div>
+			
+			    </div>
+			
+			    <div style='
+			        width:" & largura_bloco_meta & ";
+			        display:flex;
+			        flex-direction:column;
+			        align-items:center;
+			        justify-content:center;
+			        gap:" & gap_bolinha & ";
+			        white-space:nowrap;
+			        flex:0 0 auto;
+			    '>
+			
+			    <div style='
+			        width:" & largura_bloco_meta & ";
+			        display:flex;
+			        flex-direction:column;
+			        align-items:center;
+			        justify-content:center;
+			        gap:" & gap_bolinha & ";
+			        white-space:nowrap;
+			        flex:0 0 auto;
+			    '>
+			
+			    <div style='
+			        display:grid;
+			        grid-template-columns:repeat(5, " & tamanho_bolinha & ");
+			        grid-auto-rows:" & tamanho_bolinha & ";
+			        gap:" & gap_bolinha & ";
+			        justify-content:center;
+			        align-content:center;
+			    '>
+			
+			        " & waffle_html & "
+			
+			    </div>
+			
+			    <div style='
+			        color:" & cor_participacao & ";
+			        font-family:" & fonte_percentual_meta & ";
+			        font-size:" & tamanho_percentual_meta & ";
+			        font-weight:" & peso_percentual_meta & ";
+			        line-height:1;
+			        letter-spacing:-1.4px;
+			        white-space:nowrap;
+			    '>
+			
+			        " & ParticipacaoFormatada & "
+			
+			    </div>
+			
+			    <div style='
+			        color:" & cor_texto_secundario & ";
+			        font-family:" & fonte_label_meta & ";
+			        font-size:" & tamanho_label_meta & ";
+			        font-weight:" & peso_label_meta & ";
+			        line-height:1.2;
+			        text-align:center;
+			    '>
+			
+			        participação no<br>
+			        Per Capita Total
+			
+			    </div>
+			
+			</div>
+			"
+		lineageTag: a2668b5b-3a62-4d32-a9eb-445296ced360
+
+	measure 'Card PerCapita Pequeno Risco' = ```
+			
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                  🎨 PAINEL DE CONTROLE VISUAL                   ║
+			-- ║   Ajuste os parâmetros abaixo sem mexer na lógica da medida      ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔎 ESCALA GERAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR EscalaConteudoPercentual = 43
+			VAR EscalaCardPercentual = 43
+			
+			VAR FatorEscalaConteudo = DIVIDE(EscalaConteudoPercentual, 100)
+			VAR FatorEscalaCard = DIVIDE(EscalaCardPercentual, 100)
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔤 FONTES
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_principal = "Poppins, Segoe UI, Arial, sans-serif"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📝 TEXTOS DO CARD
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR titulo_card = "Per Capita YTD | Pequeno Risco"
+			VAR texto_comparativo = "vs YTD ano ant."
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📦 CARD / CONTAINER
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR largura_card = ROUND(580 * FatorEscalaCard, 0) & "px"
+			VAR altura_card = ROUND(308 * FatorEscalaCard, 0) & "px"
+			VAR raio_borda = ROUND(34 * FatorEscalaCard, 0) & "px"
+			VAR padding_card = ROUND(38 * FatorEscalaCard, 0) & "px"
+			
+			VAR cor_fundo_card = "#FFFFFF"
+			VAR cor_borda_card = "#E8EAF2"
+			
+			VAR ExibirSombraCard = FALSE()
+			VAR sombra_card =
+			    IF(
+			        ExibirSombraCard,
+			        "0 18px 38px rgba(15, 23, 42, 0.10)",
+			        "none"
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎨 CORES GERAIS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR cor_titulo = "#8A8F9C"
+			VAR cor_valor = "#1F2937"
+			VAR cor_texto_secundario = "#8A8F9C"
+			
+			VAR cor_positivo = "#F43F5E"
+			VAR cor_negativo = "#16C79A"
+			
+			VAR cor_icone_fundo = "#630a7a"
+			VAR cor_icone = "#FFFFFF"
+			
+			VAR cor_waffle_vazio = "#E8EEF5"
+			
+			VAR cor_badge_fundo_positivo = "#FFE4E6"
+			VAR cor_badge_fundo_negativo = "#DFFBF0"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🏷️ TÍTULO
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_titulo = fonte_principal
+			VAR peso_titulo = "700"
+			VAR tamanho_titulo = ROUND(28 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💰 VALOR PRINCIPAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_valor = fonte_principal
+			VAR peso_valor = "700"
+			VAR tamanho_valor = ROUND(56 * FatorEscalaConteudo, 0) & "px"
+			VAR espacamento_letra_valor = "-2.4px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📊 BADGE DE VARIAÇÃO VS MÊS ANTERIOR
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_comparativo = fonte_principal
+			VAR peso_label_comparativo = "700"
+			VAR tamanho_label_comparativo = ROUND(22 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR padding_badge_vertical = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			VAR padding_badge_horizontal = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎯 BLOCO DE META / WAFFLE
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_meta = fonte_principal
+			VAR peso_label_meta = "700"
+			VAR tamanho_label_meta = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR fonte_percentual_meta = fonte_principal
+			VAR peso_percentual_meta = "700"
+			VAR tamanho_percentual_meta = ROUND(38 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR largura_bloco_meta = ROUND(190 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR qtd_bolinhas = 25
+			VAR tamanho_bolinha = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_bolinha = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💲 ÍCONE SVG
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR ExibirIcone = TRUE()
+			
+			VAR tamanho_icone_box = ROUND(58 * FatorEscalaConteudo, 0) & "px"
+			VAR tamanho_icone_svg = ROUND(30 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_icone = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR IconeSVG =
+			    IF(
+			        ExibirIcone,
+			        "<div style='
+			            width:" & tamanho_icone_box & ";
+			            height:" & tamanho_icone_box & ";
+			            border-radius:" & raio_icone & ";
+			            background:" & cor_icone_fundo & ";
+			            color:" & cor_icone & ";
+			            display:flex;
+			            align-items:center;
+			            justify-content:center;
+			            flex:0 0 auto;
+			        '>" &
+			            "<svg viewBox='0 0 24 24' fill='none' stroke='" & cor_icone & "'
+			                stroke-width='2' stroke-linecap='round' stroke-linejoin='round'
+			                style='width:" & tamanho_icone_svg & "; height:" & tamanho_icone_svg & "; display:block;'>" &
+			                "<line x1='12' y1='1' x2='12' y2='23'></line>" &
+			                "<path d='M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'></path>" &
+			            "</svg>" &
+			        "</div>",
+			        ""
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📐 ESPAÇAMENTOS INTERNOS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR gap_header = ROUND(20 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR margin_valor_top = ROUND(20 * FatorEscalaConteudo, 0) & "px"
+			VAR margin_badge_top = ROUND(24 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   ⚙️ LÓGICA DE NEGÓCIO                          ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			VAR PercapitaAtual =
+			    [_YTD_Pequeno_Risco_Periodo_Atual]
+			
+			VAR PercapitaTotal =
+			    [_YTD_PerCapita_Atual_Global]
+			
+			VAR yoy =
+			    DIVIDE(
+			        PercapitaAtual - [_YTD_Pequeno_Risco_Periodo_Anterior],
+			        ABS([_YTD_Pequeno_Risco_Periodo_Anterior])
+			    )
+			
+			VAR Participacao =
+			    DIVIDE(
+			        PercapitaAtual,
+			        PercapitaTotal
+			    )
+			
+			VAR ParticipacaoFormatada =
+			    FORMAT(
+			        Participacao,
+			        "#,##0.0%"
+			    )
+			
+			VAR cor_participacao =
+			    SWITCH(
+			        TRUE(),
+			        Participacao >= 0.50, "#7C3AED",
+			        Participacao >= 0.30, "#2563EB",
+			        Participacao >= 0.15, "#0EA5E9",
+			        "#94A3B8"
+			    )
+			
+			VAR cor_fonte_yoy =
+			    IF(yoy >= 0, cor_positivo, cor_negativo)    
+			
+			VAR cor_badge_fundo =
+			    IF(yoy >= 0, cor_badge_fundo_positivo, cor_badge_fundo_negativo)
+			
+			VAR icone_variacao =
+			    IF(yoy >= 0, "↗", "↘")
+			
+			VAR PercapitaAtualAbsoluto =
+			    ABS(PercapitaAtual)
+			
+			VAR valor_formatado =
+			    SWITCH(
+			        TRUE(),
+			        PercapitaAtualAbsoluto >= 1000000000, "R$ " & FORMAT(PercapitaAtual / 1000000000, "#,##0.0") & " B",
+			        PercapitaAtualAbsoluto >= 1000000,    "R$ " & FORMAT(PercapitaAtual / 1000000,    "#,##0.0") & " M",
+			        PercapitaAtualAbsoluto >= 1000,       "R$ " & FORMAT(PercapitaAtual / 1000,       "#,##0.0") & " K",
+			        "R$ " & FORMAT(PercapitaAtual, "#,##0.00")
+			    )
+			
+			VAR yoy_formatado =
+			    FORMAT(ABS(yoy), "0.0%")
+			
+			VAR waffle_html =
+			    CONCATENATEX(
+			        GENERATESERIES(1, qtd_bolinhas, 1),
+			        VAR indice_visual = [Value]
+			        VAR linha = INT((indice_visual - 1) / 5) + 1
+			        VAR coluna = MOD(indice_visual - 1, 5) + 1
+			
+			        VAR indice_preenchimento = (5 - linha) * 5 + coluna
+			
+			        VAR qtd_preenchidas =
+			            ROUNDUP(
+			                MIN(
+			                    1,
+			                    MAX(
+			                        0,
+			                        Participacao
+			                    )
+			                )
+			                    * qtd_bolinhas,
+			                0
+			            )
+			
+			        VAR preenchido = indice_preenchimento <= qtd_preenchidas
+			
+			        VAR cor_bolinha =
+			            IF(
+			                preenchido,
+			                cor_participacao,
+			                cor_waffle_vazio
+			            )
+			
+			        RETURN
+			            "<span style='
+			                width:" & tamanho_bolinha & ";
+			                height:" & tamanho_bolinha & ";
+			                border-radius:50%;
+			                background:" & cor_bolinha & ";
+			                display:block;
+			            '></span>",
+			        ""
+			    )
+			
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   🧱 MONTAGEM DO HTML                           ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			RETURN
+			"
+			<div style='
+			    width:" & largura_card & ";
+			    height:" & altura_card & ";
+			    box-sizing:border-box;
+			    background:" & cor_fundo_card & ";
+			    border:1px solid " & cor_borda_card & ";
+			    border-radius:" & raio_borda & ";
+			    padding:" & padding_card & ";
+			    font-family:" & fonte_principal & ";
+			    box-shadow:" & sombra_card & ";
+			    display:flex;
+			    justify-content:space-between;
+			    align-items:center;
+			    overflow:hidden;
+			'>
+			
+			    <div style='
+			        display:flex;
+			        flex-direction:column;
+			        justify-content:space-between;
+			        height:100%;
+			        min-width:0;
+			    '>
+			
+			        <div style='display:flex; align-items:center; gap:" & gap_header & ";'>
+			            " & IconeSVG & "
+			
+			            <div style='
+			                color:" & cor_titulo & ";
+			                font-family:" & fonte_titulo & ";
+			                font-size:" & tamanho_titulo & ";
+			                font-weight:" & peso_titulo & ";
+			                line-height:1.15;
+			                max-width:220px;
+			                white-space:normal;
+			            '>
+			                " & titulo_card & "
+			            </div>
+			        </div>
+			
+			        <div style='
+			            color:" & cor_valor & ";
+			            font-family:" & fonte_valor & ";
+			            font-size:" & tamanho_valor & ";
+			            font-weight:" & peso_valor & ";
+			            letter-spacing:" & espacamento_letra_valor & ";
+			            line-height:1;
+			            margin-top:" & margin_valor_top & ";
+			            white-space:nowrap;
+			        '>
+			            " & valor_formatado & "
+			        </div>
+			
+			        <div style='
+			            display:flex;
+			            align-items:center;
+			            gap:" & gap_badge & ";
+			            margin-top:" & margin_badge_top & ";
+			            white-space:nowrap;
+			        '>
+			            <div style='
+			                background:" & cor_badge_fundo & ";
+			                color:" & cor_fonte_yoy & ";
+			                border-radius:" & raio_badge & ";
+			                padding:" & padding_badge_vertical & " " & padding_badge_horizontal & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                line-height:1;
+			                white-space:nowrap;
+			            '>
+			                " & icone_variacao & " " & yoy_formatado & "
+			            </div>
+			
+			            <div style='
+			                color:" & cor_texto_secundario & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                white-space:nowrap;
+			            '>
+			                " & texto_comparativo & "
+			            </div>
+			        </div>
+			
+			    </div>
+			
+			    <div style='
+			        width:" & largura_bloco_meta & ";
+			        display:flex;
+			        flex-direction:column;
+			        align-items:center;
+			        justify-content:center;
+			        gap:" & gap_bolinha & ";
+			        white-space:nowrap;
+			        flex:0 0 auto;
+			    '>
+			
+			    <div style='
+			        width:" & largura_bloco_meta & ";
+			        display:flex;
+			        flex-direction:column;
+			        align-items:center;
+			        justify-content:center;
+			        gap:" & gap_bolinha & ";
+			        white-space:nowrap;
+			        flex:0 0 auto;
+			    '>
+			
+			    <div style='
+			        display:grid;
+			        grid-template-columns:repeat(5, " & tamanho_bolinha & ");
+			        grid-auto-rows:" & tamanho_bolinha & ";
+			        gap:" & gap_bolinha & ";
+			        justify-content:center;
+			        align-content:center;
+			    '>
+			
+			        " & waffle_html & "
+			
+			    </div>
+			
+			    <div style='
+			        color:" & cor_participacao & ";
+			        font-family:" & fonte_percentual_meta & ";
+			        font-size:" & tamanho_percentual_meta & ";
+			        font-weight:" & peso_percentual_meta & ";
+			        line-height:1;
+			        letter-spacing:-1.4px;
+			        white-space:nowrap;
+			    '>
+			
+			        " & ParticipacaoFormatada & "
+			
+			    </div>
+			
+			    <div style='
+			        color:" & cor_texto_secundario & ";
+			        font-family:" & fonte_label_meta & ";
+			        font-size:" & tamanho_label_meta & ";
+			        font-weight:" & peso_label_meta & ";
+			        line-height:1.2;
+			        text-align:center;
+			    '>
+			
+			        participação no<br>
+			        Per Capita Total
+			
+			    </div>
+			
+			</div>
+			"
+			```
+		lineageTag: 0da03e26-a8d0-4cf0-be43-60107483deeb
+
+	measure 'Card PerCapita Total' =
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                  🎨 PAINEL DE CONTROLE VISUAL                   ║
+			-- ║   Ajuste os parâmetros abaixo sem mexer na lógica da medida      ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔎 ESCALA GERAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR EscalaConteudoPercentual = 42
+			VAR EscalaCardPercentual = 42
+			
+			VAR FatorEscalaConteudo = DIVIDE(EscalaConteudoPercentual, 100)
+			VAR FatorEscalaCard = DIVIDE(EscalaCardPercentual, 100)
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔤 FONTES
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_principal = "Poppins, Segoe UI, Arial, sans-serif"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📝 TEXTOS DO CARD
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR titulo_card = "Per Capita YTD | Total"
+			VAR texto_comparativo = "vs YTD ano ant."
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📦 CARD / CONTAINER
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR largura_card = ROUND(430 * FatorEscalaCard, 0) & "px"
+			VAR altura_card = ROUND(308 * FatorEscalaCard, 0) & "px"
+			VAR raio_borda = ROUND(34 * FatorEscalaCard, 0) & "px"
+			VAR padding_card = ROUND(38 * FatorEscalaCard, 0) & "px"
+			
+			VAR cor_fundo_card = "#FFFFFF"
+			VAR cor_borda_card = "#E8EAF2"
+			
+			VAR ExibirSombraCard = FALSE()
+			VAR sombra_card =
+			    IF(
+			        ExibirSombraCard,
+			        "0 18px 38px rgba(15, 23, 42, 0.10)",
+			        "none"
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎨 CORES GERAIS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR cor_titulo = "#8A8F9C"
+			VAR cor_valor = "#1F2937"
+			VAR cor_texto_secundario = "#8A8F9C"
+			
+			VAR cor_positivo = "#F43F5E"
+			VAR cor_negativo = "#16C79A"
+			
+			VAR cor_icone_fundo = "#8A8F9C"
+			VAR cor_icone = "#FFFFFF"
+			
+			VAR cor_waffle_vazio = "#E8EEF5"
+			
+			VAR cor_badge_fundo_positivo = "#FFE4E6"
+			VAR cor_badge_fundo_negativo = "#DFFBF0"
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🏷️ TÍTULO
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_titulo = fonte_principal
+			VAR peso_titulo = "700"
+			VAR tamanho_titulo = ROUND(28 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💰 VALOR PRINCIPAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_valor = fonte_principal
+			VAR peso_valor = "700"
+			VAR tamanho_valor = ROUND(56 * FatorEscalaConteudo, 0) & "px"
+			VAR espacamento_letra_valor = "-2.4px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📊 BADGE DE VARIAÇÃO VS MÊS ANTERIOR
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_comparativo = fonte_principal
+			VAR peso_label_comparativo = "700"
+			VAR tamanho_label_comparativo = ROUND(22 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR padding_badge_vertical = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			VAR padding_badge_horizontal = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎯 BLOCO DE META / WAFFLE
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_meta = fonte_principal
+			VAR peso_label_meta = "700"
+			VAR tamanho_label_meta = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR fonte_percentual_meta = fonte_principal
+			VAR peso_percentual_meta = "700"
+			VAR tamanho_percentual_meta = ROUND(38 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR largura_bloco_meta = ROUND(190 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR qtd_bolinhas = 25
+			VAR tamanho_bolinha = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_bolinha = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💲 ÍCONE SVG
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR ExibirIcone = TRUE()
+			
+			VAR tamanho_icone_box = ROUND(58 * FatorEscalaConteudo, 0) & "px"
+			VAR tamanho_icone_svg = ROUND(30 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_icone = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR IconeSVG =
+			    IF(
+			        ExibirIcone,
+			        "<div style='
+			            width:" & tamanho_icone_box & ";
+			            height:" & tamanho_icone_box & ";
+			            border-radius:" & raio_icone & ";
+			            background:" & cor_icone_fundo & ";
+			            color:" & cor_icone & ";
+			            display:flex;
+			            align-items:center;
+			            justify-content:center;
+			            flex:0 0 auto;
+			        '>" &
+			            "<svg viewBox='0 0 24 24' fill='none' stroke='" & cor_icone & "'
+			                stroke-width='2' stroke-linecap='round' stroke-linejoin='round'
+			                style='width:" & tamanho_icone_svg & "; height:" & tamanho_icone_svg & "; display:block;'>" &
+			                "<line x1='12' y1='1' x2='12' y2='23'></line>" &
+			                "<path d='M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'></path>" &
+			            "</svg>" &
+			        "</div>",
+			        ""
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📐 ESPAÇAMENTOS INTERNOS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR gap_header = ROUND(20 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR margin_valor_top = ROUND(36 * FatorEscalaConteudo, 0) & "px"
+			VAR margin_badge_top = ROUND(24 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   ⚙️ LÓGICA DE NEGÓCIO                          ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			VAR PercapitaAtual =
+			    [_YTD_PerCapita_Atual_Global]
+			
+			VAR PercapitaAtualAbsoluto =
+			    ABS(PercapitaAtual)
+			
+			VAR valor_formatado =
+			    "R$ " & FORMAT(PercapitaAtual, "#,##0.00")
+			
+			VAR yoy =
+			    DIVIDE(
+			        PercapitaAtual - [_YTD_PerCapita_Anterior_Global],
+			        ABS([_YTD_PerCapita_Anterior_Global])
+			    )
+			
+			VAR cor_fonte_yoy =
+			    IF(yoy >= 0, cor_positivo, cor_negativo)
+			
+			VAR cor_badge_fundo =
+			    IF(yoy >= 0, cor_badge_fundo_positivo, cor_badge_fundo_negativo)
+			
+			VAR icone_variacao =
+			    IF(yoy >= 0, "↗", "↘")
+			
+			VAR yoy_formatado =
+			    FORMAT(ABS(yoy), "0.0%")
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   🧱 MONTAGEM DO HTML                           ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			RETURN
+			"
+			<div style='
+			    width:" & largura_card & ";
+			    height:" & altura_card & ";
+			    box-sizing:border-box;
+			    background:" & cor_fundo_card & ";
+			    border:1px solid " & cor_borda_card & ";
+			    border-radius:" & raio_borda & ";
+			    padding:" & padding_card & ";
+			    font-family:" & fonte_principal & ";
+			    box-shadow:" & sombra_card & ";
+			    display:flex;
+			    justify-content:space-between;
+			    align-items:top;
+			    overflow:hidden;
+			'>
+			
+			    <div style='
+			        display:flex;
+			        flex-direction:column;
+			        justify-content:center;
+			        height:100%;
+			        min-width:0;
+			    '>
+			
+			        <div style='display:flex; align-items:center; gap:" & gap_header & ";'>
+			            " & IconeSVG & "
+			
+			            <div style='
+			                color:" & cor_titulo & ";
+			                font-family:" & fonte_titulo & ";
+			                font-size:" & tamanho_titulo & ";
+			                font-weight:" & peso_titulo & ";
+			                line-height:1.15;
+			                max-width:220px;
+			                white-space:normal;
+			            '>
+			                " & titulo_card & "
+			            </div>
+			        </div>
+			
+			        <div style='
+			            color:" & cor_valor & ";
+			            font-family:" & fonte_valor & ";
+			            font-size:" & tamanho_valor & ";
+			            font-weight:" & peso_valor & ";
+			            letter-spacing:" & espacamento_letra_valor & ";
+			            line-height:1;
+			            margin-top:" & margin_valor_top & ";
+			            white-space:nowrap;
+			        '>
+			            " & valor_formatado & "
+			        </div>
+			
+			                <div style='
+			            display:flex;
+			            align-items:center;
+			            gap:" & gap_badge & ";
+			            margin-top:" & margin_badge_top & ";
+			            white-space:nowrap;
+			        '>
+			            <div style='
+			                background:" & cor_badge_fundo & ";
+			                color:" & cor_fonte_yoy & ";
+			                border-radius:" & raio_badge & ";
+			                padding:" & padding_badge_vertical & " " & padding_badge_horizontal & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                line-height:1;
+			                white-space:nowrap;
+			            '>
+			                " & icone_variacao & " " & yoy_formatado & "
+			            </div>
+			
+			            <div style='
+			                color:" & cor_texto_secundario & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                white-space:nowrap;
+			            '>
+			                " & texto_comparativo & "
+			            </div>
+			        </div>
+			    </div>
+			
+			</div>
+			"
+		lineageTag: 43151a30-d4a1-43de-a730-96c1358c3e9b
+
+	measure 'Card PerCapita Odonto' =
+			
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                  🎨 PAINEL DE CONTROLE VISUAL                   ║
+			-- ║   Ajuste os parâmetros abaixo sem mexer na lógica da medida      ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔎 ESCALA GERAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR EscalaConteudoPercentual = 43
+			VAR EscalaCardPercentual = 43
+			
+			VAR FatorEscalaConteudo = DIVIDE(EscalaConteudoPercentual, 100)
+			VAR FatorEscalaCard = DIVIDE(EscalaCardPercentual, 100)
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔤 FONTES
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_principal = "Poppins, Segoe UI, Arial, sans-serif"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📝 TEXTOS DO CARD
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR titulo_card = "Per Capita YTD | Odontológico"
+			VAR texto_comparativo = "vs YTD ano ant."
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📦 CARD / CONTAINER
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR largura_card = ROUND(580 * FatorEscalaCard, 0) & "px"
+			VAR altura_card = ROUND(308 * FatorEscalaCard, 0) & "px"
+			VAR raio_borda = ROUND(34 * FatorEscalaCard, 0) & "px"
+			VAR padding_card = ROUND(38 * FatorEscalaCard, 0) & "px"
+			
+			VAR cor_fundo_card = "#FFFFFF"
+			VAR cor_borda_card = "#E8EAF2"
+			
+			VAR ExibirSombraCard = FALSE()
+			VAR sombra_card =
+			    IF(
+			        ExibirSombraCard,
+			        "0 18px 38px rgba(15, 23, 42, 0.10)",
+			        "none"
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎨 CORES GERAIS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR cor_titulo = "#8A8F9C"
+			VAR cor_valor = "#1F2937"
+			VAR cor_texto_secundario = "#8A8F9C"
+			
+			VAR cor_positivo = "#F43F5E"
+			VAR cor_negativo = "#16C79A"
+			
+			VAR cor_icone_fundo = "#118DFF"
+			VAR cor_icone = "#FFFFFF"
+			
+			VAR cor_waffle_vazio = "#E8EEF5"
+			
+			VAR cor_badge_fundo_positivo = "#FFE4E6"
+			VAR cor_badge_fundo_negativo = "#DFFBF0"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🏷️ TÍTULO
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_titulo = fonte_principal
+			VAR peso_titulo = "700"
+			VAR tamanho_titulo = ROUND(28 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💰 VALOR PRINCIPAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_valor = fonte_principal
+			VAR peso_valor = "700"
+			VAR tamanho_valor = ROUND(56 * FatorEscalaConteudo, 0) & "px"
+			VAR espacamento_letra_valor = "-2.4px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📊 BADGE DE VARIAÇÃO VS MÊS ANTERIOR
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_comparativo = fonte_principal
+			VAR peso_label_comparativo = "700"
+			VAR tamanho_label_comparativo = ROUND(22 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR padding_badge_vertical = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			VAR padding_badge_horizontal = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎯 BLOCO DE META / WAFFLE
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_meta = fonte_principal
+			VAR peso_label_meta = "700"
+			VAR tamanho_label_meta = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR fonte_percentual_meta = fonte_principal
+			VAR peso_percentual_meta = "700"
+			VAR tamanho_percentual_meta = ROUND(38 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR largura_bloco_meta = ROUND(190 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR qtd_bolinhas = 25
+			VAR tamanho_bolinha = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_bolinha = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💲 ÍCONE SVG
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR ExibirIcone = TRUE()
+			
+			VAR tamanho_icone_box = ROUND(58 * FatorEscalaConteudo, 0) & "px"
+			VAR tamanho_icone_svg = ROUND(30 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_icone = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR IconeSVG =
+			    IF(
+			        ExibirIcone,
+			        "<div style='
+			            width:" & tamanho_icone_box & ";
+			            height:" & tamanho_icone_box & ";
+			            border-radius:" & raio_icone & ";
+			            background:" & cor_icone_fundo & ";
+			            color:" & cor_icone & ";
+			            display:flex;
+			            align-items:center;
+			            justify-content:center;
+			            flex:0 0 auto;
+			        '>" &
+			            "<svg viewBox='0 0 24 24' fill='none' stroke='" & cor_icone & "'
+			                stroke-width='2' stroke-linecap='round' stroke-linejoin='round'
+			                style='width:" & tamanho_icone_svg & "; height:" & tamanho_icone_svg & "; display:block;'>" &
+			                "<line x1='12' y1='1' x2='12' y2='23'></line>" &
+			                "<path d='M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'></path>" &
+			            "</svg>" &
+			        "</div>",
+			        ""
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📐 ESPAÇAMENTOS INTERNOS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR gap_header = ROUND(20 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR margin_valor_top = ROUND(20 * FatorEscalaConteudo, 0) & "px"
+			VAR margin_badge_top = ROUND(24 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   ⚙️ LÓGICA DE NEGÓCIO                          ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			VAR PercapitaAtual =
+			    [_YTD_Odonto_Periodo_Atual]
+			
+			VAR PercapitaTotal =
+			    [_YTD_PerCapita_Atual_Global]
+			
+			VAR yoy =
+			    DIVIDE(
+			        PercapitaAtual - [_YTD_Odonto_Periodo_Anterior],
+			        ABS([_YTD_Odonto_Periodo_Anterior])
+			    )
+			
+			VAR Participacao =
+			    DIVIDE(
+			        PercapitaAtual,
+			        PercapitaTotal
+			    )
+			
+			VAR ParticipacaoFormatada =
+			    FORMAT(
+			        Participacao,
+			        "#,##0.0%"
+			    )
+			
+			VAR cor_participacao =
+			    SWITCH(
+			        TRUE(),
+			        Participacao >= 0.50, "#7C3AED",
+			        Participacao >= 0.30, "#2563EB",
+			        Participacao >= 0.15, "#0EA5E9",
+			        "#94A3B8"
+			    )
+			
+			VAR cor_fonte_yoy =
+			    IF(yoy >= 0, cor_positivo, cor_negativo)
+			
+			VAR cor_badge_fundo =
+			    IF(yoy >= 0, cor_badge_fundo_positivo, cor_badge_fundo_negativo)
+			
+			VAR icone_variacao =
+			    IF(yoy >= 0, "↗", "↘")
+			
+			VAR PercapitaAtualAbsoluto =
+			    ABS(PercapitaAtual)
+			
+			VAR valor_formatado =
+			    SWITCH(
+			        TRUE(),
+			        PercapitaAtualAbsoluto >= 1000000000, "R$ " & FORMAT(PercapitaAtual / 1000000000, "#,##0.0") & " B",
+			        PercapitaAtualAbsoluto >= 1000000,    "R$ " & FORMAT(PercapitaAtual / 1000000,    "#,##0.0") & " M",
+			        PercapitaAtualAbsoluto >= 1000,       "R$ " & FORMAT(PercapitaAtual / 1000,       "#,##0.0") & " K",
+			        "R$ " & FORMAT(PercapitaAtual, "#,##0.00")
+			    )
+			
+			VAR yoy_formatado =
+			    FORMAT(ABS(yoy), "0.0%")
+			
+			VAR waffle_html =
+			    CONCATENATEX(
+			        GENERATESERIES(1, qtd_bolinhas, 1),
+			        VAR indice_visual = [Value]
+			        VAR linha = INT((indice_visual - 1) / 5) + 1
+			        VAR coluna = MOD(indice_visual - 1, 5) + 1
+			
+			        VAR indice_preenchimento = (5 - linha) * 5 + coluna
+			
+			        VAR qtd_preenchidas =
+			            ROUNDUP(
+			                MIN(
+			                    1,
+			                    MAX(
+			                        0,
+			                        Participacao
+			                    )
+			                )
+			                    * qtd_bolinhas,
+			                0
+			            )
+			
+			        VAR preenchido = indice_preenchimento <= qtd_preenchidas
+			
+			        VAR cor_bolinha =
+			            IF(
+			                preenchido,
+			                cor_participacao,
+			                cor_waffle_vazio
+			            )
+			
+			        RETURN
+			            "<span style='
+			                width:" & tamanho_bolinha & ";
+			                height:" & tamanho_bolinha & ";
+			                border-radius:50%;
+			                background:" & cor_bolinha & ";
+			                display:block;
+			            '></span>",
+			        ""
+			    )
+			
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   🧱 MONTAGEM DO HTML                           ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			RETURN
+			"
+			<div style='
+			    width:" & largura_card & ";
+			    height:" & altura_card & ";
+			    box-sizing:border-box;
+			    background:" & cor_fundo_card & ";
+			    border:1px solid " & cor_borda_card & ";
+			    border-radius:" & raio_borda & ";
+			    padding:" & padding_card & ";
+			    font-family:" & fonte_principal & ";
+			    box-shadow:" & sombra_card & ";
+			    display:flex;
+			    justify-content:space-between;
+			    align-items:center;
+			    overflow:hidden;
+			'>
+			
+			    <div style='
+			        display:flex;
+			        flex-direction:column;
+			        justify-content:space-between;
+			        height:100%;
+			        min-width:0;
+			    '>
+			
+			        <div style='display:flex; align-items:center; gap:" & gap_header & ";'>
+			            " & IconeSVG & "
+			
+			            <div style='
+			                color:" & cor_titulo & ";
+			                font-family:" & fonte_titulo & ";
+			                font-size:" & tamanho_titulo & ";
+			                font-weight:" & peso_titulo & ";
+			                line-height:1.15;
+			                max-width:220px;
+			                white-space:normal;
+			            '>
+			                " & titulo_card & "
+			            </div>
+			        </div>
+			
+			        <div style='
+			            color:" & cor_valor & ";
+			            font-family:" & fonte_valor & ";
+			            font-size:" & tamanho_valor & ";
+			            font-weight:" & peso_valor & ";
+			            letter-spacing:" & espacamento_letra_valor & ";
+			            line-height:1;
+			            margin-top:" & margin_valor_top & ";
+			            white-space:nowrap;
+			        '>
+			            " & valor_formatado & "
+			        </div>
+			
+			        <div style='
+			            display:flex;
+			            align-items:center;
+			            gap:" & gap_badge & ";
+			            margin-top:" & margin_badge_top & ";
+			            white-space:nowrap;
+			        '>
+			            <div style='
+			                background:" & cor_badge_fundo & ";
+			                color:" & cor_fonte_yoy & ";
+			                border-radius:" & raio_badge & ";
+			                padding:" & padding_badge_vertical & " " & padding_badge_horizontal & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                line-height:1;
+			                white-space:nowrap;
+			            '>
+			                " & icone_variacao & " " & yoy_formatado & "
+			            </div>
+			
+			            <div style='
+			                color:" & cor_texto_secundario & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                white-space:nowrap;
+			            '>
+			                " & texto_comparativo & "
+			            </div>
+			        </div>
+			
+			    </div>
+			
+			    <div style='
+			        width:" & largura_bloco_meta & ";
+			        display:flex;
+			        flex-direction:column;
+			        align-items:center;
+			        justify-content:center;
+			        gap:" & gap_bolinha & ";
+			        white-space:nowrap;
+			        flex:0 0 auto;
+			    '>
+			
+			    <div style='
+			        width:" & largura_bloco_meta & ";
+			        display:flex;
+			        flex-direction:column;
+			        align-items:center;
+			        justify-content:center;
+			        gap:" & gap_bolinha & ";
+			        white-space:nowrap;
+			        flex:0 0 auto;
+			    '>
+			
+			    <div style='
+			        display:grid;
+			        grid-template-columns:repeat(5, " & tamanho_bolinha & ");
+			        grid-auto-rows:" & tamanho_bolinha & ";
+			        gap:" & gap_bolinha & ";
+			        justify-content:center;
+			        align-content:center;
+			    '>
+			
+			        " & waffle_html & "
+			
+			    </div>
+			
+			    <div style='
+			        color:" & cor_participacao & ";
+			        font-family:" & fonte_percentual_meta & ";
+			        font-size:" & tamanho_percentual_meta & ";
+			        font-weight:" & peso_percentual_meta & ";
+			        line-height:1;
+			        letter-spacing:-1.4px;
+			        white-space:nowrap;
+			    '>
+			
+			        " & ParticipacaoFormatada & "
+			
+			    </div>
+			
+			    <div style='
+			        color:" & cor_texto_secundario & ";
+			        font-family:" & fonte_label_meta & ";
+			        font-size:" & tamanho_label_meta & ";
+			        font-weight:" & peso_label_meta & ";
+			        line-height:1.2;
+			        text-align:center;
+			    '>
+			
+			        participação no<br>
+			        Per Capita Total
+			
+			    </div>
+			
+			</div>
+			"
+		lineageTag: fe248d71-49ca-4bff-b2c6-5b3489d40158
+
+	measure 'Card PerCapita Farmacia' =
+			
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                  🎨 PAINEL DE CONTROLE VISUAL                   ║
+			-- ║   Ajuste os parâmetros abaixo sem mexer na lógica da medida      ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔎 ESCALA GERAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR EscalaConteudoPercentual = 43
+			VAR EscalaCardPercentual = 43
+			
+			VAR FatorEscalaConteudo = DIVIDE(EscalaConteudoPercentual, 100)
+			VAR FatorEscalaCard = DIVIDE(EscalaCardPercentual, 100)
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔤 FONTES
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_principal = "Poppins, Segoe UI, Arial, sans-serif"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📝 TEXTOS DO CARD
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR titulo_card = "Per Capita YTD | Farmácia"
+			VAR texto_comparativo = "vs YTD ano ant."
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📦 CARD / CONTAINER
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR largura_card = ROUND(580 * FatorEscalaCard, 0) & "px"
+			VAR altura_card = ROUND(308 * FatorEscalaCard, 0) & "px"
+			VAR raio_borda = ROUND(34 * FatorEscalaCard, 0) & "px"
+			VAR padding_card = ROUND(38 * FatorEscalaCard, 0) & "px"
+			
+			VAR cor_fundo_card = "#FFFFFF"
+			VAR cor_borda_card = "#E8EAF2"
+			
+			VAR ExibirSombraCard = FALSE()
+			VAR sombra_card =
+			    IF(
+			        ExibirSombraCard,
+			        "0 18px 38px rgba(15, 23, 42, 0.10)",
+			        "none"
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎨 CORES GERAIS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR cor_titulo = "#8A8F9C"
+			VAR cor_valor = "#1F2937"
+			VAR cor_texto_secundario = "#8A8F9C"
+			
+			VAR cor_positivo = "#F43F5E"
+			VAR cor_negativo = "#16C79A"
+			
+			VAR cor_icone_fundo = "#D9B300"
+			VAR cor_icone = "#FFFFFF"
+			
+			VAR cor_waffle_vazio = "#E8EEF5"
+			
+			VAR cor_badge_fundo_positivo = "#FFE4E6"
+			VAR cor_badge_fundo_negativo = "#DFFBF0"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🏷️ TÍTULO
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_titulo = fonte_principal
+			VAR peso_titulo = "700"
+			VAR tamanho_titulo = ROUND(28 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💰 VALOR PRINCIPAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_valor = fonte_principal
+			VAR peso_valor = "700"
+			VAR tamanho_valor = ROUND(56 * FatorEscalaConteudo, 0) & "px"
+			VAR espacamento_letra_valor = "-2.4px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📊 BADGE DE VARIAÇÃO VS MÊS ANTERIOR
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_comparativo = fonte_principal
+			VAR peso_label_comparativo = "700"
+			VAR tamanho_label_comparativo = ROUND(22 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR padding_badge_vertical = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			VAR padding_badge_horizontal = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎯 BLOCO DE META / WAFFLE
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_meta = fonte_principal
+			VAR peso_label_meta = "700"
+			VAR tamanho_label_meta = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR fonte_percentual_meta = fonte_principal
+			VAR peso_percentual_meta = "700"
+			VAR tamanho_percentual_meta = ROUND(38 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR largura_bloco_meta = ROUND(190 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR qtd_bolinhas = 25
+			VAR tamanho_bolinha = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_bolinha = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💲 ÍCONE SVG
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR ExibirIcone = TRUE()
+			
+			VAR tamanho_icone_box = ROUND(58 * FatorEscalaConteudo, 0) & "px"
+			VAR tamanho_icone_svg = ROUND(30 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_icone = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR IconeSVG =
+			    IF(
+			        ExibirIcone,
+			        "<div style='
+			            width:" & tamanho_icone_box & ";
+			            height:" & tamanho_icone_box & ";
+			            border-radius:" & raio_icone & ";
+			            background:" & cor_icone_fundo & ";
+			            color:" & cor_icone & ";
+			            display:flex;
+			            align-items:center;
+			            justify-content:center;
+			            flex:0 0 auto;
+			        '>" &
+			            "<svg viewBox='0 0 24 24' fill='none' stroke='" & cor_icone & "'
+			                stroke-width='2' stroke-linecap='round' stroke-linejoin='round'
+			                style='width:" & tamanho_icone_svg & "; height:" & tamanho_icone_svg & "; display:block;'>" &
+			                "<line x1='12' y1='1' x2='12' y2='23'></line>" &
+			                "<path d='M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'></path>" &
+			            "</svg>" &
+			        "</div>",
+			        ""
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📐 ESPAÇAMENTOS INTERNOS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR gap_header = ROUND(20 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR margin_valor_top = ROUND(20 * FatorEscalaConteudo, 0) & "px"
+			VAR margin_badge_top = ROUND(24 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   ⚙️ LÓGICA DE NEGÓCIO                          ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			VAR PercapitaAtual =
+			    [_YTD_Farmacia_Periodo_Atual]
+			
+			VAR PercapitaTotal =
+			    [_YTD_PerCapita_Atual_Global]
+			
+			VAR yoy =
+			    DIVIDE(
+			        PercapitaAtual - [_YTD_Farmacia_Periodo_Anterior],
+			        ABS([_YTD_Farmacia_Periodo_Anterior])
+			    )
+			
+			VAR Participacao =
+			    DIVIDE(
+			        PercapitaAtual,
+			        PercapitaTotal
+			    )
+			
+			VAR ParticipacaoFormatada =
+			    FORMAT(
+			        Participacao,
+			        "#,##0.0%"
+			    )
+			
+			VAR cor_participacao =
+			    SWITCH(
+			        TRUE(),
+			        Participacao >= 0.50, "#7C3AED",
+			        Participacao >= 0.30, "#2563EB",
+			        Participacao >= 0.15, "#0EA5E9",
+			        "#94A3B8"
+			    )
+			
+			VAR cor_fonte_yoy =
+			    IF(yoy >= 0, cor_positivo, cor_negativo)
+			
+			VAR cor_badge_fundo =
+			    IF(yoy >= 0, cor_badge_fundo_positivo, cor_badge_fundo_negativo)
+			
+			VAR icone_variacao =
+			    IF(yoy >= 0, "↗", "↘")
+			
+			VAR PercapitaAtualAbsoluto =
+			    ABS(PercapitaAtual)
+			
+			VAR valor_formatado =
+			    SWITCH(
+			        TRUE(),
+			        PercapitaAtualAbsoluto >= 1000000000, "R$ " & FORMAT(PercapitaAtual / 1000000000, "#,##0.0") & " B",
+			        PercapitaAtualAbsoluto >= 1000000,    "R$ " & FORMAT(PercapitaAtual / 1000000,    "#,##0.0") & " M",
+			        PercapitaAtualAbsoluto >= 1000,       "R$ " & FORMAT(PercapitaAtual / 1000,       "#,##0.0") & " K",
+			        "R$ " & FORMAT(PercapitaAtual, "#,##0.00")
+			    )
+			
+			VAR yoy_formatado =
+			    FORMAT(ABS(yoy), "0.0%")
+			
+			VAR waffle_html =
+			    CONCATENATEX(
+			        GENERATESERIES(1, qtd_bolinhas, 1),
+			        VAR indice_visual = [Value]
+			        VAR linha = INT((indice_visual - 1) / 5) + 1
+			        VAR coluna = MOD(indice_visual - 1, 5) + 1
+			
+			        VAR indice_preenchimento = (5 - linha) * 5 + coluna
+			
+			        VAR qtd_preenchidas =
+			            ROUNDUP(
+			                MIN(
+			                    1,
+			                    MAX(
+			                        0,
+			                        Participacao
+			                    )
+			                )
+			                    * qtd_bolinhas,
+			                0
+			            )
+			
+			        VAR preenchido = indice_preenchimento <= qtd_preenchidas
+			
+			        VAR cor_bolinha =
+			            IF(
+			                preenchido,
+			                cor_participacao,
+			                cor_waffle_vazio
+			            )
+			
+			        RETURN
+			            "<span style='
+			                width:" & tamanho_bolinha & ";
+			                height:" & tamanho_bolinha & ";
+			                border-radius:50%;
+			                background:" & cor_bolinha & ";
+			                display:block;
+			            '></span>",
+			        ""
+			    )
+			
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   🧱 MONTAGEM DO HTML                           ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			RETURN
+			"
+			<div style='
+			    width:" & largura_card & ";
+			    height:" & altura_card & ";
+			    box-sizing:border-box;
+			    background:" & cor_fundo_card & ";
+			    border:1px solid " & cor_borda_card & ";
+			    border-radius:" & raio_borda & ";
+			    padding:" & padding_card & ";
+			    font-family:" & fonte_principal & ";
+			    box-shadow:" & sombra_card & ";
+			    display:flex;
+			    justify-content:space-between;
+			    align-items:center;
+			    overflow:hidden;
+			'>
+			
+			    <div style='
+			        display:flex;
+			        flex-direction:column;
+			        justify-content:space-between;
+			        height:100%;
+			        min-width:0;
+			    '>
+			
+			        <div style='display:flex; align-items:center; gap:" & gap_header & ";'>
+			            " & IconeSVG & "
+			
+			            <div style='
+			                color:" & cor_titulo & ";
+			                font-family:" & fonte_titulo & ";
+			                font-size:" & tamanho_titulo & ";
+			                font-weight:" & peso_titulo & ";
+			                line-height:1.15;
+			                max-width:220px;
+			                white-space:normal;
+			            '>
+			                " & titulo_card & "
+			            </div>
+			        </div>
+			
+			        <div style='
+			            color:" & cor_valor & ";
+			            font-family:" & fonte_valor & ";
+			            font-size:" & tamanho_valor & ";
+			            font-weight:" & peso_valor & ";
+			            letter-spacing:" & espacamento_letra_valor & ";
+			            line-height:1;
+			            margin-top:" & margin_valor_top & ";
+			            white-space:nowrap;
+			        '>
+			            " & valor_formatado & "
+			        </div>
+			
+			        <div style='
+			            display:flex;
+			            align-items:center;
+			            gap:" & gap_badge & ";
+			            margin-top:" & margin_badge_top & ";
+			            white-space:nowrap;
+			        '>
+			            <div style='
+			                background:" & cor_badge_fundo & ";
+			                color:" & cor_fonte_yoy & ";
+			                border-radius:" & raio_badge & ";
+			                padding:" & padding_badge_vertical & " " & padding_badge_horizontal & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                line-height:1;
+			                white-space:nowrap;
+			            '>
+			                " & icone_variacao & " " & yoy_formatado & "
+			            </div>
+			
+			            <div style='
+			                color:" & cor_texto_secundario & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                white-space:nowrap;
+			            '>
+			                " & texto_comparativo & "
+			            </div>
+			        </div>
+			
+			    </div>
+			
+			    <div style='
+			        width:" & largura_bloco_meta & ";
+			        display:flex;
+			        flex-direction:column;
+			        align-items:center;
+			        justify-content:center;
+			        gap:" & gap_bolinha & ";
+			        white-space:nowrap;
+			        flex:0 0 auto;
+			    '>
+			
+			    <div style='
+			        width:" & largura_bloco_meta & ";
+			        display:flex;
+			        flex-direction:column;
+			        align-items:center;
+			        justify-content:center;
+			        gap:" & gap_bolinha & ";
+			        white-space:nowrap;
+			        flex:0 0 auto;
+			    '>
+			
+			    <div style='
+			        display:grid;
+			        grid-template-columns:repeat(5, " & tamanho_bolinha & ");
+			        grid-auto-rows:" & tamanho_bolinha & ";
+			        gap:" & gap_bolinha & ";
+			        justify-content:center;
+			        align-content:center;
+			    '>
+			
+			        " & waffle_html & "
+			
+			    </div>
+			
+			    <div style='
+			        color:" & cor_participacao & ";
+			        font-family:" & fonte_percentual_meta & ";
+			        font-size:" & tamanho_percentual_meta & ";
+			        font-weight:" & peso_percentual_meta & ";
+			        line-height:1;
+			        letter-spacing:-1.4px;
+			        white-space:nowrap;
+			    '>
+			
+			        " & ParticipacaoFormatada & "
+			
+			    </div>
+			
+			    <div style='
+			        color:" & cor_texto_secundario & ";
+			        font-family:" & fonte_label_meta & ";
+			        font-size:" & tamanho_label_meta & ";
+			        font-weight:" & peso_label_meta & ";
+			        line-height:1.2;
+			        text-align:center;
+			    '>
+			
+			        participação no<br>
+			        Per Capita Total
+			
+			    </div>
+			
+			</div>
+			"
+		lineageTag: 6818c252-9152-41f4-9b37-510ab13237c6
+
+	measure 'Narrativa Top UF' =
+			
+			VAR TabelaUF =
+			    FILTER(
+			        ADDCOLUMNS(
+			            VALUES('F - Aberturas por Risco'[uf_benef]),
+			            "@PerCapita", [_YTD_Grande_Risco_Periodo_Atual],
+			            "@Vidas", [_Total_Vidas_YTD_Media]
+			        ),
+			        [@Vidas] > 100
+			    )
+			
+			VAR TopUF =
+			    TOPN(
+			        1,
+			        TabelaUF,
+			        [@PerCapita],
+			        DESC
+			    )
+			
+			VAR UF =
+			    MAXX(TopUF, 'F - Aberturas por Risco'[uf_benef])
+			
+			VAR Valor =
+			    MAXX(TopUF, [@PerCapita])
+			
+			RETURN
+			    "Em 2026, na operadora AMS, a UF com maior per capita em Grande Risco foi "
+			        & UF
+			        & ", registrando "
+			        & FORMAT(Valor, "R$ #,##0.00")
+			        & " por beneficiário."
+		lineageTag: d68b4fde-032c-4252-87f6-7e284690e62d
+
+	measure _Narrativa_Top1_Ofensores_POS = ```
+			
+			VAR _TabelaUF_POS =
+			    FILTER(
+			        ADDCOLUMNS(
+			            VALUES('F - Aberturas por Risco'[uf_benef]),
+			            "@GR",
+			            VAR _UF = [uf_benef]
+			            RETURN
+			                DIVIDE(
+			                    CALCULATE(
+			                        SUM('F - Aberturas por Risco'[Valor]),    
+			                        'F - Aberturas por Risco'[Risco] = "Grande Risco",
+			                        'F - Aberturas por Risco'[Operadora] = "Operadora Y",
+			                        DATESYTD('D - Calendario'[Date])
+			                    ),
+			                    CALCULATE(
+			                        SUM('F - Vidas'[Valor]),
+			                        'F - Vidas'[Tipo_plano] = "médico",
+			                        'F - Vidas'[Operadora] = "Operadora Y",
+			                        TREATAS({_UF}, 'F - Vidas'[uf_benef]),
+			                        DATESYTD('D - Calendario'[Date])
+			                    )
+			                ),
+			            "@PR",
+			            VAR _UF = [uf_benef]
+			            RETURN
+			                DIVIDE(
+			                    CALCULATE(
+			                        SUM('F - Aberturas por Risco'[Valor]),    
+			                        'F - Aberturas por Risco'[Risco] = "Pequeno Risco",
+			                        'F - Aberturas por Risco'[Operadora] = "Operadora Y",
+			                        DATESYTD('D - Calendario'[Date])
+			                    ),
+			                    CALCULATE(
+			                        SUM('F - Vidas'[Valor]),
+			                        'F - Vidas'[Tipo_plano] = "médico",
+			                        'F - Vidas'[Operadora] = "Operadora Y",
+			                        TREATAS({_UF}, 'F - Vidas'[uf_benef]),
+			                        DATESYTD('D - Calendario'[Date])
+			                    )
+			                ),
+			            "@Odo",
+			            VAR _UF = [uf_benef]
+			            RETURN
+			                DIVIDE(
+			                    CALCULATE(
+			                        SUM('F - Aberturas por Risco'[Valor]),    
+			                        'F - Aberturas por Risco'[Risco] = "Odontológico",
+			                        'F - Aberturas por Risco'[Operadora] = "Operadora Y",
+			                        DATESYTD('D - Calendario'[Date])
+			                    ),
+			                    CALCULATE(
+			                        SUM('F - Vidas'[Valor]),
+			                        'F - Vidas'[Tipo_plano] = "odontológico",
+			                        'F - Vidas'[Operadora] = "Operadora Y",
+			                        TREATAS({_UF}, 'F - Vidas'[uf_benef]),
+			                        DATESYTD('D - Calendario'[Date])
+			                    )
+			                ),
+			            "@Farm",
+			            VAR _UF = [uf_benef]
+			            RETURN
+			                DIVIDE(
+			                    CALCULATE(
+			                        SUM('F - Aberturas por Risco'[Valor]),    
+			                        'F - Aberturas por Risco'[Risco] = "Farmácia",
+			                        'F - Aberturas por Risco'[Operadora] = "Operadora Y",
+			                        DATESYTD('D - Calendario'[Date])
+			                    ),
+			                    CALCULATE(
+			                        SUM('F - Vidas'[Valor]),
+			                        'F - Vidas'[Nome_empresa] IN {"Empresa D", "Empresa E"},
+			                        'F - Vidas'[Operadora] = "Operadora Y",
+			                        TREATAS({_UF}, 'F - Vidas'[uf_benef]),
+			                        DATESYTD('D - Calendario'[Date])
+			                    )
+			                )
+			        ),
+			        [uf_benef] <> ""
+			    )
+			
+			VAR _Top1_GR_POS   = TOPN( 1, _TabelaUF_POS, [@GR],   DESC )
+			VAR _Top1_PR_POS   = TOPN( 1, _TabelaUF_POS, [@PR],   DESC )
+			VAR _Top1_Odo_POS  = TOPN( 1, _TabelaUF_POS, [@Odo],  DESC )
+			VAR _Top1_Farm_POS = TOPN( 1, _TabelaUF_POS, [@Farm], DESC )
+			
+			VAR GR_UF_Top1 = MAXX(_Top1_GR_POS, [uf_benef])
+			VAR GR_Top1_PerCapita = FORMAT(
+			    MAXX(_Top1_GR_POS, [@GR]),
+			    "R$ #,##0.00"
+			)
+			
+			VAR PR_UF_Top1 = MAXX(_Top1_PR_POS, [uf_benef])
+			VAR PR_Top1_PerCapita = FORMAT(
+			    MAXX(_Top1_PR_POS, [@PR]),
+			    "R$ #,##0.00"
+			)
+			
+			VAR Odo_UF_Top1 = MAXX(_Top1_Odo_POS, [uf_benef])
+			VAR Odo_Top1_PerCapita = FORMAT(
+			    MAXX(_Top1_Odo_POS, [@Odo]),
+			    "R$ #,##0.00"
+			)
+			
+			VAR Farm_UF_Top1 = MAXX(_Top1_Farm_POS, [uf_benef])
+			VAR Farm_Top1_PerCapita = FORMAT(
+			    MAXX(_Top1_Farm_POS, [@Farm]),
+			    "R$ #,##0.00"
+			)
+			
+			VAR _Linha_GR_POS   = "- Grande Risco: "  & IF( 
+			    COUNTROWS(_Top1_GR_POS)=0, 
+			    "sem UF elegível (vidas ≤ 100)", 
+			    GR_UF_Top1 & " com " & GR_Top1_PerCapita 
+			)
+			
+			VAR _Linha_PR_POS   = "- Pequeno Risco: " & IF( 
+			    COUNTROWS(_Top1_PR_POS)=0,   
+			    "sem UF elegível (vidas ≤ 100)", 
+			    PR_UF_Top1 & " com " & PR_Top1_PerCapita
+			)
+			
+			VAR _Linha_Odo_POS  = "- Odontológico: "  & IF( 
+			    COUNTROWS(_Top1_Odo_POS)=0,  
+			    "sem UF elegível (vidas ≤ 100)", 
+			    Odo_UF_Top1 & " com " & Odo_Top1_PerCapita
+			)
+			
+			VAR _Linha_Farm_POS = "- Farmácia: "      & IF( 
+			    COUNTROWS(_Top1_Farm_POS)=0, 
+			    "sem UF elegível (vidas ≤ 100)", 
+			    Farm_UF_Top1 & " com " & Farm_Top1_PerCapita
+			)
+			
+			VAR _Bloco_POS = 
+			    "As UFs Top 1 de custo per capita por categoria " & UNICHAR(10)
+			    & " de risco foram: " & UNICHAR(10)
+			    & _Linha_GR_POS   & UNICHAR(10)
+			    & _Linha_PR_POS   & UNICHAR(10)
+			    & _Linha_Odo_POS  & UNICHAR(10)
+			    & _Linha_Farm_POS
+			
+			RETURN
+			_Bloco_POS
+			```
+		lineageTag: c20e06bb-005e-4c28-a520-2d1c5a0dc5cb
+
+	measure _Narrativa_Top1_Ofensores_PRE = ```
+			
+			VAR _TabelaUF_PRE =
+			    FILTER(
+			        ADDCOLUMNS(
+			            VALUES('F - Aberturas por Risco'[uf_benef]),
+			            "@GR",
+			            VAR _UF = [uf_benef]
+			            RETURN
+			                DIVIDE(
+			                    CALCULATE(
+			                        SUM('F - Aberturas por Risco'[Valor]),    
+			                        'F - Aberturas por Risco'[Risco] = "Grande Risco",
+			                        'F - Aberturas por Risco'[Operadora] = "Operadora X",
+			                        DATESYTD('D - Calendario'[Date])
+			                    ),
+			                    CALCULATE(
+			                        SUM('F - Vidas'[Valor]),
+			                        'F - Vidas'[Tipo_plano] = "médico",
+			                        'F - Vidas'[Operadora] = "Operadora X",
+			                        TREATAS({_UF}, 'F - Vidas'[uf_benef]),
+			                        DATESYTD('D - Calendario'[Date])
+			                    )
+			                ),
+			            "@PR",
+			            VAR _UF = [uf_benef]
+			            RETURN
+			                DIVIDE(
+			                    CALCULATE(
+			                        SUM('F - Aberturas por Risco'[Valor]),    
+			                        'F - Aberturas por Risco'[Risco] = "Pequeno Risco",
+			                        'F - Aberturas por Risco'[Operadora] = "Operadora X",
+			                        DATESYTD('D - Calendario'[Date])
+			                    ),
+			                    CALCULATE(
+			                        SUM('F - Vidas'[Valor]),
+			                        'F - Vidas'[Tipo_plano] = "médico",
+			                        'F - Vidas'[Operadora] = "Operadora X",
+			                        TREATAS({_UF}, 'F - Vidas'[uf_benef]),
+			                        DATESYTD('D - Calendario'[Date])
+			                    )
+			                ),
+			            "@Odo",
+			            VAR _UF = [uf_benef]
+			            RETURN
+			                DIVIDE(
+			                    CALCULATE(
+			                        SUM('F - Aberturas por Risco'[Valor]),    
+			                        'F - Aberturas por Risco'[Risco] = "Odontológico",
+			                        'F - Aberturas por Risco'[Operadora] = "Operadora X",
+			                        DATESYTD('D - Calendario'[Date])
+			                    ),
+			                    CALCULATE(
+			                        SUM('F - Vidas'[Valor]),
+			                        'F - Vidas'[Tipo_plano] = "odontológico",
+			                        'F - Vidas'[Operadora] = "Operadora X",
+			                        TREATAS({_UF}, 'F - Vidas'[uf_benef]),
+			                        DATESYTD('D - Calendario'[Date])
+			                    )
+			                )
+			        ),
+			        [uf_benef] <> ""
+			    )
+			
+			VAR _Top1_GR_PRE   = TOPN( 1, _TabelaUF_PRE, [@GR],   DESC )
+			VAR _Top1_PR_PRE   = TOPN( 1, _TabelaUF_PRE, [@PR],   DESC )
+			VAR _Top1_Odo_PRE  = TOPN( 1, _TabelaUF_PRE, [@Odo],  DESC )
+			
+			VAR GR_UF_Top1 = MAXX(_Top1_GR_PRE, [uf_benef])
+			VAR GR_Top1_PerCapita = FORMAT(
+			    MAXX(_Top1_GR_PRE, [@GR]),
+			    "R$ #,##0.00"
+			)
+			
+			VAR PR_UF_Top1 = MAXX(_Top1_PR_PRE, [uf_benef])
+			VAR PR_Top1_PerCapita = FORMAT(
+			    MAXX(_Top1_PR_PRE, [@PR]),
+			    "R$ #,##0.00"
+			)
+			
+			VAR Odo_UF_Top1 = MAXX(_Top1_Odo_PRE, [uf_benef])
+			VAR Odo_Top1_PerCapita = FORMAT(
+			    MAXX(_Top1_Odo_PRE, [@Odo]),
+			    "R$ #,##0.00"
+			)
+			
+			VAR _Linha_GR_PRE   = "- Grande Risco: "  & IF( 
+			    COUNTROWS(_Top1_GR_PRE)=0, 
+			    "sem UF elegível (vidas ≤ 100)", 
+			    GR_UF_Top1 & " com " & GR_Top1_PerCapita 
+			)
+			
+			VAR _Linha_PR_PRE   = "- Pequeno Risco: " & IF( 
+			    COUNTROWS(_Top1_PR_PRE)=0,   
+			    "sem UF elegível (vidas ≤ 100)", 
+			    PR_UF_Top1 & " com " & PR_Top1_PerCapita
+			)
+			
+			VAR _Linha_Odo_PRE  = "- Odontológico: "  & IF( 
+			    COUNTROWS(_Top1_Odo_PRE)=0,  
+			    "sem UF elegível (vidas ≤ 100)", 
+			    Odo_UF_Top1 & " com " & Odo_Top1_PerCapita
+			)
+			
+			VAR _Bloco_PRE = 
+			    "As UFs Top 1 de custo per capita por categoria " & UNICHAR(10)
+			    & " de risco foram: " & UNICHAR(10)
+			    & _Linha_GR_PRE   & UNICHAR(10)
+			    & _Linha_PR_PRE   & UNICHAR(10)
+			    & _Linha_Odo_PRE
+			
+			RETURN
+			_Bloco_PRE
+			```
+		lineageTag: 8eae9c6b-c4fc-429a-8181-4227018b547c
+
+	measure 'Filtro Vidas' =
+			
+			SELECTEDVALUE(
+			    '_Parametro Vidas'[Parâmetro],
+			    0
+			)
+		formatString: 0
+		lineageTag: cb70fc88-a2d4-4d55-940f-07c2865124c7
+
+	measure _YTD_PerCapita_Anterior_Global = ```
+			
+			    CALCULATE(
+			        [_Per_Capita_Total],
+			        DATESYTD(
+			            DATEADD('D - Calendario'[Date], -1, YEAR)
+			        )
+			    )
+			```
+		lineageTag: 119df5a4-928c-4181-af42-a358bbce4065
+
+	measure _PerCapita_Grande_Risco =
+			
+			DIVIDE(
+			    CALCULATE(
+			        [_Valor_Base_Custo],
+			        'F - Aberturas por Risco'[Risco] = "Grande Risco"
+			    ),
+			    CALCULATE(
+			        [_Valor_Base_Vidas],
+			        'F - Aberturas por Risco'[Tipo_plano] = "médico"
+			    )
+			)
+		formatString: 0.00
+		lineageTag: 5347fe2e-3a05-4066-b9dd-ae74e4056601
+
+	measure _Valor_Base_Custo = ```
+			
+			VAR _ConsideraCopart =
+			    SELECTEDVALUE('_Filtro Copart'[Copart])
+			    
+			VAR _ConsideraCassi =
+			    SELECTEDVALUE('_Filtro Reciprocidade'[Cassi])
+			
+			RETURN
+			    IF(
+			        _ConsideraCassi = "Sem",
+			        CALCULATE(
+			            IF(
+			                _ConsideraCopart = "Com",
+			                SUM('F - Aberturas por Risco'[Valor]),
+			                SUM('F - Aberturas por Risco'[VPP])
+			            ),
+			            'F - Aberturas por Risco'[cassi] = "Nao"
+			        ),
+			        IF(
+			            _ConsideraCopart = "Com",
+			            SUM('F - Aberturas por Risco'[Valor]),
+			            SUM('F - Aberturas por Risco'[VPP])
+			        )
+			    )
+			```
+		lineageTag: 0d70b18d-29e4-4768-b98f-1a96e2e8ab0d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _Valor_Base_Vidas = SUM('F - Vidas'[Valor])
+		lineageTag: 936e48fb-af2c-4f57-8137-ce406e358b18
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _PerCapita_Pequeno_Risco =
+			
+			DIVIDE(
+			    CALCULATE(
+			        [_Valor_Base_Custo],
+			        'F - Aberturas por Risco'[Risco] = "Pequeno Risco"
+			    ),
+			    CALCULATE(
+			        [_Valor_Base_Vidas],
+			        'F - Aberturas por Risco'[Tipo_plano] = "médico"
+			    )
+			)
+		formatString: 0.00
+		lineageTag: 758185e5-338e-48f0-bc4d-58a6d32ec603
+
+	measure _PerCapita_Odonto =
+			
+			DIVIDE(
+			    CALCULATE(
+			        [_Valor_Base_Custo],
+			        'F - Aberturas por Risco'[Risco] = "Odontológico"
+			    ),
+			    CALCULATE(
+			        [_Valor_Base_Vidas],
+			        'F - Aberturas por Risco'[Tipo_plano] = "odontológico"
+			    )
+			)
+		formatString: #,0.00
+		lineageTag: 624ccf45-f3e9-4473-a3e3-f4d9bc090241
+
+	measure _PerCapita_Farmacia =
+			
+			DIVIDE(
+			    CALCULATE(
+			        [_Valor_Base_Custo],
+			        'F - Aberturas por Risco'[Risco] = "Farmácia"
+			    ),
+			    CALCULATE(
+			        [_Valor_Base_Vidas],
+			        'F - Aberturas por Risco'[Benef_farmacia] = "Sim"
+			    )
+			)
+		formatString: #,0.00
+		lineageTag: 729d7c5c-baa4-4705-b2cb-984f69659e63
+
+	measure _Per_Capita_Total =
+			
+			[_PerCapita_Grande_Risco] + [_PerCapita_Pequeno_Risco] + [_PerCapita_Odonto] + [_PerCapita_Farmacia]
+		lineageTag: 4b7f5f39-881a-4684-a295-3be48e00cdbe
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _YTD_PerCapita_Atual_Global = ```
+			
+			    CALCULATE(
+			        [_Per_Capita_Total],
+			        DATESYTD('D - Calendario'[Date])
+			    )
+			```
+		lineageTag: d02ad288-de9e-4414-aeab-ded7e4eac754
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _YTD_Grande_Risco_Periodo_Atual = ```
+			
+			    CALCULATE(
+			        [_PerCapita_Grande_Risco],
+			        DATESYTD('D - Calendario'[Date])
+			    )
+			```
+		lineageTag: 2f7aa76e-78cf-4de3-a175-4f0a215a9836
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _YTD_Grande_Risco_Periodo_Anterior = ```
+			
+			    CALCULATE(
+			        [_PerCapita_Grande_Risco],
+			        DATESYTD(
+			            DATEADD('D - Calendario'[Date], -1, YEAR)
+			        )
+			    )
+			```
+		lineageTag: ddd57dfd-dbee-429e-a609-1c3ab916e7df
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _YTD_Pequeno_Risco_Periodo_Atual = ```
+			
+			    CALCULATE(
+			        [_PerCapita_Pequeno_Risco],
+			        DATESYTD('D - Calendario'[Date])
+			    )
+			```
+		lineageTag: 5a9379ab-ca0c-4125-a44d-415601a6c3d2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _YTD_Pequeno_Risco_Periodo_Anterior = ```
+			
+			    CALCULATE(
+			        [_PerCapita_Pequeno_Risco],
+			        DATESYTD(
+			            DATEADD('D - Calendario'[Date], -1, YEAR)
+			        )
+			    )
+			```
+		lineageTag: 884b53db-b391-4f30-aa83-03ba0501103d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _YTD_Odonto_Periodo_Anterior = ```
+			
+			    CALCULATE(
+			        [_PerCapita_Odonto],
+			        DATESYTD(
+			            DATEADD('D - Calendario'[Date], -1, YEAR)
+			        )
+			    )
+			```
+		lineageTag: 3d343cc1-1524-494f-a67b-9bb0963b7e64
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _YTD_Odonto_Periodo_Atual = ```
+			
+			    CALCULATE(
+			        [_PerCapita_Odonto],
+			        DATESYTD('D - Calendario'[Date])
+			    )
+			```
+		lineageTag: e9eb45d9-520a-4231-b764-d0a0469c6e36
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _YTD_Farmacia_Periodo_Atual = ```
+			
+			    CALCULATE(
+			        [_PerCapita_Farmacia],
+			        DATESYTD('D - Calendario'[Date])
+			    )
+			```
+		lineageTag: 39e698c4-6c2b-401d-9dd0-d985d83020d8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _YTD_Farmacia_Periodo_Anterior = ```
+			
+			    CALCULATE(
+			        [_PerCapita_Farmacia],
+			        DATESYTD(
+			            DATEADD('D - Calendario'[Date], -1, YEAR)
+			        )
+			    )
+			```
+		lineageTag: cc75c5b7-5890-4809-be30-29532fd68477
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _Per_Capita_Total_Formatado = ```
+			
+			VAR PercapitaAtual = [_Per_Capita_Total]
+			VAR PercapitaAtualAbsoluto = ABS(PercapitaAtual)
+			
+			RETURN 
+			    "R$ " & FORMAT(PercapitaAtual, "#,##0.00") & "*"
+			```
+		lineageTag: c8dff523-02b4-4284-9914-0362a4d78b98
+
+	measure _Total_Vidas_YTD_Media =
+			
+			DIVIDE(
+			    CALCULATE(
+			        [_Total_Vidas],
+			        DATESYTD('D - Calendario'[Date])
+			    ),
+			    CALCULATE(
+			        DISTINCTCOUNT('D - Calendario'[AnoMes]),
+			        DATESYTD('D - Calendario'[Date])
+			    )
+			)
+		formatString: #,0
+		lineageTag: 7958e605-fc3a-46ad-a999-67c66cf7b6e2
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure _Total_Vidas = [_Valor_Base_Vidas]
+		lineageTag: 54a76983-fa8b-4d97-ba7c-ce55e6ec43b3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _Total_Custo =
+			
+			CALCULATE(
+			    [_Valor_Base_Custo],
+			    'F - Aberturas por Risco'[Risco] IN {
+			        "Grande Risco",
+			        "Pequeno Risco",
+			        "Odontologico",
+			        "Farmacia"
+			    }
+			)
+		lineageTag: 75630e75-8fa0-4a5d-b739-6f95c4e7e4b9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _%_Pequeno_Risco =
+			
+			DIVIDE(
+			    [_PerCapita_Pequeno_Risco],
+			    [_Per_Capita_Total]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: e810da6e-71c8-4b88-955b-710cea997bce
+
+	measure _%_Odonto =
+			
+			DIVIDE(
+			    [_PerCapita_Odonto],
+			    [_Per_Capita_Total]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 9514789d-c29a-425d-a1c8-2da356400ba2
+
+	measure _%_Grande_Risco =
+			
+			DIVIDE(
+			    [_PerCapita_Grande_Risco],
+			    [_Per_Capita_Total]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 4824ea52-8635-4f13-9104-79bd91b6ed4f
+
+	measure _%_Farmacia =
+			
+			DIVIDE(
+			    [_PerCapita_Farmacia],
+			    [_Per_Capita_Total]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 44a81f29-28e7-405c-a7ae-a58a882e6927
+
+	measure Tooltip_PerCapita_Risco_Total =
+			
+			"--- >>> CÁLCULO PER CAPITA RISCO TOTAL <<< ---" &
+			"Somatório de todos os per capitas por risco"
+		lineageTag: 5252ccba-1a9d-47ec-9f02-96ec4e1ebabc
+
+	measure Tooltip_PerCapita_Grande_Risco =
+			
+			"- >>> CÁLCULO PER CAPITA GRANDE RISCO <<< -" &
+			"Soma Custo Grande Risco no Período / Qtd Vidas Médicas no Período"
+		lineageTag: 26bacecb-6052-43da-b3d7-3f5f7f1db6ff
+
+	measure Tooltip_PerCapita_Pequeno_Risco =
+			
+			"- >>> CÁLCULO PER CAPITA PEQUENO RISCO <<< -" &
+			"Soma Custo Pequeno Risco no Período / Qtd Vidas Médicas no Período"
+		lineageTag: 13d29b91-f984-4582-8e7e-59c172a03791
+
+	measure Tooltip_PerCapita_Odonto =
+			
+			"- >>> CÁLCULO PER CAPITA ODONTOLÓGICO <<< -" &
+			"Soma Custo Odontológico no Período / Qtd Vidas Odontológicas no Período"
+		lineageTag: 7c41d4f5-26e0-4d95-8432-ca5a7109f284
+
+	measure Tooltip_PerCapita_Farmacia =
+			
+			"-- >>> CÁLCULO PER CAPITA FARMÁCIA <<< --" &
+			"Soma Custo Farmácia no Período / Qtd Vidas c/ Benefício Farmácia no Período"
+		lineageTag: bbd471a1-c667-46fc-a745-9f23cdef6b47
+
+	measure _PerCapita_GR_POS =
+			
+			CALCULATE(
+			    [_PerCapita_Grande_Risco],
+			    'F - Aberturas por Risco'[Operadora] = "Operadora Y"
+			)
+		lineageTag: 94b54790-94b8-4bcd-92e4-16ee1cf1cdcc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Column
+		formatString: 0
+		lineageTag: 2c9610b7-aba8-441b-b35f-ad101065d6fc
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '_Medidas - PerCapita' = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 839f4474676f45458b132e5b88fb23f9
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

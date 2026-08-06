@@ -1,0 +1,26 @@
+table '_Parametro Vidas'
+	lineageTag: f784d114-da63-4d2b-a122-3c1275cd5431
+
+	measure 'Valor Parâmetro' = SELECTEDVALUE('_Parametro Vidas'[Parâmetro], 100)
+		formatString: 0
+		lineageTag: 0beccdf1-047c-4658-95d2-ee88c09b738a
+
+	column Parâmetro
+		formatString: 0
+		lineageTag: 8bf5ebb5-6268-43d2-8ece-0f30e4df8254
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition '_Parametro Vidas' = calculated
+		mode: import
+		source = GENERATESERIES(100, 10000, 100)
+
+	annotation PBI_Id = ca1b04e626034348af2554316b912ad9
+

@@ -1,0 +1,25 @@
+table '_Filtro Reciprocidade'
+	lineageTag: 4544a0c7-a6a1-4f65-b50e-ddd4ef302486
+
+	column Cassi
+		lineageTag: 2e34d9f1-0cdd-4b09-b83b-634a6722c4fb
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Cassi]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '_Filtro Reciprocidade' = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "Cassi", STRING,
+				    {
+				        {"Com"},
+				        {"Sem"}
+				    }
+				)
+
+	annotation PBI_Id = 1d7cb0a6bb9d43e28f79139de4fa642c
+

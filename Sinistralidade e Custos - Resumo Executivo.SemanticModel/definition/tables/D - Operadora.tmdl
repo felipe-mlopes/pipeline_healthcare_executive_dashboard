@@ -1,0 +1,25 @@
+table 'D - Operadora'
+	lineageTag: 669c0d0c-82f4-4619-8052-814e98fcaf99
+
+	column Operadora
+		lineageTag: d5520f42-a51b-47bc-9ebd-06bb7c5f835b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: F - Vidas[Operadora]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'D - Operadora' = calculated
+		mode: import
+		source =
+				
+				FILTER(
+				    SUMMARIZE(
+				        'F - Vidas',
+				        'F - Vidas'[Operadora]
+				    ),
+				    'F - Vidas'[Operadora] <> BLANK()
+				)
+
+	annotation PBI_Id = 7837244e421d416bbaee962df7ddd6b1
+

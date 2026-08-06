@@ -1,0 +1,54 @@
+table 'D - Tabela Meses'
+	lineageTag: 691174a3-e961-478b-9fec-42beac70ee9e
+
+	column Ordem
+		formatString: 0
+		lineageTag: c02f4216-9f75-4234-820f-00c792f89745
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Ordem]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mês
+		lineageTag: 2b52e140-5641-4da0-b7da-0995835a483a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Mês]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Abrev_Mês
+		lineageTag: 1dc32774-8194-4a05-bd21-49acbb0132ea
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Abrev_Mês]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'D - Tabela Meses' = calculated
+		mode: import
+		source =
+				
+				DATATABLE (
+				    "Ordem", INTEGER,
+				    "Mês", STRING,
+				    "Abrev_Mês", STRING,
+				    {
+				        { 1, "Janeiro", "01-Jan" },
+				        { 2, "Fevereiro", "02-Fev" },
+				        { 3, "Março", "03-Mar" },
+				        { 4, "Abril", "04-Abr" },
+				        { 5, "Maio", "05-Mai" },
+				        { 6, "Junho", "06-Jun" },
+				        { 7, "Julho", "07-Jul" },
+				        { 8, "Agosto", "08-Ago" },
+				        { 9, "Setembro", "09-Set" },
+				        { 10, "Outubro", "10-Out" },
+				        { 11, "Novembro", "11-Nov" },
+				        { 12, "Dezembro", "12-Dez" }
+				    }
+				)
+
+	annotation PBI_Id = fb6f332660b8446e805da52b8508848a
+

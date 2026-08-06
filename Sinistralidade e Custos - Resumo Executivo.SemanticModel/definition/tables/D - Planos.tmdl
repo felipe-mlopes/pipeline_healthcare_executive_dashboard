@@ -1,0 +1,25 @@
+table 'D - Planos'
+	lineageTag: 8c45e4f0-421f-4f19-8745-dda120dac82f
+
+	column Nome_plano
+		lineageTag: f0dd4391-fa57-41a6-b6df-204bdf7308e1
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: F - Vidas[Nome_plano]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'D - Planos' = calculated
+		mode: import
+		source =
+				
+				FILTER(
+				    SUMMARIZE(
+				        'F - Vidas',
+				        'F - Vidas'[Nome_plano]
+				    ),
+				    'F - Vidas'[Nome_plano] <> BLANK()
+				)
+
+	annotation PBI_Id = 0fb1e3a7df964aae93b87754aac18a50
+

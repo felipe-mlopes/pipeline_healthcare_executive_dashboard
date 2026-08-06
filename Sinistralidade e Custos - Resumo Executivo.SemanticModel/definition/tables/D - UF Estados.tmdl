@@ -1,0 +1,62 @@
+table 'D - UF Estados'
+	lineageTag: 2638055c-0b40-4b23-93a2-b23fd3bb1b0e
+
+	column UF
+		lineageTag: 0e2dce01-587d-4e3a-9638-f24cc091b0b4
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [UF]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Estado
+		lineageTag: b2c793aa-800b-42fb-ae26-307050f1399e
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Estado]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'D - UF Estados' = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "UF", STRING, 
+				    "Estado", STRING,
+				    {
+				        {"AC", "Acre"},
+				        {"AL", "Alagoas"},
+				        {"AP", "Amapa"},
+				        {"AM", "Amazonas"},
+				        {"BA", "Bahia"},
+				        {"CE", "Ceará"},
+				        {"DF", "Distrito Federal"},
+				        {"ES", "Espirito Santo"},
+				        {"GO", "Goias"},
+				        {"MA", "Maranhao"},
+				        {"MT", "Mato Grosso"},
+				        {"MS", "Mato Grosso do Sul"},
+				        {"MG", "Minas Gerais"},
+				        {"PA", "Para"},
+				        {"PB", "Paraiba"},
+				        {"PR", "Parana"},
+				        {"PE", "Pernambuco"},
+				        {"PI", "Piaui"},
+				        {"RJ", "Rio de Janeiro"},
+				        {"RN", "Rio Grande do Norte"},
+				        {"RS", "Rio Grande do Sul"},
+				        {"RO", "Rondonia"},
+				        {"RR", "Roraima"},
+				        {"SC", "Santa Catarina"},
+				        {"SP", "Sao Paulo"},
+				        {"SE", "Sergipe"},
+				        {"TO", "Tocantins"}
+				    }
+				)
+				```
+
+	annotation PBI_Id = bf049269a4ee46dc9b4f4f679745ed19
+

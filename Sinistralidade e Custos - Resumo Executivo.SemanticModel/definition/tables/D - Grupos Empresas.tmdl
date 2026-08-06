@@ -1,0 +1,40 @@
+table 'D - Grupos Empresas'
+	lineageTag: 565676e2-8216-4e51-be48-7f96d5d73129
+
+	column Empresas
+		dataType: string
+		lineageTag: 18705055-e0af-4b1e-a7bf-c950a4c942be
+		summarizeBy: none
+		sourceColumn: Empresas
+
+		annotation SummarizationSetBy = Automatic
+
+	column Grupos
+		dataType: string
+		lineageTag: 2d266a6e-5f35-499c-9aef-db928d8fc28c
+		summarizeBy: none
+		sourceColumn: Grupos
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'D - Grupos Empresas' = m
+		mode: import
+		source =
+				let
+				    Fonte = #table(
+				        {"Empresas", "Grupos"},
+				        {
+				            {"Empresa A", "Bancário"},
+				            {"Empresa B", "Energia"},
+				            {"Empresa C", "Energia"},
+				            {"Empresa D", "Tecnologia"},
+				            {"Empresa E", "Tecnologia"}
+				        }
+				    )
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

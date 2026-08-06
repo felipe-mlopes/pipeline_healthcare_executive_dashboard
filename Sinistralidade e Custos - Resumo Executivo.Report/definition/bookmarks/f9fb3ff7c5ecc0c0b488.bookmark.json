@@ -1,0 +1,1184 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
+  "displayName": "Tooltip Per Capita AMS Exibido",
+  "name": "f9fb3ff7c5ecc0c0b488",
+  "options": {
+    "targetVisualNames": [
+      "8e55b4d4bbc7b8ca4e06"
+    ]
+  },
+  "explorationState": {
+    "version": "1.3",
+    "activeSection": "f3d7a79a59c81ad7d13b",
+    "sections": {
+      "f3d7a79a59c81ad7d13b": {
+        "filters": {
+          "byExpr": [
+            {
+              "name": "74dcd191ab50c3820df7",
+              "type": "Categorical",
+              "filter": {
+                "Version": 2,
+                "From": [
+                  {
+                    "Name": "d",
+                    "Entity": "D - Operadora",
+                    "Type": 0
+                  }
+                ],
+                "Where": [
+                  {
+                    "Condition": {
+                      "In": {
+                        "Expressions": [
+                          {
+                            "Column": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Source": "d"
+                                }
+                              },
+                              "Property": "Operadora"
+                            }
+                          }
+                        ],
+                        "Values": [
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'AMS'"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "expression": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "D - Operadora"
+                    }
+                  },
+                  "Property": "Operadora"
+                }
+              },
+              "howCreated": 1
+            }
+          ]
+        },
+        "visualContainers": {
+          "bd93d0291f525426cc92": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "5c596f780a12932d7950",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D_Calendário"
+                        }
+                      },
+                      "Property": "Data_Ref"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "7d3638f5d7368431c623",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D_Calendário"
+                        }
+                      },
+                      "Property": "Data_Ref"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "bd728094aff861d8f088",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Vidas"
+                        }
+                      },
+                      "Property": "Média de vidas"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "9aa6949f0e3702fb58fc",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Vidas"
+                        }
+                      },
+                      "Property": "Percaptateste"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "Filter1960844fd8328524a891",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DxMês"
+                        }
+                      },
+                      "Property": "Abrev_Mês"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "Filtera9005a336bf164717114",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D_Calendário"
+                        }
+                      },
+                      "Property": "Ano"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "Filter02cca20603aa15fe8a40",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "F - Consolidado - YTD"
+                        }
+                      },
+                      "Property": "0-Média_Vidas"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "Filter999dd280577e689a19a0",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "F - Consolidado - YTD"
+                        }
+                      },
+                      "Property": "Per Capita"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "114608fa33413d651d9b",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D-Empresa"
+                        }
+                      },
+                      "Property": "Nome Empresa"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "bd7413743be02eb0c402",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D - Calendario"
+                        }
+                      },
+                      "Property": "Ano"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "e9d2eb006d6a4aa608b6",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D - Tabela Meses"
+                        }
+                      },
+                      "Property": "Abrev_Mês"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f100d95b8e7d19cea3b9",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Medidas - Geral"
+                        }
+                      },
+                      "Property": "POS_Vidas"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "782b29e340d7cada75d3",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Medidas - Geral"
+                        }
+                      },
+                      "Property": "POS_PerCapita_com_Filtro"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "lineClusteredColumnComboChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D - Calendario"
+                        }
+                      },
+                      "Property": "Ano"
+                    }
+                  }
+                },
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D - Tabela Meses"
+                        }
+                      },
+                      "Property": "Abrev_Mês"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D - Calendario"
+                        }
+                      },
+                      "Property": "Ano"
+                    }
+                  },
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D - Tabela Meses"
+                        }
+                      },
+                      "Property": "Abrev_Mês"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "5c79b6c88321f481e64a": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "48480fd3ebd5cb24bc2c",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D - Calendario"
+                        }
+                      },
+                      "Property": "Date"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "d1",
+                                "Entity": "D - Calendario",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "And": {
+                                    "Left": {
+                                      "Comparison": {
+                                        "ComparisonKind": 2,
+                                        "Left": {
+                                          "Column": {
+                                            "Expression": {
+                                              "SourceRef": {
+                                                "Source": "d1"
+                                              }
+                                            },
+                                            "Property": "Date"
+                                          }
+                                        },
+                                        "Right": {
+                                          "Literal": {
+                                            "Value": "datetime'2025-06-01T00:00:00'"
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "Right": {
+                                      "Comparison": {
+                                        "ComparisonKind": 3,
+                                        "Left": {
+                                          "Column": {
+                                            "Expression": {
+                                              "SourceRef": {
+                                                "Source": "d1"
+                                              }
+                                            },
+                                            "Property": "Date"
+                                          }
+                                        },
+                                        "Right": {
+                                          "Literal": {
+                                            "Value": "datetime'2026-07-01T00:00:00'"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "startDate": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "datetime'2025-06-01T00:00:00'"
+                            }
+                          }
+                        },
+                        "endDate": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "datetime'2026-06-30T00:00:00'"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Between'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D - Calendario"
+                        }
+                      },
+                      "Property": "Date"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D - Calendario"
+                        }
+                      },
+                      "Property": "Date"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "5df72f4b8ba1ce806b10": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "25ba3d53bc3ec62d9d47",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D - Grupos Empresas"
+                        }
+                      },
+                      "Property": "Empresas"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "b769b6a03a5e9a61a57c",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Medidas - Geral"
+                        }
+                      },
+                      "Property": "POS_PerCapita_Periodo_Passado_Dinamico"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "d017ba0338b35ae3092a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Medidas - Geral"
+                        }
+                      },
+                      "Property": "POS_PerCapita_Periodo_Atual_Dinamico"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "4a30d376e362598ea901",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Medidas - Geral"
+                        }
+                      },
+                      "Property": "POS_PerCapita_Variação"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "ea52a4df03a60654db1a",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D - UF Estados"
+                        }
+                      },
+                      "Property": "UF"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "0269b847d405104a470e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Medidas - Geral"
+                        }
+                      },
+                      "Property": "POS_Vidas_Periodo_Atual_Dinamico"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "tableEx",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Medidas - Geral"
+                        }
+                      },
+                      "Property": "POS_Vidas_Periodo_Atual_Dinamico"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "6b4bb476832ee7015163": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "db42aff1a09300c60064",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D - Grupos Empresas"
+                        }
+                      },
+                      "Property": "Grupos"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        },
+                        "isInvertedSelectionMode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D - Grupos Empresas"
+                        }
+                      },
+                      "Property": "Grupos"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "56eda9f0a63d8a26b116": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "dfe2624b0553c251451c",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D - Tabela Periodos"
+                        }
+                      },
+                      "Property": "Periodo"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "advancedSlicerVisual",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "d",
+                                "Entity": "D - Tabela Periodos",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "d"
+                                            }
+                                          },
+                                          "Property": "Periodo"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "'YTD'"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "675a13e1fb761c18ff91": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "1545b6f93e2ca0831d98",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D - Empresas"
+                        }
+                      },
+                      "Property": "Nome_empresa"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D - Empresas"
+                        }
+                      },
+                      "Property": "Nome_empresa"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "e7c3697ac86574a8ac7c": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "25ba3d53bc3ec62d9d47",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D - Grupos Empresas"
+                        }
+                      },
+                      "Property": "Empresas"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "d1ee79eb730c617530e0",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Medidas - Geral"
+                        }
+                      },
+                      "Property": "POS_PerCapita_Periodo_Passado_Dinamico"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "674a816b0ec27050e8ae",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Medidas - Geral"
+                        }
+                      },
+                      "Property": "POS_PerCapita_Periodo_Atual_Dinamico"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "1868a854ec5ee75b08ee",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Medidas - Geral"
+                        }
+                      },
+                      "Property": "POS_PerCapita_Variação"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "a8b332f391ce5b57129e",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "D - UF Estados"
+                        }
+                      },
+                      "Property": "UF"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "63b2c5b4e5840ec04e1c",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Medidas - Geral"
+                        }
+                      },
+                      "Property": "POS_Vidas_Periodo_Atual_Dinamico"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "tableEx",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Medidas - Geral"
+                        }
+                      },
+                      "Property": "POS_Vidas_Periodo_Atual_Dinamico"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "b20242ed35710b49a740": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "1f34aa70d2660619aa7b",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Medidas - Geral"
+                        }
+                      },
+                      "Property": "POS_Card_PerCapita"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6865",
+              "objects": {}
+            }
+          },
+          "0ffd055622487d06846b": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "797bfb3981e30dcd353c",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Medidas - Geral"
+                        }
+                      },
+                      "Property": "POS_Card_Vidas"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6865",
+              "objects": {}
+            }
+          },
+          "70fba9fc0a823816246b": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "eb28fa9c95dc1a6f72f6",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "F - Aberturas por Risco",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "_"
+                                        }
+                                      },
+                                      "Property": "Risco"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "'Vidas'"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "F - Aberturas por Risco"
+                        }
+                      },
+                      "Property": "Risco"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "8032fad683a1cde8d5a0",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Filtro Reciprocidade"
+                        }
+                      },
+                      "Property": "Cassi"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "advancedSlicerVisual",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "_",
+                                "Entity": "_Filtro Reciprocidade",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "_"
+                                            }
+                                          },
+                                          "Property": "Cassi"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "'Com'"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "f9ea12a70249271b677d": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "3b30c6dee76c0cb20012",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Medidas - Geral"
+                        }
+                      },
+                      "Property": "POS_Barra_Meta"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6865",
+              "objects": {}
+            }
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

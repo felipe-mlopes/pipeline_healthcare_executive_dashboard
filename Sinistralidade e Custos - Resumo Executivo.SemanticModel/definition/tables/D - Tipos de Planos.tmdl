@@ -1,0 +1,32 @@
+table 'D - Tipos de Planos'
+	lineageTag: 079be503-a57f-4936-91bb-7e3fd620a71f
+
+	column Planos
+		dataType: string
+		lineageTag: 2eea4679-4e92-45cc-a9cc-bf8b1487699b
+		summarizeBy: none
+		sourceColumn: Planos
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tipo
+		dataType: string
+		lineageTag: f179056f-13ec-4b8a-a543-646dced53aa0
+		summarizeBy: none
+		sourceColumn: Tipo
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'D - Tipos de Planos' = m
+		mode: import
+		source =
+				let
+				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WcsxJS1TSUfI9vDIlMzlfKVYnWskptQRdyD0xNxddzCU1B0Oda0FxZk5+Hpqof25qOrpK58QCkJB/Sn5eSX7O4c3pMAnP/BIsErEA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Planos = _t, Tipo = _t]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Planos", type text}, {"Tipo", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

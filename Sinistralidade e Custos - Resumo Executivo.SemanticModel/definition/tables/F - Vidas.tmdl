@@ -1,0 +1,81 @@
+table 'F - Vidas'
+	lineageTag: debf75e0-a0a8-4443-a9f1-9653ad183fd4
+
+	column Operadora
+		dataType: string
+		lineageTag: e009d982-62a6-4f1e-a140-d40db8c57f66
+		summarizeBy: none
+		sourceColumn: Operadora
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: dateTime
+		formatString: yyyy-mm
+		lineageTag: aa2c3a9a-4ee5-4941-8a28-cb6269b9c3f5
+		summarizeBy: none
+		sourceColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Tipo_plano
+		dataType: string
+		lineageTag: e152ce91-d03e-426d-b998-67199f3193ea
+		summarizeBy: none
+		sourceColumn: Tipo_plano
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nome_plano
+		dataType: string
+		lineageTag: 50b4895b-41da-44cd-8f56-bba0703bf70b
+		summarizeBy: none
+		sourceColumn: Nome_plano
+
+		annotation SummarizationSetBy = Automatic
+
+	column Valor
+		dataType: int64
+		formatString: #,0
+		lineageTag: 6e988dc6-54d5-4c57-bdde-f5a9cf134531
+		summarizeBy: sum
+		sourceColumn: Valor
+
+		annotation SummarizationSetBy = Automatic
+
+	column UF_Benef
+		dataType: string
+		lineageTag: e71c8680-8be2-4e5b-ab3e-4fbc077f48d0
+		summarizeBy: none
+		sourceColumn: UF_Benef
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nome_empresa
+		dataType: string
+		lineageTag: a3cb3153-ca80-40b3-915a-7be6f6fca969
+		summarizeBy: none
+		sourceColumn: Nome_empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'F - Vidas' = m
+		mode: import
+		source =
+				let
+				    Fonte = GoogleBigQuery.Database(),
+				    Projeto = Fonte{[Name="mythic-groove-491720-v4"]}[Data],
+				    Dataset = Projeto{[Name="health_care_lifes"]}[Data],
+				    Tabela = Dataset{[Name="vidas_operadoras"]}[Data],
+				    #"Linhas Filtradas" = Table.SelectRows(Tabela, each true)
+				in
+				    #"Linhas Filtradas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

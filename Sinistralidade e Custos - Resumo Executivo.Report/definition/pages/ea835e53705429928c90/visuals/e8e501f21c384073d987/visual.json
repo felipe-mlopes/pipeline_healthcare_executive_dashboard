@@ -1,0 +1,52 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "e8e501f21c384073d987",
+  "position": {
+    "x": 20.892274211099018,
+    "y": 0,
+    "z": 7000,
+    "height": 720.08705114254622,
+    "width": 396.95321001088138,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "D - UF Estados"
+                    }
+                  },
+                  "Property": "UF"
+                }
+              },
+              "queryRef": "D - UF Estados.UF",
+              "nativeQueryRef": "UF"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas - PerCapita"
+                    }
+                  },
+                  "Property": "___TESTE3"
+                }
+              },
+              "queryRef": "_Medidas - PerCapita.___TESTE3",
+              "nativeQueryRef": "___TESTE3"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "0ffd055622487d06846b",
+  "position": {
+    "x": 1027.2049673591766,
+    "y": 34,
+    "z": 9000,
+    "height": 139.14049375890446,
+    "width": 187.15376273204754,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6865",
+    "query": {
+      "queryState": {
+        "content": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas - Geral"
+                    }
+                  },
+                  "Property": "POS_Card_Vidas"
+                }
+              },
+              "queryRef": "_Medidas - Geral.AMS_Card_Vidas",
+              "nativeQueryRef": "POS_Card_Vidas"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

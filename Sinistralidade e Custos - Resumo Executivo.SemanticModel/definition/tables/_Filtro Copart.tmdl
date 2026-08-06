@@ -1,0 +1,25 @@
+table '_Filtro Copart'
+	lineageTag: fc91e86b-261b-4138-bf62-a699addeb228
+
+	column Copart
+		lineageTag: 41fb878c-fbda-4353-a82d-5d6bacc4eb59
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Copart]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '_Filtro Copart' = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "Copart", STRING,
+				    {
+				        {"Com"},
+				        {"Sem"}
+				    }
+				)
+
+	annotation PBI_Id = c3ea61b1528448e19d3232eb8baf6258
+

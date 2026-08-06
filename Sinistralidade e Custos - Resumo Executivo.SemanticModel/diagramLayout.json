@@ -1,0 +1,272 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 2060.3271745901957,
+        "y": 1119.9390922540088
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 3922.1725334145067,
+            "y": 1778.0287339902509
+          },
+          "nodeIndex": "_Medidas - Geral",
+          "nodeLineageTag": "e43f3d7e-5e55-4588-84b2-304000638112",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 14
+        },
+        {
+          "location": {
+            "x": 4800.8706363535348,
+            "y": 2132.2865178211741
+          },
+          "nodeIndex": "D - Calendario",
+          "nodeLineageTag": "6aa86dd2-f230-407c-8112-ba4b64f2675e",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 4805.1499761999976,
+            "y": 1755.8171323682745
+          },
+          "nodeIndex": "F - Vidas",
+          "nodeLineageTag": "debf75e0-a0a8-4443-a9f1-9653ad183fd4",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 5145.2623608925951,
+            "y": 1511.2466945837837
+          },
+          "nodeIndex": "D - Empresas",
+          "nodeLineageTag": "4a8d6efc-458b-47ca-8f7b-ed68bab6376e",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 13
+        },
+        {
+          "location": {
+            "x": 4552.8811875538313,
+            "y": 1531.9581679111207
+          },
+          "nodeIndex": "D - Planos",
+          "nodeLineageTag": "8c45e4f0-421f-4f19-8745-dda120dac82f",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 4860.3337737163456,
+            "y": 1480.249681627603
+          },
+          "nodeIndex": "D - Operadora",
+          "nodeLineageTag": "669c0d0c-82f4-4619-8052-814e98fcaf99",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 5412.0909888080914,
+            "y": 2138.8322274630436
+          },
+          "nodeIndex": "D - Tabela Ano",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 4285.1423294102533,
+            "y": 2137.2865178211741
+          },
+          "nodeIndex": "D - Tabela Periodos",
+          "nodeLineageTag": "2f23f667-b156-4b60-8bf5-34ab6c8d628c",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 16
+        },
+        {
+          "location": {
+            "x": 5106.9715626159468,
+            "y": 2134.7169192559322
+          },
+          "nodeIndex": "D - Tabela Meses",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 4540.66135254877,
+            "y": 2131.7035144397869
+          },
+          "nodeIndex": "D - UF Estados",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 17
+        },
+        {
+          "location": {
+            "x": 3923.8395949989217,
+            "y": 2002.1425239035855
+          },
+          "nodeIndex": "_Medidas - PerCapita",
+          "nodeLineageTag": "b5069a9a-2a62-4210-9411-5bdaf9ed45e7",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 15
+        },
+        {
+          "location": {
+            "x": 4104.2480415235432,
+            "y": 1279.5103558869314
+          },
+          "nodeIndex": "_Parametro Vidas",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 4283.5567541453929,
+            "y": 1530.2647451413382
+          },
+          "nodeIndex": "_Filtro Copart",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 4283.15134097111,
+            "y": 1760.1335298642464
+          },
+          "nodeIndex": "F - Aberturas por Risco",
+          "nodeLineageTag": "169c2151-b273-4dcb-aff2-afd4dce42435",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 5341.3739082348347,
+            "y": 1759.6213353587934
+          },
+          "nodeIndex": "F - Sinistralidade Pre Pgto",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 5067.5545643899823,
+            "y": 1757.0587327230819
+          },
+          "nodeIndex": "F - Custo Pos Pgto",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 18
+        },
+        {
+          "location": {
+            "x": 4022.6117782216033,
+            "y": 1531.3909450906513
+          },
+          "nodeIndex": "_Filtro Reciprocidade",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 4395.9087711043721,
+            "y": 1280.3121638837636
+          },
+          "nodeIndex": "D - Grupos Empresas",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 4802.0069035669194,
+            "y": 1275.123574926432
+          },
+          "nodeIndex": "D - Tipos de Planos",
+          "nodeLineageTag": "079be503-a57f-4936-91bb-7e3fd620a71f",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1773.9184553935847,
+            "y": 856.89551791044983
+          },
+          "nodeIndex": "_TabelaUF_POS",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas as tabelas",
+      "zoomValue": 67.270161848436132,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas as tabelas",
+  "defaultDiagram": "Todas as tabelas"
+}

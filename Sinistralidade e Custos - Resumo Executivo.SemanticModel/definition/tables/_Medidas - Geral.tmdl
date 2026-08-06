@@ -1,0 +1,3485 @@
+table '_Medidas - Geral'
+	lineageTag: e43f3d7e-5e55-4588-84b2-304000638112
+
+	measure Ultima_Data_Pgto = ```
+			
+			VAR Hoje = TODAY()
+			RETURN 
+			    IF(
+			        DAY(Hoje) < 10,
+			        DATE(YEAR(Hoje),MONTH(Hoje)-2,1),
+			        DATE(YEAR(Hoje),MONTH(Hoje)-1,1)
+			    )
+			```
+		formatString: General Date
+		lineageTag: 2132bf55-7a27-42db-b131-fe8c16a85878
+
+	measure PRE_Sinistralidade_Periodo_Atual_Dinamico =
+			
+			VAR PeriodoSelecionado = SELECTEDVALUE('D - Tabela Periodos'[Periodo])
+			VAR DataPgto = '_Medidas - Geral'[Ultima_Data_Pgto]
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    PeriodoSelecionado = "Últimos 12 meses",
+			        CALCULATE(
+			            [PRE_Sinistralidade],
+			            DATESINPERIOD('D - Calendario'[Date], [Ultimos_12M], -12, MONTH)
+			        ),
+			
+			    PeriodoSelecionado = "Últimos 6 meses",
+			        CALCULATE(
+			            [PRE_Sinistralidade],
+			            DATESINPERIOD('D - Calendario'[Date], [Ultimos_12M], -6, MONTH)
+			        ),
+			
+			    PeriodoSelecionado = "Mês Pgtº Vigente",
+			        CALCULATE(
+			            [PRE_Sinistralidade],
+			            FILTER(
+			                ALL('D - Calendario'),
+			                'D - Calendario'[Date] >= DATE(YEAR(DataPgto), MONTH(DataPgto), 1) &&
+			                'D - Calendario'[Date] <= DataPgto
+			            )
+			        ),
+			
+			    PeriodoSelecionado = "YTD",
+			        CALCULATE(
+			            [PRE_Sinistralidade],
+			            DATESYTD('D - Calendario'[Date])
+			        ),
+			
+			    BLANK()
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 9710dbb9-8b37-44d7-915e-07a12a7d4a02
+
+	measure PRE_Sinistralidade_Periodo_Passado_Dinamico = ```
+			
+			VAR PeriodoSelecionado = SELECTEDVALUE('D - Tabela Periodos'[Periodo])
+			VAR DataPgto = '_Medidas - Geral'[Ultima_Data_Pgto]
+			VAR DataPgto_AnoAnterior =
+			    DATE(
+			        YEAR(DataPgto) - 1,
+			        MONTH(DataPgto),
+			        DAY(DataPgto)
+			    )
+			VAR PrimeiraData_AnoAnterior = 
+			    DATE(
+			        YEAR(DataPgto) - 1,
+			        1,
+			        1
+			    )
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    PeriodoSelecionado = "Últimos 12 meses",
+			        CALCULATE(
+			            [PRE_Sinistralidade],
+			            DATESINPERIOD('D - Calendario'[Date], [Penultimos_12M], -12, MONTH)
+			        ),
+			
+			    PeriodoSelecionado = "Últimos 6 meses",
+			        CALCULATE(
+			            [PRE_Sinistralidade],
+			            DATESINPERIOD('D - Calendario'[Date], [Penultimos_12M], -6, MONTH)
+			        ),
+			
+			    PeriodoSelecionado = "Mês Pgtº Vigente",
+			        CALCULATE(
+			            [PRE_Sinistralidade],
+			            FILTER(
+			                ALL('D - Calendario'),
+			                'D - Calendario'[Date] >= DATE(YEAR(DataPgto_AnoAnterior), MONTH(DataPgto_AnoAnterior), 1) &&
+			                'D - Calendario'[Date] <= DataPgto_AnoAnterior
+			            )
+			        ),
+			
+			    PeriodoSelecionado = "YTD",
+			        CALCULATE(
+			            [PRE_Sinistralidade],
+			            DATESBETWEEN(
+			                'D - Calendario'[Date], 
+			                PrimeiraData_AnoAnterior, 
+			                DataPgto_AnoAnterior
+			            )
+			        ),
+			
+			    BLANK()
+			)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 0d9e625c-1e3d-4102-bdf0-1b37ff4e0df9
+
+	measure POS_PerCapita_Periodo_Atual_Dinamico =
+			
+			VAR PeriodoSelecionado = SELECTEDVALUE('D - Tabela Periodos'[Periodo])
+			VAR DataPgto = '_Medidas - Geral'[Ultima_Data_Pgto]
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    PeriodoSelecionado = "Últimos 12 meses",
+			        CALCULATE(
+			            [POS_PerCapita_com_Filtro],
+			            DATESINPERIOD('D - Calendario'[Date], [Ultimos_12M], -12, MONTH)
+			        ),
+			
+			    PeriodoSelecionado = "Últimos 6 meses",
+			        CALCULATE(
+			            [POS_PerCapita_com_Filtro],
+			            DATESINPERIOD('D - Calendario'[Date], [Ultimos_12M], -6, MONTH)
+			        ),
+			
+			    PeriodoSelecionado = "Mês Pgtº Vigente",
+			        CALCULATE(
+			            [POS_PerCapita_com_Filtro],
+			            FILTER(
+			                ALL('D - Calendario'),
+			                'D - Calendario'[Date] >= DATE(YEAR(DataPgto), MONTH(DataPgto), 1) &&
+			                'D - Calendario'[Date] <= DataPgto
+			            )
+			        ),
+			
+			    PeriodoSelecionado = "YTD",
+			        CALCULATE(
+			            [POS_PerCapita_com_Filtro],
+			            DATESYTD('D - Calendario'[Date])
+			        ),
+			
+			    BLANK()
+			)
+		lineageTag: 2d6e6b91-279d-4392-b934-6e975833b384
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure POS_PerCapita_Periodo_Passado_Dinamico = ```
+			
+			VAR PeriodoSelecionado = SELECTEDVALUE('D - Tabela Periodos'[Periodo])
+			VAR DataPgto = '_Medidas - Geral'[Ultima_Data_Pgto]
+			VAR DataPgto_AnoAnterior =
+			    DATE(
+			        YEAR(DataPgto) - 1,
+			        MONTH(DataPgto),
+			        DAY(DataPgto)
+			    )
+			VAR PrimeiraData_AnoAnterior = 
+			    DATE(
+			        YEAR(DataPgto) - 1,
+			        1,
+			        1
+			    )
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    PeriodoSelecionado = "Últimos 12 meses",
+			        CALCULATE(
+			            [POS_PerCapita_com_Filtro],
+			            DATESINPERIOD('D - Calendario'[Date], [Penultimos_12M], -12, MONTH)
+			        ),
+			
+			    PeriodoSelecionado = "Últimos 6 meses",
+			        CALCULATE(
+			            [POS_PerCapita_com_Filtro],
+			            DATESINPERIOD('D - Calendario'[Date], [Penultimos_12M], -6, MONTH)
+			        ),
+			        
+			    PeriodoSelecionado = "Mês Pgtº Vigente",
+			        CALCULATE(
+			            [POS_PerCapita_com_Filtro],
+			            FILTER(
+			                ALL('D - Calendario'),
+			                'D - Calendario'[Date] >= DATE(YEAR(DataPgto_AnoAnterior), MONTH(DataPgto_AnoAnterior), 1) &&
+			                'D - Calendario'[Date] <= DataPgto_AnoAnterior
+			            )
+			        ),
+			
+			    PeriodoSelecionado = "YTD",
+			        CALCULATE(
+			            [POS_PerCapita_com_Filtro],
+			            DATESBETWEEN(
+			                'D - Calendario'[Date], 
+			                PrimeiraData_AnoAnterior, 
+			                DataPgto_AnoAnterior
+			            )
+			        ),
+			
+			    BLANK()
+			)
+			```
+		lineageTag: 00a34cef-8c2e-4745-bb8e-d564afde16c2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PRE_Vidas_Periodo_Passado_Dinamico = ```
+			
+			VAR PeriodoSelecionado = SELECTEDVALUE('D - Tabela Periodos'[Periodo])
+			VAR DataPgto = '_Medidas - Geral'[Ultima_Data_Pgto]
+			VAR DataPgto_AnoAnterior =
+			    DATE(
+			        YEAR(DataPgto) - 1,
+			        MONTH(DataPgto),
+			        DAY(DataPgto)
+			    )
+			VAR PrimeiraData_AnoAnterior = 
+			    DATE(
+			        YEAR(DataPgto) - 1,
+			        1,
+			        1
+			    )
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    PeriodoSelecionado = "Últimos 12 meses",
+			        DIVIDE(
+			            CALCULATE(
+			                [PRE_Vidas],
+			                DATESINPERIOD('D - Calendario'[Date], [Penultimos_12M], -12, MONTH)
+			            ),
+			            12
+			        ),
+			
+			    PeriodoSelecionado = "Últimos 6 meses",
+			        DIVIDE(
+			            CALCULATE(
+			                [PRE_Vidas],
+			                DATESINPERIOD('D - Calendario'[Date], [Penultimos_12M], -6, MONTH)
+			            ),
+			            6
+			        ),
+			
+			    PeriodoSelecionado = "Mês Pgtº Vigente",
+			        CALCULATE(
+			            [PRE_Vidas],
+			            FILTER(
+			                ALL('D - Calendario'),
+			                'D - Calendario'[Date] >= DATE(YEAR(DataPgto_AnoAnterior), MONTH(DataPgto_AnoAnterior), 1) &&
+			                'D - Calendario'[Date] <= DataPgto_AnoAnterior
+			            )
+			        ),
+			
+			    PeriodoSelecionado = "YTD",
+			        DIVIDE(
+			            CALCULATE(
+			                [PRE_Vidas],
+			                DATESBETWEEN(
+			                    'D - Calendario'[Date], 
+			                    PrimeiraData_AnoAnterior, 
+			                    DataPgto_AnoAnterior
+			                )
+			            ),
+			            CALCULATE(
+			                DISTINCTCOUNT(
+			                    'D - Calendario'[AnoMes]
+			                ),
+			                DATESBETWEEN(
+			                    'D - Calendario'[Date], 
+			                    PrimeiraData_AnoAnterior, 
+			                    DataPgto_AnoAnterior
+			                )
+			            )
+			        ),
+			
+			    BLANK()
+			)
+			```
+		formatString: #,0
+		lineageTag: c898fc65-97a9-4a9f-985f-ff66a8dbed0e
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure PRE_Vidas_Periodo_Atual_Dinamico = ```
+			
+			VAR PeriodoSelecionado = SELECTEDVALUE('D - Tabela Periodos'[Periodo])
+			VAR DataPgto = [Ultima_Data_Pgto]
+			VAR PrimeiraDataPgto =
+			    DATE(
+			        YEAR(DataPgto),
+			        1,
+			        1
+			    )
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    PeriodoSelecionado = "Últimos 12 meses",
+			        DIVIDE(
+			            CALCULATE(
+			                [PRE_Vidas],
+			                DATESINPERIOD('D - Calendario'[Date], [Ultimos_12M], -12, MONTH)
+			            ),
+			            12
+			        ),
+			
+			    PeriodoSelecionado = "Últimos 6 meses",
+			        DIVIDE(
+			            CALCULATE(
+			                [PRE_Vidas],
+			                DATESINPERIOD('D - Calendario'[Date], [Ultimos_12M], -6, MONTH)
+			            ),
+			            6
+			        ),
+			
+			    PeriodoSelecionado = "Mês Pgtº Vigente",
+			        CALCULATE(
+			            [PRE_Vidas],
+			            FILTER(
+			                ALL('D - Calendario'),
+			                'D - Calendario'[Date] >= DATE(YEAR(DataPgto), MONTH(DataPgto), 1) &&
+			                'D - Calendario'[Date] <= DataPgto
+			            )
+			        ),
+			
+			    PeriodoSelecionado = "YTD",
+			        DIVIDE(
+			            CALCULATE(
+			                [PRE_Vidas],
+			                DATESYTD('D - Calendario'[Date])
+			            ),
+			            CALCULATE(
+			                DISTINCTCOUNT(
+			                    'D - Calendario'[AnoMes]
+			                ),
+			                DATESBETWEEN(
+			                    'D - Calendario'[Date], 
+			                    PrimeiraDataPgto, 
+			                    DataPgto
+			                )
+			            )
+			        ),
+			
+			    BLANK()
+			)
+			```
+		formatString: #,0
+		lineageTag: 29e8b936-5393-48b8-b1bc-4ad5e6d46e7e
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Ultimos_12M = ```
+			
+			VAR Hoje = TODAY()
+			RETURN 
+			    IF(
+			        DAY(Hoje) < 10,
+			        DATE(YEAR(Hoje),MONTH(Hoje)-2,1),
+			        DATE(YEAR(Hoje),MONTH(Hoje)-1,1)
+			    )
+			```
+		formatString: General Date
+		lineageTag: b6f14f95-018c-4fd4-8b23-367e62db583a
+
+	measure Penultimos_12M =
+			
+			VAR DataAnoAnterior = DATE(YEAR(TODAY())-1, MONTH(TODAY()), DAY(TODAY()))
+			RETURN
+			    IF(
+			        DAY(DataAnoAnterior) < 10,
+			        DATE(YEAR(DataAnoAnterior),MONTH(DataAnoAnterior)-2,1),
+			        DATE(YEAR(DataAnoAnterior),MONTH(DataAnoAnterior)-1,1)
+			    )
+		formatString: General Date
+		lineageTag: f161db01-74e1-4f36-b9e1-3a0c6f699d94
+
+	measure Antepenultimos_12M =
+			
+			VAR DataAnoRetrasado = DATE(YEAR(TODAY())-2, MONTH(TODAY()), DAY(TODAY()))
+			RETURN
+			    IF(
+			        DAY(DataAnoRetrasado) < 10,
+			        DATE(YEAR(DataAnoRetrasado),MONTH(DataAnoRetrasado)-2,1),
+			        DATE(YEAR(DataAnoRetrasado),MONTH(DataAnoRetrasado)-1,1)
+			    )
+		formatString: General Date
+		lineageTag: 461900a4-fc17-48f7-b3f4-e7379ad77717
+
+	measure POS_PerCapita_Variação = ```
+			
+			VAR VariacaoPerCapita = DIVIDE([POS_PerCapita_Periodo_Atual_Dinamico] - [POS_PerCapita_Periodo_Passado_Dinamico], [POS_PerCapita_Periodo_Passado_Dinamico])
+			RETURN
+			    IF(
+			        VariacaoPerCapita = 0,
+			        "", 
+			        IF (
+			            VariacaoPerCapita < 0,
+			            "↓ " & FORMAT(VariacaoPerCapita, "0.00%"),
+			            "↑ " & FORMAT(VariacaoPerCapita, "0.00%")
+			    ))
+			```
+		lineageTag: a85f33b8-5b1f-48dd-b60e-22a3d449146b
+
+	measure PRE_Vidas_Variação =
+			
+			VAR VariacaoVidas = DIVIDE([PRE_Vidas_Periodo_Atual_Dinamico] - [PRE_Vidas_Periodo_Passado_Dinamico], [PRE_Vidas_Periodo_Passado_Dinamico])
+			RETURN
+			    IF(
+			        VariacaoVidas < 0,
+			        "↓ " & FORMAT(VariacaoVidas, "0.00%"),
+			        "↑ " & FORMAT(VariacaoVidas, "0.00%")
+			    )
+		lineageTag: 4f1331a3-124c-43f1-ab99-36ff9c7ae763
+
+	measure PRE_PerCapita_Periodo_Atual_Dinamico = ```
+			
+			VAR PeriodoSelecionado = SELECTEDVALUE('D - Tabela Periodos'[Periodo])
+			VAR DataPgto = '_Medidas - Geral'[Ultima_Data_Pgto]
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    PeriodoSelecionado = "Últimos 12 meses",
+			        CALCULATE(
+			            [PRE_PerCapita],
+			            DATESINPERIOD('D - Calendario'[Date], [Ultimos_12M], -12, MONTH)
+			        ),
+			
+			    PeriodoSelecionado = "Últimos 6 meses",
+			        CALCULATE(
+			            [PRE_PerCapita],
+			            DATESINPERIOD('D - Calendario'[Date], [Ultimos_12M], -6, MONTH)
+			        ),
+			    
+			    PeriodoSelecionado = "Mês Pgtº Vigente",
+			        CALCULATE(
+			            [PRE_PerCapita],
+			            FILTER(
+			                ALL('D - Calendario'),
+			                'D - Calendario'[Date] >= DATE(YEAR(DataPgto), MONTH(DataPgto), 1) &&
+			                'D - Calendario'[Date] <= DataPgto
+			            )
+			        ),
+			
+			    PeriodoSelecionado = "YTD",
+			        CALCULATE(
+			            [PRE_PerCapita],
+			            DATESYTD('D - Calendario'[Date])
+			        ),
+			
+			    BLANK()
+			)
+			```
+		formatString: #,0.00
+		lineageTag: 5530b575-75bf-45da-b3bb-ffece787476d
+
+	measure PRE_PerCapita_Periodo_Passado_Dinamico = ```
+			
+			VAR PeriodoSelecionado = SELECTEDVALUE('D - Tabela Periodos'[Periodo])
+			VAR DataPgto = '_Medidas - Geral'[Ultima_Data_Pgto]
+			VAR DataPgto_AnoAnterior =
+			    DATE(
+			        YEAR(DataPgto) - 1,
+			        MONTH(DataPgto),
+			        DAY(DataPgto)
+			    )
+			VAR PrimeiraData_AnoAnterior = 
+			    DATE(
+			        YEAR(DataPgto) - 1,
+			        1,
+			        1
+			    )
+			    
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    PeriodoSelecionado = "Últimos 12 meses",
+			        CALCULATE(
+			            [PRE_PerCapita],
+			            DATESINPERIOD('D - Calendario'[Date], [Penultimos_12M], -12, MONTH)
+			        ),
+			
+			    PeriodoSelecionado = "Últimos 6 meses",
+			        CALCULATE(
+			            [PRE_PerCapita],
+			            DATESINPERIOD('D - Calendario'[Date], [Penultimos_12M], -6, MONTH)
+			        ),
+			
+			    PeriodoSelecionado = "Mês Pgtº Vigente",
+			        CALCULATE(
+			            [PRE_PerCapita],
+			            FILTER(
+			                ALL('D - Calendario'),
+			                'D - Calendario'[Date] >= DATE(YEAR(DataPgto_AnoAnterior), MONTH(DataPgto_AnoAnterior), 1) &&
+			                'D - Calendario'[Date] <= DataPgto_AnoAnterior
+			            )
+			        ),
+			
+			    PeriodoSelecionado = "YTD",
+			        CALCULATE(
+			            [PRE_PerCapita],
+			            DATESBETWEEN(
+			                'D - Calendario'[Date], 
+			                PrimeiraData_AnoAnterior, 
+			                DataPgto_AnoAnterior
+			            )
+			        ),
+			
+			    BLANK()
+			)
+			```
+		formatString: #,0.00
+		lineageTag: 8e944d44-bb39-4884-baf8-4b7cadc20819
+
+	measure PRE_PerCapita_Variação = ```
+			
+			VAR VariacaoPerCapita = DIVIDE([PRE_PerCapita_Periodo_Atual_Dinamico] - [PRE_PerCapita_Periodo_Passado_Dinamico], [PRE_PerCapita_Periodo_Passado_Dinamico])
+			RETURN
+			    IF(
+			        VariacaoPerCapita = 0,
+			        "", 
+			        IF (
+			            VariacaoPerCapita < 0,
+			            "↓ " & FORMAT(VariacaoPerCapita, "0.00%"),
+			            "↑ " & FORMAT(VariacaoPerCapita, "0.00%")
+			    ))
+			```
+		lineageTag: 7168a432-2d2b-452c-8216-d587ab0673d4
+
+	measure PRE_Sinistralidade_Variação = ```
+			
+			VAR VariacaoSinistralidade = ([PRE_Sinistralidade_Periodo_Atual_Dinamico] - [PRE_Sinistralidade_Periodo_Passado_Dinamico]) * 100
+			RETURN
+			    IF(
+			        VariacaoSinistralidade = 0,
+			        "", 
+			        IF (
+			            VariacaoSinistralidade < 0,
+			            "↓ " & FORMAT(VariacaoSinistralidade, "0.00p.p."),
+			            "↑ " & FORMAT(VariacaoSinistralidade, "0.00p.p.")
+			    ))
+			```
+		lineageTag: 5eee4bd8-8429-46e5-bceb-bdfe2d28fc39
+
+	measure PRE_PerCapita =
+			
+			DIVIDE(
+			    SUM('F - Sinistralidade Pre Pgto'[despesa]),
+			    [PRE_Vidas]
+			)
+		lineageTag: 58e62511-78ad-4090-bb26-5b1ea1614f45
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PRE_Sinistralidade =
+			
+			DIVIDE(
+			    SUM('F - Sinistralidade Pre Pgto'[despesa]),
+			    SUM('F - Sinistralidade Pre Pgto'[receita]
+			))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 111d737c-28cd-42a3-8af2-2fe58dd4fae7
+
+	measure PRE_Vidas =
+			
+			CALCULATE(
+			    SUM('F - Vidas'[Valor]),
+			    'F - Vidas'[Operadora] = "Operadora X"
+			)
+		formatString: #,0
+		lineageTag: bb4d7613-8a88-474f-aa75-330528099d78
+
+	measure PRE_Meta_Min = 1142.79
+		formatString: #,0.00
+		lineageTag: 5c6b7d14-3f3c-4fe5-8a69-479ff41b84f5
+
+	measure PRE_Meta_Alvo = 1027.34
+		lineageTag: 8a13d927-1a42-4286-9fd0-9e68f23421a3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PRE_Card_PerCapita =
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                  🎨 PAINEL DE CONTROLE VISUAL                   ║
+			-- ║   Ajuste os parâmetros abaixo sem mexer na lógica da medida      ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔎 ESCALA GERAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR EscalaConteudoPercentual = 42
+			VAR EscalaCardPercentual = 42
+			
+			VAR FatorEscalaConteudo = DIVIDE(EscalaConteudoPercentual, 100)
+			VAR FatorEscalaCard = DIVIDE(EscalaCardPercentual, 100)
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔤 FONTES
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_principal = "Poppins, Segoe UI, Arial, sans-serif"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📝 TEXTOS DO CARD
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR titulo_card = "Per Capita"
+			VAR texto_comparativo = "vs período ant."
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📦 CARD / CONTAINER
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR largura_card = ROUND(410 * FatorEscalaCard, 0) & "px"
+			VAR altura_card = ROUND(308 * FatorEscalaCard, 0) & "px"
+			VAR raio_borda = ROUND(34 * FatorEscalaCard, 0) & "px"
+			VAR padding_card = ROUND(38 * FatorEscalaCard, 0) & "px"
+			
+			VAR cor_fundo_card = "#FFFFFF"
+			VAR cor_borda_card = "#E8EAF2"
+			
+			VAR ExibirSombraCard = FALSE()
+			VAR sombra_card =
+			    IF(
+			        ExibirSombraCard,
+			        "0 18px 38px rgba(15, 23, 42, 0.10)",
+			        "none"
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎨 CORES GERAIS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR cor_titulo = "#8A8F9C"
+			VAR cor_valor = "#1F2937"
+			VAR cor_texto_secundario = "#8A8F9C"
+			
+			VAR cor_positivo = "#F43F5E"
+			VAR cor_negativo = "#16C79A"
+			
+			VAR cor_icone_fundo = "#8A8F9C"
+			VAR cor_icone = "#FFFFFF"
+			
+			VAR cor_waffle_vazio = "#E8EEF5"
+			
+			VAR cor_badge_fundo_positivo = "#FFE4E6"
+			VAR cor_badge_fundo_negativo = "#DFFBF0"
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🏷️ TÍTULO
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_titulo = fonte_principal
+			VAR peso_titulo = "700"
+			VAR tamanho_titulo = ROUND(28 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💰 VALOR PRINCIPAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_valor = fonte_principal
+			VAR peso_valor = "700"
+			VAR tamanho_valor = ROUND(56 * FatorEscalaConteudo, 0) & "px"
+			VAR espacamento_letra_valor = "-2.4px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📊 BADGE DE VARIAÇÃO VS MÊS ANTERIOR
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_comparativo = fonte_principal
+			VAR peso_label_comparativo = "700"
+			VAR tamanho_label_comparativo = ROUND(22 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR padding_badge_vertical = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			VAR padding_badge_horizontal = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎯 BLOCO DE META / WAFFLE
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_meta = fonte_principal
+			VAR peso_label_meta = "700"
+			VAR tamanho_label_meta = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR fonte_percentual_meta = fonte_principal
+			VAR peso_percentual_meta = "700"
+			VAR tamanho_percentual_meta = ROUND(38 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR largura_bloco_meta = ROUND(190 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR qtd_bolinhas = 25
+			VAR tamanho_bolinha = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_bolinha = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💲 ÍCONE SVG
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR ExibirIcone = TRUE()
+			
+			VAR tamanho_icone_box = ROUND(58 * FatorEscalaConteudo, 0) & "px"
+			VAR tamanho_icone_svg = ROUND(30 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_icone = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR IconeSVG =
+			    IF(
+			        ExibirIcone,
+			        "<div style='
+			            width:" & tamanho_icone_box & ";
+			            height:" & tamanho_icone_box & ";
+			            border-radius:" & raio_icone & ";
+			            background:" & cor_icone_fundo & ";
+			            color:" & cor_icone & ";
+			            display:flex;
+			            align-items:center;
+			            justify-content:center;
+			            flex:0 0 auto;
+			        '>" &
+			            "<svg viewBox='0 0 24 24' fill='none' stroke='" & cor_icone & "'
+			                stroke-width='2' stroke-linecap='round' stroke-linejoin='round'
+			                style='width:" & tamanho_icone_svg & "; height:" & tamanho_icone_svg & "; display:block;'>" &
+			                "<line x1='12' y1='1' x2='12' y2='23'></line>" &
+			                "<path d='M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'></path>" &
+			            "</svg>" &
+			        "</div>",
+			        ""
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📐 ESPAÇAMENTOS INTERNOS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR gap_header = ROUND(20 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR margin_valor_top = ROUND(36 * FatorEscalaConteudo, 0) & "px"
+			VAR margin_badge_top = ROUND(24 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   ⚙️ LÓGICA DE NEGÓCIO                          ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			VAR PercapitaAtual =
+			    [PRE_PerCapita_Periodo_Atual_Dinamico]
+			
+			VAR PercapitaAtualAbsoluto =
+			    ABS(PercapitaAtual)
+			
+			VAR valor_formatado =
+			    IF(
+			        PercapitaAtual < 0,
+			        "-R$ " & FORMAT(ABS(PercapitaAtual), "#,##0.00"),
+			        "R$ " & FORMAT(PercapitaAtual, "#,##0.00")
+			    )
+			
+			VAR yoy =
+			    DIVIDE(
+			        PercapitaAtual - [PRE_PerCapita_Periodo_Passado_Dinamico],
+			        ABS([PRE_PerCapita_Periodo_Passado_Dinamico])
+			    )
+			
+			VAR cor_fonte_yoy =
+			    IF(yoy >= 0, cor_positivo, cor_negativo)
+			
+			VAR cor_badge_fundo =
+			    IF(yoy >= 0, cor_badge_fundo_positivo, cor_badge_fundo_negativo)
+			
+			VAR icone_variacao =
+			    IF(yoy >= 0, "↗", "↘")
+			
+			VAR yoy_formatado =
+			    FORMAT(ABS(yoy), "0.0%")
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   🧱 MONTAGEM DO HTML                           ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			RETURN
+			"
+			<div style='
+			    width:" & largura_card & ";
+			    height:" & altura_card & ";
+			    box-sizing:border-box;
+			    background:" & cor_fundo_card & ";
+			    border:1px solid " & cor_borda_card & ";
+			    border-radius:" & raio_borda & ";
+			    padding:" & padding_card & ";
+			    font-family:" & fonte_principal & ";
+			    box-shadow:" & sombra_card & ";
+			    display:flex;
+			    justify-content:space-between;
+			    align-items:top;
+			    overflow:hidden;
+			'>
+			
+			    <div style='
+			        display:flex;
+			        flex-direction:column;
+			        justify-content:center;
+			        height:100%;
+			        min-width:0;
+			    '>
+			
+			        <div style='display:flex; align-items:center; gap:" & gap_header & ";'>
+			            " & IconeSVG & "
+			
+			            <div style='
+			                color:" & cor_titulo & ";
+			                font-family:" & fonte_titulo & ";
+			                font-size:" & tamanho_titulo & ";
+			                font-weight:" & peso_titulo & ";
+			                line-height:1.15;
+			                max-width:220px;
+			                white-space:normal;
+			            '>
+			                " & titulo_card & "
+			            </div>
+			        </div>
+			
+			        <div style='
+			            color:" & cor_valor & ";
+			            font-family:" & fonte_valor & ";
+			            font-size:" & tamanho_valor & ";
+			            font-weight:" & peso_valor & ";
+			            letter-spacing:" & espacamento_letra_valor & ";
+			            line-height:1;
+			            margin-top:" & margin_valor_top & ";
+			            white-space:nowrap;
+			        '>
+			            " & valor_formatado & "
+			        </div>
+			
+			                <div style='
+			            display:flex;
+			            align-items:center;
+			            gap:" & gap_badge & ";
+			            margin-top:" & margin_badge_top & ";
+			            white-space:nowrap;
+			        '>
+			            <div style='
+			                background:" & cor_badge_fundo & ";
+			                color:" & cor_fonte_yoy & ";
+			                border-radius:" & raio_badge & ";
+			                padding:" & padding_badge_vertical & " " & padding_badge_horizontal & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                line-height:1;
+			                white-space:nowrap;
+			            '>
+			                " & icone_variacao & " " & yoy_formatado & "
+			            </div>
+			
+			            <div style='
+			                color:" & cor_texto_secundario & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                white-space:nowrap;
+			            '>
+			                " & texto_comparativo & "
+			            </div>
+			        </div>
+			    </div>
+			
+			</div>
+			"
+		lineageTag: 1574d63f-dfc2-4cca-b937-e45e8fcdebfe
+
+	measure PRE_Card_Sinistralidade =
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                  🎨 PAINEL DE CONTROLE VISUAL                   ║
+			-- ║   Ajuste os parâmetros abaixo sem mexer na lógica da medida      ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔎 ESCALA GERAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR EscalaConteudoPercentual = 42
+			VAR EscalaCardPercentual = 42
+			
+			VAR FatorEscalaConteudo = DIVIDE(EscalaConteudoPercentual, 100)
+			VAR FatorEscalaCard = DIVIDE(EscalaCardPercentual, 100)
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔤 FONTES
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_principal = "Poppins, Segoe UI, Arial, sans-serif"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📝 TEXTOS DO CARD
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR titulo_card = "Sinistralidade"
+			VAR texto_comparativo = "vs período ant."
+			
+			
+			-- ──────────────────────────────────
+			-- 📦 CARD / CONTAINER
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR largura_card = ROUND(410 * FatorEscalaCard, 0) & "px"
+			VAR altura_card = ROUND(308 * FatorEscalaCard, 0) & "px"
+			VAR raio_borda = ROUND(34 * FatorEscalaCard, 0) & "px"
+			VAR padding_card = ROUND(38 * FatorEscalaCard, 0) & "px"
+			
+			VAR cor_fundo_card = "#FFFFFF"
+			VAR cor_borda_card = "#E8EAF2"
+			
+			VAR ExibirSombraCard = FALSE()
+			VAR sombra_card =
+			    IF(
+			        ExibirSombraCard,
+			        "0 18px 38px rgba(15, 23, 42, 0.10)",
+			        "none"
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎨 CORES GERAIS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR cor_titulo = "#8A8F9C"
+			VAR cor_valor = "#1F2937"
+			VAR cor_texto_secundario = "#8A8F9C"
+			
+			VAR cor_positivo = "#F43F5E"
+			VAR cor_negativo = "#16C79A"
+			
+			VAR cor_icone_fundo = "#8A8F9C"
+			VAR cor_icone = "#FFFFFF"
+			
+			VAR cor_waffle_vazio = "#E8EEF5"
+			
+			VAR cor_badge_fundo_positivo = "#FFE4E6"
+			VAR cor_badge_fundo_negativo = "#DFFBF0"
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🏷️ TÍTULO
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_titulo = fonte_principal
+			VAR peso_titulo = "700"
+			VAR tamanho_titulo = ROUND(28 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💰 VALOR PRINCIPAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_valor = fonte_principal
+			VAR peso_valor = "700"
+			VAR tamanho_valor = ROUND(56 * FatorEscalaConteudo, 0) & "px"
+			VAR espacamento_letra_valor = "-2.4px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📊 BADGE DE VARIAÇÃO VS MÊS ANTERIOR
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_comparativo = fonte_principal
+			VAR peso_label_comparativo = "700"
+			VAR tamanho_label_comparativo = ROUND(22 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR padding_badge_vertical = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			VAR padding_badge_horizontal = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎯 BLOCO DE META / WAFFLE
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_meta = fonte_principal
+			VAR peso_label_meta = "700"
+			VAR tamanho_label_meta = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR fonte_percentual_meta = fonte_principal
+			VAR peso_percentual_meta = "700"
+			VAR tamanho_percentual_meta = ROUND(38 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR largura_bloco_meta = ROUND(190 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR qtd_bolinhas = 25
+			VAR tamanho_bolinha = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_bolinha = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💲 ÍCONE SVG
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR ExibirIcone = TRUE()
+			
+			VAR tamanho_icone_box = ROUND(58 * FatorEscalaConteudo, 0) & "px"
+			VAR tamanho_icone_svg = ROUND(30 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_icone = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR IconeSVG =
+			    IF(
+			        ExibirIcone,
+			        "<div style='
+			            width:" & tamanho_icone_box & ";
+			            height:" & tamanho_icone_box & ";
+			            border-radius:" & raio_icone & ";
+			            background:" & cor_icone_fundo & ";
+			            color:" & cor_icone & ";
+			            display:flex;
+			            align-items:center;
+			            justify-content:center;
+			            flex:0 0 auto;
+			        '>" &
+			            "<svg viewBox='0 0 24 24' fill='none' stroke='" & cor_icone & "'
+			                stroke-width='2' stroke-linecap='round' stroke-linejoin='round'
+			                style='width:" & tamanho_icone_svg & "; height:" & tamanho_icone_svg & "; display:block;'>" &
+			                "<line x1='19' y1='5' x2='5' y2='19'></line>" &
+			                "<circle cx='7' cy='7' r='2'></ circle>" &
+			                "<circle cx='17' cy='17' r='2'></ circle>" &
+			            "</svg>" &
+			        "</div>",
+			        ""
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📐 ESPAÇAMENTOS INTERNOS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR gap_header = ROUND(20 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR margin_valor_top = ROUND(36 * FatorEscalaConteudo, 0) & "px"
+			VAR margin_badge_top = ROUND(24 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   ⚙️ LÓGICA DE NEGÓCIO                          ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			VAR SinistralidadeAtual =
+			    [PRE_Sinistralidade_Periodo_Atual_Dinamico]
+			
+			VAR SinistralidadeAtualAbsoluto =
+			    ABS(SinistralidadeAtual)
+			
+			VAR valor_formatado =
+			    FORMAT(SinistralidadeAtual, "0.00%;-0.00%;0.00%")
+			
+			VAR yoy =
+			    SinistralidadeAtual -
+			    ABS([PRE_Sinistralidade_Periodo_Passado_Dinamico])
+			
+			VAR cor_fonte_yoy =
+			    IF(yoy >= 0, cor_positivo, cor_negativo)
+			
+			VAR cor_badge_fundo =
+			    IF(yoy >= 0, cor_badge_fundo_positivo, cor_badge_fundo_negativo)
+			
+			VAR icone_variacao =
+			    IF(yoy >= 0, "↗", "↘")
+			
+			VAR yoy_formatado =
+			    FORMAT(ABS(yoy), "0.0%")
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   🧱 MONTAGEM DO HTML                           ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			RETURN
+			"
+			<div style='
+			    width:" & largura_card & ";
+			    height:" & altura_card & ";
+			    box-sizing:border-box;
+			    background:" & cor_fundo_card & ";
+			    border:1px solid " & cor_borda_card & ";
+			    border-radius:" & raio_borda & ";
+			    padding:" & padding_card & ";
+			    font-family:" & fonte_principal & ";
+			    box-shadow:" & sombra_card & ";
+			    display:flex;
+			    justify-content:space-between;
+			    align-items:top;
+			    overflow:hidden;
+			'>
+			
+			    <div style='
+			        display:flex;
+			        flex-direction:column;
+			        justify-content:center;
+			        height:100%;
+			        min-width:0;
+			    '>
+			
+			        <div style='display:flex; align-items:center; gap:" & gap_header & ";'>
+			            " & IconeSVG & "
+			
+			            <div style='
+			                color:" & cor_titulo & ";
+			                font-family:" & fonte_titulo & ";
+			                font-size:" & tamanho_titulo & ";
+			                font-weight:" & peso_titulo & ";
+			                line-height:1.15;
+			                max-width:220px;
+			                white-space:normal;
+			            '>
+			                " & titulo_card & "
+			            </div>
+			        </div>
+			
+			        <div style='
+			            color:" & cor_valor & ";
+			            font-family:" & fonte_valor & ";
+			            font-size:" & tamanho_valor & ";
+			            font-weight:" & peso_valor & ";
+			            letter-spacing:" & espacamento_letra_valor & ";
+			            line-height:1;
+			            margin-top:" & margin_valor_top & ";
+			            white-space:nowrap;
+			        '>
+			            " & valor_formatado & "
+			        </div>
+			
+			                <div style='
+			            display:flex;
+			            align-items:center;
+			            gap:" & gap_badge & ";
+			            margin-top:" & margin_badge_top & ";
+			            white-space:nowrap;
+			        '>
+			            <div style='
+			                background:" & cor_badge_fundo & ";
+			                color:" & cor_fonte_yoy & ";
+			                border-radius:" & raio_badge & ";
+			                padding:" & padding_badge_vertical & " " & padding_badge_horizontal & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                line-height:1;
+			                white-space:nowrap;
+			            '>
+			                " & icone_variacao & " " & yoy_formatado & "
+			            </div>
+			
+			            <div style='
+			                color:" & cor_texto_secundario & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                white-space:nowrap;
+			            '>
+			                " & texto_comparativo & "
+			            </div>
+			        </div>
+			    </div>
+			
+			</div>
+			"
+		lineageTag: 0e2518c9-2295-40bc-8600-66a4ed4abea8
+
+	measure PRE_Card_Vidas =
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                  🎨 PAINEL DE CONTROLE VISUAL                   ║
+			-- ║   Ajuste os parâmetros abaixo sem mexer na lógica da medida      ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔎 ESCALA GERAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR EscalaConteudoPercentual = 42
+			VAR EscalaCardPercentual = 42
+			
+			VAR FatorEscalaConteudo = DIVIDE(EscalaConteudoPercentual, 100)
+			VAR FatorEscalaCard = DIVIDE(EscalaCardPercentual, 100)
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔤 FONTES
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_principal = "Poppins, Segoe UI, Arial, sans-serif"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📝 TEXTOS DO CARD
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR titulo_card = "Vidas"
+			VAR texto_comparativo = "vs período ant."
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📦 CARD / CONTAINER
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR largura_card = ROUND(410 * FatorEscalaCard, 0) & "px"
+			VAR altura_card = ROUND(308 * FatorEscalaCard, 0) & "px"
+			VAR raio_borda = ROUND(34 * FatorEscalaCard, 0) & "px"
+			VAR padding_card = ROUND(38 * FatorEscalaCard, 0) & "px"
+			
+			VAR cor_fundo_card = "#FFFFFF"
+			VAR cor_borda_card = "#E8EAF2"
+			
+			VAR ExibirSombraCard = FALSE()
+			VAR sombra_card =
+			    IF(
+			        ExibirSombraCard,
+			        "0 18px 38px rgba(15, 23, 42, 0.10)",
+			        "none"
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎨 CORES GERAIS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR cor_titulo = "#8A8F9C"
+			VAR cor_valor = "#1F2937"
+			VAR cor_texto_secundario = "#8A8F9C"
+			
+			VAR cor_positivo = "#F43F5E"
+			VAR cor_negativo = "#16C79A"
+			
+			VAR cor_icone_fundo = "#8A8F9C"
+			VAR cor_icone = "#FFFFFF"
+			
+			VAR cor_waffle_vazio = "#E8EEF5"
+			
+			VAR cor_badge_fundo_positivo = "#FFE4E6"
+			VAR cor_badge_fundo_negativo = "#DFFBF0"
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🏷️ TÍTULO
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_titulo = fonte_principal
+			VAR peso_titulo = "700"
+			VAR tamanho_titulo = ROUND(28 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💰 VALOR PRINCIPAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_valor = fonte_principal
+			VAR peso_valor = "700"
+			VAR tamanho_valor = ROUND(56 * FatorEscalaConteudo, 0) & "px"
+			VAR espacamento_letra_valor = "-2.4px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📊 BADGE DE VARIAÇÃO VS MÊS ANTERIOR
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_comparativo = fonte_principal
+			VAR peso_label_comparativo = "700"
+			VAR tamanho_label_comparativo = ROUND(22 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR padding_badge_vertical = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			VAR padding_badge_horizontal = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎯 BLOCO DE META / WAFFLE
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_meta = fonte_principal
+			VAR peso_label_meta = "700"
+			VAR tamanho_label_meta = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR fonte_percentual_meta = fonte_principal
+			VAR peso_percentual_meta = "700"
+			VAR tamanho_percentual_meta = ROUND(38 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR largura_bloco_meta = ROUND(190 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR qtd_bolinhas = 25
+			VAR tamanho_bolinha = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_bolinha = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💲 ÍCONE SVG
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR ExibirIcone = TRUE()
+			
+			VAR tamanho_icone_box = ROUND(58 * FatorEscalaConteudo, 0) & "px"
+			VAR tamanho_icone_svg = ROUND(30 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_icone = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR IconeSVG =
+			    IF(
+			        ExibirIcone,
+			        "<div style='
+			            width:" & tamanho_icone_box & ";
+			            height:" & tamanho_icone_box & ";
+			            border-radius:" & raio_icone & ";
+			            background:" & cor_icone_fundo & ";
+			            color:" & cor_icone & ";
+			            display:flex;
+			            align-items:center;
+			            justify-content:center;
+			            flex:0 0 auto;
+			        '>" &
+			            "<svg viewBox='0 0 24 24' fill='none' stroke='" & cor_icone & "'
+			                stroke-width='2' stroke-linecap='round' stroke-linejoin='round'
+			                style='width:" & tamanho_icone_svg & "; height:" & tamanho_icone_svg & "; display:block;'>" &
+			                "<circle cx='12' cy='8' r='4'></circle>" &
+			                "<path d='M4 20c0-4 3.5-7 8-7s8 3 8 7'></path>" &
+			            "</svg>" &
+			        "</div>",
+			        ""
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📐 ESPAÇAMENTOS INTERNOS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR gap_header = ROUND(20 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR margin_valor_top = ROUND(36 * FatorEscalaConteudo, 0) & "px"
+			VAR margin_badge_top = ROUND(24 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   ⚙️ LÓGICA DE NEGÓCIO                          ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			VAR VidasAtual =
+			    [PRE_Vidas_Periodo_Atual_Dinamico]
+			
+			VAR VidasAtualAbsoluto =
+			    ABS(VidasAtual)
+			
+			VAR valor_formatado =
+			    FORMAT(VidasAtual, "#,##0")
+			
+			VAR yoy =
+			    DIVIDE(
+			        VidasAtual - [PRE_Vidas_Periodo_Passado_Dinamico],
+			        ABS([PRE_Vidas_Periodo_Passado_Dinamico])
+			    )
+			
+			VAR cor_fonte_yoy =
+			    IF(yoy >= 0, cor_negativo, cor_positivo)
+			
+			VAR cor_badge_fundo =
+			    IF(yoy >= 0, cor_badge_fundo_negativo, cor_badge_fundo_positivo)
+			
+			VAR icone_variacao =
+			    IF(yoy >= 0, "↗", "↘")
+			
+			VAR yoy_formatado =
+			    FORMAT(ABS(yoy), "0.0%")
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   🧱 MONTAGEM DO HTML                           ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			RETURN
+			"
+			<div style='
+			    width:" & largura_card & ";
+			    height:" & altura_card & ";
+			    box-sizing:border-box;
+			    background:" & cor_fundo_card & ";
+			    border:1px solid " & cor_borda_card & ";
+			    border-radius:" & raio_borda & ";
+			    padding:" & padding_card & ";
+			    font-family:" & fonte_principal & ";
+			    box-shadow:" & sombra_card & ";
+			    display:flex;
+			    justify-content:space-between;
+			    align-items:top;
+			    overflow:hidden;
+			'>
+			
+			    <div style='
+			        display:flex;
+			        flex-direction:column;
+			        justify-content:center;
+			        height:100%;
+			        min-width:0;
+			    '>
+			
+			        <div style='display:flex; align-items:center; gap:" & gap_header & ";'>
+			            " & IconeSVG & "
+			
+			            <div style='
+			                color:" & cor_titulo & ";
+			                font-family:" & fonte_titulo & ";
+			                font-size:" & tamanho_titulo & ";
+			                font-weight:" & peso_titulo & ";
+			                line-height:1.15;
+			                max-width:220px;
+			                white-space:normal;
+			            '>
+			                " & titulo_card & "
+			            </div>
+			        </div>
+			
+			        <div style='
+			            color:" & cor_valor & ";
+			            font-family:" & fonte_valor & ";
+			            font-size:" & tamanho_valor & ";
+			            font-weight:" & peso_valor & ";
+			            letter-spacing:" & espacamento_letra_valor & ";
+			            line-height:1;
+			            margin-top:" & margin_valor_top & ";
+			            white-space:nowrap;
+			        '>
+			            " & valor_formatado & "
+			        </div>
+			
+			                <div style='
+			            display:flex;
+			            align-items:center;
+			            gap:" & gap_badge & ";
+			            margin-top:" & margin_badge_top & ";
+			            white-space:nowrap;
+			        '>
+			            <div style='
+			                background:" & cor_badge_fundo & ";
+			                color:" & cor_fonte_yoy & ";
+			                border-radius:" & raio_badge & ";
+			                padding:" & padding_badge_vertical & " " & padding_badge_horizontal & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                line-height:1;
+			                white-space:nowrap;
+			            '>
+			                " & icone_variacao & " " & yoy_formatado & "
+			            </div>
+			
+			            <div style='
+			                color:" & cor_texto_secundario & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                white-space:nowrap;
+			            '>
+			                " & texto_comparativo & "
+			            </div>
+			        </div>
+			    </div>
+			
+			</div>
+			"
+		lineageTag: f345771f-1498-4e56-a4d1-89d76d393106
+
+	measure PRE_Resultado =
+			
+			SUM('F - Sinistralidade Pre Pgto'[receita]) - SUM('F - Sinistralidade Pre Pgto'[despesa])
+		lineageTag: 9fd5ee80-1437-4cf6-97a2-86fd6a95d27a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PRE_Resultado_Periodo_Atual_Dinamico = ```
+			
+			VAR PeriodoSelecionado = SELECTEDVALUE('D - Tabela Periodos'[Periodo])
+			VAR DataPgto = '_Medidas - Geral'[Ultima_Data_Pgto]
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    PeriodoSelecionado = "Últimos 12 meses",
+			        CALCULATE(
+			            [PRE_Resultado],
+			            DATESINPERIOD('D - Calendario'[Date], [Ultimos_12M], -12, MONTH)
+			        ),
+			
+			    PeriodoSelecionado = "Últimos 6 meses",
+			        CALCULATE(
+			            [PRE_Resultado],
+			            DATESINPERIOD('D - Calendario'[Date], [Ultimos_12M], -6, MONTH)
+			        ),
+			    
+			    PeriodoSelecionado = "Mês Pgtº Vigente",
+			        CALCULATE(
+			            [PRE_Resultado],
+			            FILTER(
+			                ALL('D - Calendario'),
+			                'D - Calendario'[Date] >= DATE(YEAR(DataPgto), MONTH(DataPgto), 1) &&
+			                'D - Calendario'[Date] <= DataPgto
+			            )
+			        ),
+			
+			    PeriodoSelecionado = "YTD",
+			        CALCULATE(
+			            [PRE_Resultado],
+			            DATESYTD('D - Calendario'[Date])
+			        ),
+			
+			    BLANK()
+			)
+			```
+		lineageTag: 539ca4dd-7703-46e5-90e1-1bc4f57d489c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PRE_Resultado_Periodo_Passado_Dinamico =
+			
+			VAR PeriodoSelecionado = SELECTEDVALUE('D - Tabela Periodos'[Periodo])
+			VAR DataPgto = '_Medidas - Geral'[Ultima_Data_Pgto]
+			VAR DataPgto_AnoAnterior =
+			    DATE(
+			        YEAR(DataPgto) - 1,
+			        MONTH(DataPgto),
+			        DAY(DataPgto)
+			    )
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    PeriodoSelecionado = "Últimos 12 meses",
+			        CALCULATE(
+			            [PRE_Resultado],
+			            DATESINPERIOD('D - Calendario'[Date], [Penultimos_12M], -12, MONTH)
+			        ),
+			
+			    PeriodoSelecionado = "Últimos 6 meses",
+			        CALCULATE(
+			            [PRE_Resultado],
+			            DATESINPERIOD('D - Calendario'[Date], [Penultimos_12M], -6, MONTH)
+			        ),
+			
+			    PeriodoSelecionado = "Mês Pgtº Vigente",
+			        CALCULATE(
+			            [PRE_Resultado],
+			            FILTER(
+			                ALL('D - Calendario'),
+			                'D - Calendario'[Date] >= DATE(YEAR(DataPgto_AnoAnterior), MONTH(DataPgto_AnoAnterior), 1) &&
+			                'D - Calendario'[Date] <= DataPgto_AnoAnterior
+			            )
+			        ),
+			
+			    PeriodoSelecionado = "YTD",
+			        CALCULATE(
+			            [PRE_Resultado],
+			            DATESYTD(
+			                DATEADD('D - Calendario'[Date], -1, YEAR)
+			            )
+			        ),
+			
+			    BLANK()
+			)
+		lineageTag: c1d762db-766d-43f7-9474-5df639e1b958
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PRE_Card_Resultado =
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                  🎨 PAINEL DE CONTROLE VISUAL                   ║
+			-- ║   Ajuste os parâmetros abaixo sem mexer na lógica da medida      ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔎 ESCALA GERAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR EscalaConteudoPercentual = 42
+			VAR EscalaCardPercentual = 42
+			
+			VAR FatorEscalaConteudo = DIVIDE(EscalaConteudoPercentual, 100)
+			VAR FatorEscalaCard = DIVIDE(EscalaCardPercentual, 100)
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔤 FONTES
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_principal = "Poppins, Segoe UI, Arial, sans-serif"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📝 TEXTOS DO CARD
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR titulo_card = "Resultado"
+			VAR texto_comparativo = "vs período ant."
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📦 CARD / CONTAINER
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR largura_card = ROUND(410 * FatorEscalaCard, 0) & "px"
+			VAR altura_card = ROUND(308 * FatorEscalaCard, 0) & "px"
+			VAR raio_borda = ROUND(34 * FatorEscalaCard, 0) & "px"
+			VAR padding_card = ROUND(38 * FatorEscalaCard, 0) & "px"
+			
+			VAR cor_fundo_card = "#FFFFFF"
+			VAR cor_borda_card = "#E8EAF2"
+			
+			VAR ExibirSombraCard = FALSE()
+			VAR sombra_card =
+			    IF(
+			        ExibirSombraCard,
+			        "0 18px 38px rgba(15, 23, 42, 0.10)",
+			        "none"
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎨 CORES GERAIS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR cor_titulo = "#8A8F9C"
+			VAR cor_valor = "#1F2937"
+			VAR cor_texto_secundario = "#8A8F9C"
+			
+			VAR cor_positivo = "#F43F5E"
+			VAR cor_negativo = "#16C79A"
+			
+			VAR cor_icone_fundo = "#8A8F9C"
+			VAR cor_icone = "#FFFFFF"
+			
+			VAR cor_waffle_vazio = "#E8EEF5"
+			
+			VAR cor_badge_fundo_positivo = "#FFE4E6"
+			VAR cor_badge_fundo_negativo = "#DFFBF0"
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🏷️ TÍTULO
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_titulo = fonte_principal
+			VAR peso_titulo = "700"
+			VAR tamanho_titulo = ROUND(28 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💰 VALOR PRINCIPAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_valor = fonte_principal
+			VAR peso_valor = "700"
+			VAR tamanho_valor = ROUND(56 * FatorEscalaConteudo, 0) & "px"
+			VAR espacamento_letra_valor = "-2.4px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📊 BADGE DE VARIAÇÃO VS MÊS ANTERIOR
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_comparativo = fonte_principal
+			VAR peso_label_comparativo = "700"
+			VAR tamanho_label_comparativo = ROUND(22 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR padding_badge_vertical = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			VAR padding_badge_horizontal = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎯 BLOCO DE META / WAFFLE
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_meta = fonte_principal
+			VAR peso_label_meta = "700"
+			VAR tamanho_label_meta = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR fonte_percentual_meta = fonte_principal
+			VAR peso_percentual_meta = "700"
+			VAR tamanho_percentual_meta = ROUND(38 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR largura_bloco_meta = ROUND(190 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR qtd_bolinhas = 25
+			VAR tamanho_bolinha = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_bolinha = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💲 ÍCONE SVG
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR ExibirIcone = TRUE()
+			
+			VAR tamanho_icone_box = ROUND(58 * FatorEscalaConteudo, 0) & "px"
+			VAR tamanho_icone_svg = ROUND(30 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_icone = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR IconeSVG =
+			    IF(
+			        ExibirIcone,
+			        "<div style='
+			            width:" & tamanho_icone_box & ";
+			            height:" & tamanho_icone_box & ";
+			            border-radius:" & raio_icone & ";
+			            background:" & cor_icone_fundo & ";
+			            color:" & cor_icone & ";
+			            display:flex;
+			            align-items:center;
+			            justify-content:center;
+			            flex:0 0 auto;
+			        '>" &
+			            "<svg viewBox='0 0 24 24' fill='none' stroke='" & cor_icone & "'
+			                stroke-width='2' stroke-linecap='round' stroke-linejoin='round'
+			                style='width:" & tamanho_icone_svg & "; height:" & tamanho_icone_svg & "; display:block;'>" &
+			                "<line x1='12' y1='1' x2='12' y2='23'></line>" &
+			                "<path d='M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'></path>" &
+			            "</svg>" &
+			        "</div>",
+			        ""
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📐 ESPAÇAMENTOS INTERNOS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR gap_header = ROUND(20 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR margin_valor_top = ROUND(36 * FatorEscalaConteudo, 0) & "px"
+			VAR margin_badge_top = ROUND(24 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   ⚙️ LÓGICA DE NEGÓCIO                          ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			VAR ResultadoAtual =
+			    [PRE_Resultado_Periodo_Atual_Dinamico]
+			
+			VAR ResultadoAtualAbsoluto =
+			    ABS(ResultadoAtual)
+			
+			VAR valor_formatado =
+			    SWITCH(
+			        TRUE(),
+			        ResultadoAtualAbsoluto >= 1000000000, "R$ " & FORMAT(ResultadoAtual / 1000000000, "#,##0.0") & " B",
+			        ResultadoAtualAbsoluto >= 1000000,    "R$ " & FORMAT(ResultadoAtual / 1000000,    "#,##0.0") & " M",
+			        ResultadoAtualAbsoluto >= 1000,       "R$ " & FORMAT(ResultadoAtual / 1000,       "#,##0.0") & " K",
+			        "R$ " & FORMAT(ResultadoAtual, "#,##0.00")
+			    )
+			
+			VAR yoy =
+			    DIVIDE(
+			        ResultadoAtual - [PRE_Resultado_Periodo_Passado_Dinamico],
+			        ABS([PRE_Resultado_Periodo_Passado_Dinamico])
+			    )
+			
+			VAR cor_fonte_yoy =
+			    IF(yoy >= 0, cor_negativo, cor_positivo)
+			
+			VAR cor_badge_fundo =
+			    IF(yoy >= 0, cor_badge_fundo_negativo, cor_badge_fundo_positivo)
+			
+			VAR icone_variacao =
+			    IF(yoy >= 0, "↗", "↘")
+			
+			VAR yoy_formatado =
+			    FORMAT(ABS(yoy), "0.0%")
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   🧱 MONTAGEM DO HTML                           ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			RETURN
+			"
+			<div style='
+			    width:" & largura_card & ";
+			    height:" & altura_card & ";
+			    box-sizing:border-box;
+			    background:" & cor_fundo_card & ";
+			    border:1px solid " & cor_borda_card & ";
+			    border-radius:" & raio_borda & ";
+			    padding:" & padding_card & ";
+			    font-family:" & fonte_principal & ";
+			    box-shadow:" & sombra_card & ";
+			    display:flex;
+			    justify-content:space-between;
+			    align-items:top;
+			    overflow:hidden;
+			'>
+			
+			    <div style='
+			        display:flex;
+			        flex-direction:column;
+			        justify-content:center;
+			        height:100%;
+			        min-width:0;
+			    '>
+			
+			        <div style='display:flex; align-items:center; gap:" & gap_header & ";'>
+			            " & IconeSVG & "
+			
+			            <div style='
+			                color:" & cor_titulo & ";
+			                font-family:" & fonte_titulo & ";
+			                font-size:" & tamanho_titulo & ";
+			                font-weight:" & peso_titulo & ";
+			                line-height:1.15;
+			                max-width:220px;
+			                white-space:normal;
+			            '>
+			                " & titulo_card & "
+			            </div>
+			        </div>
+			
+			        <div style='
+			            color:" & cor_valor & ";
+			            font-family:" & fonte_valor & ";
+			            font-size:" & tamanho_valor & ";
+			            font-weight:" & peso_valor & ";
+			            letter-spacing:" & espacamento_letra_valor & ";
+			            line-height:1;
+			            margin-top:" & margin_valor_top & ";
+			            white-space:nowrap;
+			        '>
+			            " & valor_formatado & "
+			        </div>
+			
+			                <div style='
+			            display:flex;
+			            align-items:center;
+			            gap:" & gap_badge & ";
+			            margin-top:" & margin_badge_top & ";
+			            white-space:nowrap;
+			        '>
+			            <div style='
+			                background:" & cor_badge_fundo & ";
+			                color:" & cor_fonte_yoy & ";
+			                border-radius:" & raio_badge & ";
+			                padding:" & padding_badge_vertical & " " & padding_badge_horizontal & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                line-height:1;
+			                white-space:nowrap;
+			            '>
+			                " & icone_variacao & " " & yoy_formatado & "
+			            </div>
+			
+			            <div style='
+			                color:" & cor_texto_secundario & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                white-space:nowrap;
+			            '>
+			                " & texto_comparativo & "
+			            </div>
+			        </div>
+			    </div>
+			
+			</div>
+			"
+		lineageTag: 931672d5-0720-4d05-9dc1-a9b5485d9b17
+
+	measure POS_Vidas =
+			
+			CALCULATE(
+			    SUM('F - Vidas'[Valor]),
+			    'F - Vidas'[Operadora] = "Operadora Y"
+			)
+		formatString: #,0
+		lineageTag: 40854c71-c696-416d-ad84-60f0a6b14bd6
+
+	measure POS_PerCapita =
+			
+			DIVIDE(
+			    SUM('F - Custo Pos Pgto'[despesa]),
+			    [POS_Vidas]
+			)
+		lineageTag: 7047a2d4-510d-43ca-b622-e7e85223b4e4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure POS_Vidas_Periodo_Atual_Dinamico = ```
+			
+			VAR PeriodoSelecionado = SELECTEDVALUE('D - Tabela Periodos'[Periodo])
+			VAR DataPgto = [Ultima_Data_Pgto]
+			VAR PrimeiraDataPgto =
+			    DATE(
+			        YEAR(DataPgto),
+			        1,
+			        1
+			    )
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    PeriodoSelecionado = "Últimos 12 meses",
+			        DIVIDE(
+			            CALCULATE(
+			                [POS_Vidas],
+			                DATESINPERIOD('D - Calendario'[Date], [Ultimos_12M], -12, MONTH)
+			            ),
+			            12
+			        ),
+			
+			    PeriodoSelecionado = "Últimos 6 meses",
+			        DIVIDE(
+			            CALCULATE(
+			                [POS_Vidas],
+			                DATESINPERIOD('D - Calendario'[Date], [Ultimos_12M], -6, MONTH)
+			            ),
+			            6
+			        ),
+			
+			    PeriodoSelecionado = "Mês Pgtº Vigente",
+			        CALCULATE(
+			            [POS_Vidas],
+			            FILTER(
+			                ALL('D - Calendario'),
+			                'D - Calendario'[Date] >= DATE(YEAR(DataPgto), MONTH(DataPgto), 1) &&
+			                'D - Calendario'[Date] <= DataPgto
+			            )
+			        ),
+			
+			    PeriodoSelecionado = "YTD",
+			        DIVIDE(
+			            CALCULATE(
+			                [POS_Vidas],
+			                DATESYTD('D - Calendario'[Date])
+			            ),
+			            CALCULATE(
+			                DISTINCTCOUNT(
+			                    'D - Calendario'[AnoMes]
+			                ),
+			                DATESBETWEEN(
+			                    'D - Calendario'[Date], 
+			                    PrimeiraDataPgto, 
+			                    DataPgto
+			                )
+			            )
+			        ),
+			
+			    BLANK()
+			)
+			```
+		formatString: #,0
+		lineageTag: 45a5cd0a-c54f-4ec0-8059-2071fa8c7e73
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure POS_Vidas_Periodo_Passado_Dinamico = ```
+			
+			VAR PeriodoSelecionado = SELECTEDVALUE('D - Tabela Periodos'[Periodo])
+			VAR DataPgto = '_Medidas - Geral'[Ultima_Data_Pgto]
+			VAR DataPgto_AnoAnterior =
+			    DATE(
+			        YEAR(DataPgto) - 1,
+			        MONTH(DataPgto),
+			        DAY(DataPgto)
+			    )
+			VAR PrimeiraData_AnoAnterior = 
+			    DATE(
+			        YEAR(DataPgto) - 1,
+			        1,
+			        1
+			    )
+			    
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    PeriodoSelecionado = "Últimos 12 meses",
+			        DIVIDE(
+			            CALCULATE(
+			                [POS_Vidas],
+			                DATESINPERIOD('D - Calendario'[Date], [Penultimos_12M], -12, MONTH)
+			            ),
+			            12
+			        ),
+			
+			    PeriodoSelecionado = "Últimos 6 meses",
+			        DIVIDE(
+			            CALCULATE(
+			                [POS_Vidas],
+			                DATESINPERIOD('D - Calendario'[Date], [Penultimos_12M], -6, MONTH)
+			            ),
+			            6
+			        ),
+			
+			    PeriodoSelecionado = "Mês Pgtº Vigente",
+			        CALCULATE(
+			            [POS_Vidas],
+			            FILTER(
+			                ALL('D - Calendario'),
+			                'D - Calendario'[Date] >= DATE(YEAR(DataPgto_AnoAnterior), MONTH(DataPgto_AnoAnterior), 1) &&
+			                'D - Calendario'[Date] <= DataPgto_AnoAnterior
+			            )
+			        ),
+			
+			    PeriodoSelecionado = "YTD",
+			        DIVIDE(
+			            CALCULATE(
+			                [POS_Vidas],
+			                DATESBETWEEN(
+			                    'D - Calendario'[Date], 
+			                    PrimeiraData_AnoAnterior, 
+			                    DataPgto_AnoAnterior
+			                )
+			            ),
+			            CALCULATE(
+			                DISTINCTCOUNT(
+			                    'D - Calendario'[AnoMes]
+			                ),
+			                DATESBETWEEN(
+			                    'D - Calendario'[Date], 
+			                    PrimeiraData_AnoAnterior, 
+			                    DataPgto_AnoAnterior
+			                )
+			            )
+			        ),
+			
+			    BLANK()
+			)
+			```
+		formatString: #,0
+		lineageTag: 0f237ca4-10df-4038-a8e4-488447daa414
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure POS_Vidas_Variação =
+			
+			VAR VariacaoVidas = DIVIDE([POS_Vidas_Periodo_Atual_Dinamico] - [POS_Vidas_Periodo_Passado_Dinamico], [POS_Vidas_Periodo_Passado_Dinamico])
+			RETURN
+			    IF(
+			        VariacaoVidas < 0,
+			        "↓ " & FORMAT(VariacaoVidas, "0.00%"),
+			        "↑ " & FORMAT(VariacaoVidas, "0.00%")
+			    )
+		lineageTag: 581dc836-56f1-4c82-8e56-1aa47d2613f2
+
+	measure POS_Meta_Alvo = 396.70
+		lineageTag: 34908cd8-736c-4e4e-8d40-bd81beaad9f8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure POS_Meta_Min = 421.72
+		lineageTag: f21c39ab-45de-4ec6-9dec-d215f907f7d9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure POS_Meta_Max = 371.36
+		lineageTag: 0ff25bae-3f39-49d7-b7f0-74a798246230
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PRE_Meta_Max = 902.37
+		lineageTag: d3269740-36df-49bf-8a5b-9df7876bd8ff
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure POS_Card_PerCapita =
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                  🎨 PAINEL DE CONTROLE VISUAL                   ║
+			-- ║   Ajuste os parâmetros abaixo sem mexer na lógica da medida      ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔎 ESCALA GERAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR EscalaConteudoPercentual = 42
+			VAR EscalaCardPercentual = 42
+			
+			VAR FatorEscalaConteudo = DIVIDE(EscalaConteudoPercentual, 100)
+			VAR FatorEscalaCard = DIVIDE(EscalaCardPercentual, 100)
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔤 FONTES
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_principal = "Poppins, Segoe UI, Arial, sans-serif"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📝 TEXTOS DO CARD
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR titulo_card = "Per Capita"
+			VAR texto_comparativo = "vs período ant."
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📦 CARD / CONTAINER
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR largura_card = ROUND(410 * FatorEscalaCard, 0) & "px"
+			VAR altura_card = ROUND(308 * FatorEscalaCard, 0) & "px"
+			VAR raio_borda = ROUND(34 * FatorEscalaCard, 0) & "px"
+			VAR padding_card = ROUND(38 * FatorEscalaCard, 0) & "px"
+			
+			VAR cor_fundo_card = "#FFFFFF"
+			VAR cor_borda_card = "#E8EAF2"
+			
+			VAR ExibirSombraCard = FALSE()
+			VAR sombra_card =
+			    IF(
+			        ExibirSombraCard,
+			        "0 18px 38px rgba(15, 23, 42, 0.10)",
+			        "none"
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎨 CORES GERAIS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR cor_titulo = "#8A8F9C"
+			VAR cor_valor = "#1F2937"
+			VAR cor_texto_secundario = "#8A8F9C"
+			
+			VAR cor_positivo = "#F43F5E"
+			VAR cor_negativo = "#16C79A"
+			
+			VAR cor_icone_fundo = "#8A8F9C"
+			VAR cor_icone = "#FFFFFF"
+			
+			VAR cor_waffle_vazio = "#E8EEF5"
+			
+			VAR cor_badge_fundo_positivo = "#FFE4E6"
+			VAR cor_badge_fundo_negativo = "#DFFBF0"
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🏷️ TÍTULO
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_titulo = fonte_principal
+			VAR peso_titulo = "700"
+			VAR tamanho_titulo = ROUND(28 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💰 VALOR PRINCIPAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_valor = fonte_principal
+			VAR peso_valor = "700"
+			VAR tamanho_valor = ROUND(56 * FatorEscalaConteudo, 0) & "px"
+			VAR espacamento_letra_valor = "-2.4px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📊 BADGE DE VARIAÇÃO VS MÊS ANTERIOR
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_comparativo = fonte_principal
+			VAR peso_label_comparativo = "700"
+			VAR tamanho_label_comparativo = ROUND(22 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR padding_badge_vertical = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			VAR padding_badge_horizontal = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎯 BLOCO DE META / WAFFLE
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_meta = fonte_principal
+			VAR peso_label_meta = "700"
+			VAR tamanho_label_meta = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR fonte_percentual_meta = fonte_principal
+			VAR peso_percentual_meta = "700"
+			VAR tamanho_percentual_meta = ROUND(38 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR largura_bloco_meta = ROUND(190 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR qtd_bolinhas = 25
+			VAR tamanho_bolinha = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_bolinha = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💲 ÍCONE SVG
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR ExibirIcone = TRUE()
+			
+			VAR tamanho_icone_box = ROUND(58 * FatorEscalaConteudo, 0) & "px"
+			VAR tamanho_icone_svg = ROUND(30 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_icone = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR IconeSVG =
+			    IF(
+			        ExibirIcone,
+			        "<div style='
+			            width:" & tamanho_icone_box & ";
+			            height:" & tamanho_icone_box & ";
+			            border-radius:" & raio_icone & ";
+			            background:" & cor_icone_fundo & ";
+			            color:" & cor_icone & ";
+			            display:flex;
+			            align-items:center;
+			            justify-content:center;
+			            flex:0 0 auto;
+			        '>" &
+			            "<svg viewBox='0 0 24 24' fill='none' stroke='" & cor_icone & "'
+			                stroke-width='2' stroke-linecap='round' stroke-linejoin='round'
+			                style='width:" & tamanho_icone_svg & "; height:" & tamanho_icone_svg & "; display:block;'>" &
+			                "<line x1='12' y1='1' x2='12' y2='23'></line>" &
+			                "<path d='M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'></path>" &
+			            "</svg>" &
+			        "</div>",
+			        ""
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📐 ESPAÇAMENTOS INTERNOS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR gap_header = ROUND(20 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR margin_valor_top = ROUND(36 * FatorEscalaConteudo, 0) & "px"
+			VAR margin_badge_top = ROUND(24 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   ⚙️ LÓGICA DE NEGÓCIO                          ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			VAR PercapitaAtual =
+			    [POS_PerCapita_Periodo_Atual_Dinamico]
+			
+			VAR PercapitaAtualAbsoluto =
+			    ABS(PercapitaAtual)
+			
+			VAR valor_formatado =
+			    IF(
+			        PercapitaAtual < 0,
+			        "-R$ " & FORMAT(ABS(PercapitaAtual), "#,##0.00"),
+			        "R$ " & FORMAT(PercapitaAtual, "#,##0.00")
+			    )
+			
+			VAR yoy =
+			    DIVIDE(
+			        PercapitaAtual - [POS_PerCapita_Periodo_Passado_Dinamico],
+			        ABS([POS_PerCapita_Periodo_Passado_Dinamico])
+			    )
+			
+			VAR cor_fonte_yoy =
+			    IF(yoy >= 0, cor_positivo, cor_negativo)
+			
+			VAR cor_badge_fundo =
+			    IF(yoy >= 0, cor_badge_fundo_positivo, cor_badge_fundo_negativo)
+			
+			VAR icone_variacao =
+			    IF(yoy >= 0, "↗", "↘")
+			
+			VAR yoy_formatado =
+			    FORMAT(ABS(yoy), "0.0%")
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   🧱 MONTAGEM DO HTML                           ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			RETURN
+			"
+			<div style='
+			    width:" & largura_card & ";
+			    height:" & altura_card & ";
+			    box-sizing:border-box;
+			    background:" & cor_fundo_card & ";
+			    border:1px solid " & cor_borda_card & ";
+			    border-radius:" & raio_borda & ";
+			    padding:" & padding_card & ";
+			    font-family:" & fonte_principal & ";
+			    box-shadow:" & sombra_card & ";
+			    display:flex;
+			    justify-content:space-between;
+			    align-items:top;
+			    overflow:hidden;
+			'>
+			
+			    <div style='
+			        display:flex;
+			        flex-direction:column;
+			        justify-content:center;
+			        height:100%;
+			        min-width:0;
+			    '>
+			
+			        <div style='display:flex; align-items:center; gap:" & gap_header & ";'>
+			            " & IconeSVG & "
+			
+			            <div style='
+			                color:" & cor_titulo & ";
+			                font-family:" & fonte_titulo & ";
+			                font-size:" & tamanho_titulo & ";
+			                font-weight:" & peso_titulo & ";
+			                line-height:1.15;
+			                max-width:220px;
+			                white-space:normal;
+			            '>
+			                " & titulo_card & "
+			            </div>
+			        </div>
+			
+			        <div style='
+			            color:" & cor_valor & ";
+			            font-family:" & fonte_valor & ";
+			            font-size:" & tamanho_valor & ";
+			            font-weight:" & peso_valor & ";
+			            letter-spacing:" & espacamento_letra_valor & ";
+			            line-height:1;
+			            margin-top:" & margin_valor_top & ";
+			            white-space:nowrap;
+			        '>
+			            " & valor_formatado & "
+			        </div>
+			
+			                <div style='
+			            display:flex;
+			            align-items:center;
+			            gap:" & gap_badge & ";
+			            margin-top:" & margin_badge_top & ";
+			            white-space:nowrap;
+			        '>
+			            <div style='
+			                background:" & cor_badge_fundo & ";
+			                color:" & cor_fonte_yoy & ";
+			                border-radius:" & raio_badge & ";
+			                padding:" & padding_badge_vertical & " " & padding_badge_horizontal & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                line-height:1;
+			                white-space:nowrap;
+			            '>
+			                " & icone_variacao & " " & yoy_formatado & "
+			            </div>
+			
+			            <div style='
+			                color:" & cor_texto_secundario & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                white-space:nowrap;
+			            '>
+			                " & texto_comparativo & "
+			            </div>
+			        </div>
+			    </div>
+			
+			</div>
+			"
+		lineageTag: 37cdaba4-3d06-4743-9940-8857f456646f
+
+	measure POS_Card_Vidas =
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                  🎨 PAINEL DE CONTROLE VISUAL                   ║
+			-- ║   Ajuste os parâmetros abaixo sem mexer na lógica da medida      ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔎 ESCALA GERAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR EscalaConteudoPercentual = 42
+			VAR EscalaCardPercentual = 42
+			
+			VAR FatorEscalaConteudo = DIVIDE(EscalaConteudoPercentual, 100)
+			VAR FatorEscalaCard = DIVIDE(EscalaCardPercentual, 100)
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔤 FONTES
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_principal = "Poppins, Segoe UI, Arial, sans-serif"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📝 TEXTOS DO CARD
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR titulo_card = "Vidas"
+			VAR texto_comparativo = "vs período ant."
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📦 CARD / CONTAINER
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR largura_card = ROUND(410 * FatorEscalaCard, 0) & "px"
+			VAR altura_card = ROUND(308 * FatorEscalaCard, 0) & "px"
+			VAR raio_borda = ROUND(34 * FatorEscalaCard, 0) & "px"
+			VAR padding_card = ROUND(38 * FatorEscalaCard, 0) & "px"
+			
+			VAR cor_fundo_card = "#FFFFFF"
+			VAR cor_borda_card = "#E8EAF2"
+			
+			VAR ExibirSombraCard = FALSE()
+			VAR sombra_card =
+			    IF(
+			        ExibirSombraCard,
+			        "0 18px 38px rgba(15, 23, 42, 0.10)",
+			        "none"
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎨 CORES GERAIS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR cor_titulo = "#8A8F9C"
+			VAR cor_valor = "#1F2937"
+			VAR cor_texto_secundario = "#8A8F9C"
+			
+			VAR cor_positivo = "#F43F5E"
+			VAR cor_negativo = "#16C79A"
+			
+			VAR cor_icone_fundo = "#8A8F9C"
+			VAR cor_icone = "#FFFFFF"
+			
+			VAR cor_waffle_vazio = "#E8EEF5"
+			
+			VAR cor_badge_fundo_positivo = "#FFE4E6"
+			VAR cor_badge_fundo_negativo = "#DFFBF0"
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🏷️ TÍTULO
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_titulo = fonte_principal
+			VAR peso_titulo = "700"
+			VAR tamanho_titulo = ROUND(28 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💰 VALOR PRINCIPAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_valor = fonte_principal
+			VAR peso_valor = "700"
+			VAR tamanho_valor = ROUND(56 * FatorEscalaConteudo, 0) & "px"
+			VAR espacamento_letra_valor = "-2.4px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📊 BADGE DE VARIAÇÃO VS MÊS ANTERIOR
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_comparativo = fonte_principal
+			VAR peso_label_comparativo = "700"
+			VAR tamanho_label_comparativo = ROUND(22 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR padding_badge_vertical = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			VAR padding_badge_horizontal = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎯 BLOCO DE META / WAFFLE
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_label_meta = fonte_principal
+			VAR peso_label_meta = "700"
+			VAR tamanho_label_meta = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR fonte_percentual_meta = fonte_principal
+			VAR peso_percentual_meta = "700"
+			VAR tamanho_percentual_meta = ROUND(38 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR largura_bloco_meta = ROUND(190 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR qtd_bolinhas = 25
+			VAR tamanho_bolinha = ROUND(16 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_bolinha = ROUND(10 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💲 ÍCONE SVG
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR ExibirIcone = TRUE()
+			
+			VAR tamanho_icone_box = ROUND(58 * FatorEscalaConteudo, 0) & "px"
+			VAR tamanho_icone_svg = ROUND(30 * FatorEscalaConteudo, 0) & "px"
+			VAR raio_icone = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR IconeSVG =
+			    IF(
+			        ExibirIcone,
+			        "<div style='
+			            width:" & tamanho_icone_box & ";
+			            height:" & tamanho_icone_box & ";
+			            border-radius:" & raio_icone & ";
+			            background:" & cor_icone_fundo & ";
+			            color:" & cor_icone & ";
+			            display:flex;
+			            align-items:center;
+			            justify-content:center;
+			            flex:0 0 auto;
+			        '>" &
+			            "<svg viewBox='0 0 24 24' fill='none' stroke='" & cor_icone & "'
+			                stroke-width='2' stroke-linecap='round' stroke-linejoin='round'
+			                style='width:" & tamanho_icone_svg & "; height:" & tamanho_icone_svg & "; display:block;'>" &
+			                "<circle cx='12' cy='8' r='4'></circle>" &
+			                "<path d='M4 20c0-4 3.5-7 8-7s8 3 8 7'></path>" &
+			            "</svg>" &
+			        "</div>",
+			        ""
+			    )
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📐 ESPAÇAMENTOS INTERNOS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR gap_header = ROUND(20 * FatorEscalaConteudo, 0) & "px"
+			VAR gap_badge = ROUND(18 * FatorEscalaConteudo, 0) & "px"
+			
+			VAR margin_valor_top = ROUND(36 * FatorEscalaConteudo, 0) & "px"
+			VAR margin_badge_top = ROUND(24 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   ⚙️ LÓGICA DE NEGÓCIO                          ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			VAR VidasAtual =
+			    [POS_Vidas_Periodo_Atual_Dinamico]
+			
+			VAR VidasAtualAbsoluto =
+			    ABS(VidasAtual)
+			
+			VAR valor_formatado =
+			    FORMAT(VidasAtual, "#,##0")
+			
+			VAR yoy =
+			    DIVIDE(
+			        VidasAtual - [POS_Vidas_Periodo_Passado_Dinamico],
+			        ABS([POS_Vidas_Periodo_Passado_Dinamico])
+			    )
+			
+			VAR cor_fonte_yoy =
+			    IF(yoy >= 0, cor_negativo, cor_positivo)
+			
+			VAR cor_badge_fundo =
+			    IF(yoy >= 0, cor_badge_fundo_negativo, cor_badge_fundo_positivo)
+			
+			VAR icone_variacao =
+			    IF(yoy >= 0, "↗", "↘")
+			
+			VAR yoy_formatado =
+			    FORMAT(ABS(yoy), "0.0%")
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   🧱 MONTAGEM DO HTML                           ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			RETURN
+			"
+			<div style='
+			    width:" & largura_card & ";
+			    height:" & altura_card & ";
+			    box-sizing:border-box;
+			    background:" & cor_fundo_card & ";
+			    border:1px solid " & cor_borda_card & ";
+			    border-radius:" & raio_borda & ";
+			    padding:" & padding_card & ";
+			    font-family:" & fonte_principal & ";
+			    box-shadow:" & sombra_card & ";
+			    display:flex;
+			    justify-content:space-between;
+			    align-items:top;
+			    overflow:hidden;
+			'>
+			
+			    <div style='
+			        display:flex;
+			        flex-direction:column;
+			        justify-content:center;
+			        height:100%;
+			        min-width:0;
+			    '>
+			
+			        <div style='display:flex; align-items:center; gap:" & gap_header & ";'>
+			            " & IconeSVG & "
+			
+			            <div style='
+			                color:" & cor_titulo & ";
+			                font-family:" & fonte_titulo & ";
+			                font-size:" & tamanho_titulo & ";
+			                font-weight:" & peso_titulo & ";
+			                line-height:1.15;
+			                max-width:220px;
+			                white-space:normal;
+			            '>
+			                " & titulo_card & "
+			            </div>
+			        </div>
+			
+			        <div style='
+			            color:" & cor_valor & ";
+			            font-family:" & fonte_valor & ";
+			            font-size:" & tamanho_valor & ";
+			            font-weight:" & peso_valor & ";
+			            letter-spacing:" & espacamento_letra_valor & ";
+			            line-height:1;
+			            margin-top:" & margin_valor_top & ";
+			            white-space:nowrap;
+			        '>
+			            " & valor_formatado & "
+			        </div>
+			
+			                <div style='
+			            display:flex;
+			            align-items:center;
+			            gap:" & gap_badge & ";
+			            margin-top:" & margin_badge_top & ";
+			            white-space:nowrap;
+			        '>
+			            <div style='
+			                background:" & cor_badge_fundo & ";
+			                color:" & cor_fonte_yoy & ";
+			                border-radius:" & raio_badge & ";
+			                padding:" & padding_badge_vertical & " " & padding_badge_horizontal & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                line-height:1;
+			                white-space:nowrap;
+			            '>
+			                " & icone_variacao & " " & yoy_formatado & "
+			            </div>
+			
+			            <div style='
+			                color:" & cor_texto_secundario & ";
+			                font-family:" & fonte_label_comparativo & ";
+			                font-size:" & tamanho_label_comparativo & ";
+			                font-weight:" & peso_label_comparativo & ";
+			                white-space:nowrap;
+			            '>
+			                " & texto_comparativo & "
+			            </div>
+			        </div>
+			    </div>
+			
+			</div>
+			"
+		lineageTag: 67d7ab8d-8fdc-4422-9805-e8cce62b9260
+
+	measure PRE_Barra_Meta = ```
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔎 ESCALA GERAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR EscalaConteudoPercentual = 30
+			VAR EscalaCardPercentual = 30
+			
+			VAR FatorEscalaConteudo = DIVIDE(EscalaConteudoPercentual, 100)
+			VAR FatorEscalaCard = DIVIDE(EscalaCardPercentual, 100)
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔤 FONTES
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_principal = "Poppins, Segoe UI, Arial, sans-serif"
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📝 TEXTOS DO CARD
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR titulo_card = "Meta Per Capita"
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📦 CARD / CONTAINER
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR largura_card = ROUND(410 * FatorEscalaCard, 0) & "px"
+			VAR altura_card = ROUND(308 * FatorEscalaCard, 0) & "px"
+			VAR raio_borda = ROUND(34 * FatorEscalaCard, 0) & "px"
+			VAR padding_card = ROUND(12 * FatorEscalaCard, 0) & "px"
+			
+			VAR cor_fundo_card = "#FFFFFF"
+			VAR cor_borda_card = "#E8EAF2"
+			
+			VAR ExibirSombraCard = FALSE()
+			VAR sombra_card =
+			    IF(
+			        ExibirSombraCard,
+			        "0 18px 38px rgba(15, 23, 42, 0.10)",
+			        "none"
+			    )
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎨 CORES GERAIS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR cor_titulo = "#8A8F9C"
+			VAR cor_valor = "#1F2937"
+			VAR cor_texto_secundario = "#8A8F9C"
+			
+			VAR cor_abaixo_meta_maximo = "#2563EB" -- azul
+			VAR cor_entre_meta_maximo_alvo = "#32D60D" -- verde
+			VAR cor_entre_meta_alvo_minima = "#F5E911" -- amarelo
+			VAR cor_acima_meta_minima = "#DC2626" -- vermelho
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🏷️ TÍTULO
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_titulo = fonte_principal
+			VAR peso_titulo = "700"
+			VAR tamanho_titulo = ROUND(28 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💰 VALOR PRINCIPAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_valor = fonte_principal
+			VAR peso_valor = "700"
+			VAR tamanho_valor = ROUND(56 * FatorEscalaConteudo, 0) & "px"
+			VAR espacamento_letra_valor = "-2.4px"
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- ⚙️ LÓGICA DE NEGÓCIO
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR Valor = [PRE_PerCapita_Periodo_Atual_Dinamico]
+			VAR Minimo = [PRE_Meta_Max]
+			VAR Alvo = [PRE_Meta_Alvo]
+			VAR Maximo = [PRE_Meta_Min]
+			
+			VAR PercBarra =
+			    DIVIDE(Valor, Maximo, 0) * 100
+			
+			VAR EscalaMaxima = 
+			    Maximo * 1.2
+			
+			VAR PosMin =
+			    DIVIDE(Minimo, EscalaMaxima) * 100
+			
+			VAR PosAlvo =
+			    DIVIDE(Alvo, EscalaMaxima) * 100
+			
+			VAR PosMax =
+			    DIVIDE(Maximo, EscalaMaxima) * 100
+			
+			VAR PercBarraFinal =
+			    DIVIDE(Valor, EscalaMaxima, 0) * 100
+			
+			VAR CorBarra =
+			    SWITCH (
+			        TRUE(),
+			        Valor < Minimo, cor_abaixo_meta_maximo,
+			        Valor < Alvo, cor_entre_meta_maximo_alvo,
+			        Valor <= Maximo, cor_entre_meta_alvo_minima,
+			        cor_acima_meta_minima
+			    )
+			
+			VAR Status_Barra =
+			    SWITCH (
+			        TRUE(),
+			        Valor < Minimo, "Abaixo da Meta Máxima",
+			        Valor < Alvo, "Entre a Meta Máxima e a Alvo",
+			        Valor <= Maximo, "Entre a Meta Alvo e a Mínima",
+			        "Acima da Meta Mínima"
+			    )
+			
+			VAR Valor_Formato = 
+			    "R$ " & FORMAT(Valor, "#,##0.00")
+			
+			VAR Min_Formato =
+			    "R$ " & FORMAT(Minimo, "#,##0.00")
+			
+			VAR Alvo_Formato =
+			    "R$ " & FORMAT(Alvo, "#,##0.00")
+			
+			VAR Max_Formato =
+			    "R$ " & FORMAT(Maximo, "#,##0.00")
+			
+			VAR Valor_Barra =
+			    SUBSTITUTE(
+			        FORMAT(PercBarraFinal,"0.0"),
+			        ",",
+			        "."
+			    )
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   🧱 MONTAGEM DO HTML                           ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			RETURN
+			
+			"<div style='
+			    font-family:" & fonte_principal & ";
+			    padding:" & padding_card & ";
+			    background:" & cor_fundo_card & ";
+			    border-radius:" & raio_borda & ";
+			    box-shadow:" & sombra_card & ";
+			'>
+			    <div style='
+			        font-size:16px;
+			        font-weight:" & peso_titulo & ";
+			        color:" & cor_titulo & ";
+			        margin-bottom:10px;'>
+			        " & titulo_card & "
+			    </div>
+			
+			    <div style='display:flex;justify-content:space-between;
+			                margin-bottom:4px;font-size:12px;font-weight:600;'>
+			        <span>" & Status_Barra & "</span>
+			        <span>" & Valor_Formato & "</span>
+			    </div>
+			
+			    <div style='position:relative;width:100%;height:22px;'>
+			
+			        <div style='
+			            width:100%;
+			            height:18px;
+			            background:#E5E7EB;
+			            border-radius:9px;
+			            overflow:hidden;'>
+			
+			            <div style='
+			                width:" & Valor_Barra & "%;
+			                height:100%;
+			                background:" & CorBarra & ";
+			                border-radius:9px;'>
+			            </div>
+			
+			        </div>
+			
+			        <!-- Marco Meta Min -->
+			        <div style='
+			            position:absolute;
+			            left:calc(" & SUBSTITUTE(FORMAT(PosMin,"0.0"),",",".") & "% - 1px);
+			            transform:translateX(-50%);
+			            top:-4px;
+			            width:3px;
+			            height:26px;
+			            background:"& cor_abaixo_meta_maximo &";
+			            z-index:2;'>
+			        </div>
+			
+			
+			        <!-- Marco Meta Alvo -->
+			        <div style='
+			            position:absolute;
+			            left:calc(" & SUBSTITUTE(FORMAT(PosAlvo,"0.0"),",",".") & "% - 1px);
+			            transform:translateX(-50%);
+			            top:-4px;
+			            width:3px;
+			            height:26px;
+			            background:"& cor_entre_meta_maximo_alvo &";
+			            z-index:2;'>
+			        </div>
+			
+			        <!-- Marco Meta Max -->
+			        <div style='
+			            position:absolute;
+			            left:calc(" & SUBSTITUTE(FORMAT(PosMax,"0.0"),",",".") & "% - 1px);
+			            transform:translateX(-50%);
+			            top:-4px;
+			            width:3px;
+			            height:26px;
+			            background:"& cor_entre_meta_alvo_minima &";
+			            z-index:2;'>
+			        </div>
+			
+			    </div>
+			
+			    <footer style='
+			        display:flex;
+			        justify-content:space-between;
+			        margin-top:14px;
+			        padding-top:8px;
+			        border-top:1px solid #E5E7EB;'>
+			
+			        <div style='
+			            flex:1;
+			            text-align:center;'>
+			
+			            <div style='
+			                display:flex;
+			                align-items:center;
+			                justify-content:center;
+			                gap:6px;
+			            '>
+			
+			                <div style='
+			                    width:3px;
+			                    height:18px;
+			                    background:"& cor_abaixo_meta_maximo &";
+			                '>
+			                </div>
+			
+			                <span style='
+			                    font-size:11px;
+			                    color:#666;
+			                '>
+			                    Meta Máxima
+			                </span>
+			
+			            </div>
+			
+			            <div style='
+			                font-size:14px;
+			                font-weight:600;
+			                color:#333;
+			            '>
+			                " & Min_Formato & "
+			            </div>
+			
+			        </div>
+			
+			        <div style='
+			            flex:1;
+			            text-align:center;
+			        '>
+			
+			            <div style='
+			                display:flex;
+			                align-items:center;
+			                justify-content:center;
+			                gap:6px;
+			            '>
+			
+			                <div style='
+			                    width:3px;
+			                    height:18px;
+			                    background:"& cor_entre_meta_maximo_alvo &";
+			                '>
+			                </div>
+			
+			                <span style='
+			                    font-size:11px;
+			                    color:#666;
+			                '>
+			                    Meta Alvo
+			                </span>
+			
+			            </div>
+			
+			            <div style='
+			                font-size:14px;
+			                font-weight:600;
+			                color:#333;
+			            '>
+			                " & Alvo_Formato & "
+			            </div>
+			
+			        </div>
+			
+			        <div style='
+			            flex:1;
+			            text-align:center;
+			        '>
+			
+			            <div style='
+			                display:flex;
+			                align-items:center;
+			                justify-content:center;
+			                gap:6px;
+			            '>
+			
+			                <div style='
+			                    width:3px;
+			                    height:18px;
+			                    background:"& cor_entre_meta_alvo_minima &";
+			                '>
+			                </div>
+			
+			                <span style='
+			                    font-size:11px;
+			                    color:#666;
+			                '>
+			                    Meta Mínima
+			                </span>
+			
+			            </div>
+			
+			            <div style='
+			                font-size:14px;
+			                font-weight:600;
+			                color:#333;
+			            '>
+			                " & Max_Formato & "
+			            </div>
+			
+			        </div>
+			
+			    </footer>
+			
+			</div>"
+			```
+		lineageTag: 2cfde1da-141f-4ac8-bd17-8d22c7423ae0
+
+	measure PRE_Sinistralidade_Variação_Cor =
+			
+			VAR VariacaoSinistralidade =
+			    ([PRE_Sinistralidade_Periodo_Atual_Dinamico]
+			    - [PRE_Sinistralidade_Periodo_Passado_Dinamico]) * 100
+			
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        VariacaoSinistralidade < 0, "#16A34A", -- Verde
+			        VariacaoSinistralidade > 0, "#DC2626", -- Vermelho
+			        "#6B7280"                              -- Cinza
+			    )
+		lineageTag: 55540c8e-f80a-49c5-90dd-22c612363db3
+
+	measure PRE_PerCapita_Variação_Cor = ```
+			
+			VAR VariacaoPerCapita = DIVIDE(
+			    [PRE_PerCapita_Periodo_Atual_Dinamico] - [PRE_PerCapita_Periodo_Passado_Dinamico], [PRE_PerCapita_Periodo_Passado_Dinamico]
+			)
+			
+			RETURN 
+			    SWITCH(
+			        TRUE(),
+			        VariacaoPerCapita < 0, "#16A34A", -- Verde
+			        VariacaoPerCapita > 0, "#DC2626", -- Vermelho
+			        "#6B7280"                              -- Cinza
+			    )
+			```
+		lineageTag: 629cb684-1ef6-42a5-81d5-ca4d789aebc0
+
+	measure POS_PerCapita_Variação_Cor = ```
+			
+			VAR VariacaoPerCapita = DIVIDE(
+			    [POS_PerCapita_Periodo_Atual_Dinamico] - [POS_PerCapita_Periodo_Passado_Dinamico], [POS_PerCapita_Periodo_Passado_Dinamico]
+			)
+			
+			RETURN 
+			    SWITCH(
+			        TRUE(),
+			        VariacaoPerCapita < 0, "#16A34A", -- Verde
+			        VariacaoPerCapita > 0, "#DC2626", -- Vermelho
+			        "#6B7280"                              -- Cinza
+			    )
+			```
+		lineageTag: ad3b9652-1b7b-42a0-b5a4-250d27c1d82a
+
+	measure POS_Barra_Meta = ```
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔎 ESCALA GERAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR EscalaConteudoPercentual = 30
+			VAR EscalaCardPercentual = 30
+			
+			VAR FatorEscalaConteudo = DIVIDE(EscalaConteudoPercentual, 100)
+			VAR FatorEscalaCard = DIVIDE(EscalaCardPercentual, 100)
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🔤 FONTES
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_principal = "Poppins, Segoe UI, Arial, sans-serif"
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📝 TEXTOS DO CARD
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR titulo_card = "Meta Per Capita"
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 📦 CARD / CONTAINER
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR largura_card = ROUND(410 * FatorEscalaCard, 0) & "px"
+			VAR altura_card = ROUND(308 * FatorEscalaCard, 0) & "px"
+			VAR raio_borda = ROUND(34 * FatorEscalaCard, 0) & "px"
+			VAR padding_card = ROUND(12 * FatorEscalaCard, 0) & "px"
+			
+			VAR cor_fundo_card = "#FFFFFF"
+			VAR cor_borda_card = "#E8EAF2"
+			
+			VAR ExibirSombraCard = FALSE()
+			VAR sombra_card =
+			    IF(
+			        ExibirSombraCard,
+			        "0 18px 38px rgba(15, 23, 42, 0.10)",
+			        "none"
+			    )
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🎨 CORES GERAIS
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR cor_titulo = "#8A8F9C"
+			VAR cor_valor = "#1F2937"
+			VAR cor_texto_secundario = "#8A8F9C"
+			
+			VAR cor_abaixo_meta_maximo = "#2563EB" -- azul
+			VAR cor_entre_meta_maximo_alvo = "#32D60D" -- verde
+			VAR cor_entre_meta_alvo_minima = "#F5E911" -- amarelo
+			VAR cor_acima_meta_minima = "#DC2626" -- vermelho
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 🏷️ TÍTULO
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_titulo = fonte_principal
+			VAR peso_titulo = "700"
+			VAR tamanho_titulo = ROUND(28 * FatorEscalaConteudo, 0) & "px"
+			
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- 💰 VALOR PRINCIPAL
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR fonte_valor = fonte_principal
+			VAR peso_valor = "700"
+			VAR tamanho_valor = ROUND(56 * FatorEscalaConteudo, 0) & "px"
+			VAR espacamento_letra_valor = "-2.4px"
+			
+			-- ──────────────────────────────────────────────────────────────────
+			-- ⚙️ LÓGICA DE NEGÓCIO
+			-- ──────────────────────────────────────────────────────────────────
+			
+			VAR Valor = [POS_PerCapita_Periodo_Atual_Dinamico]
+			VAR Minimo = [POS_Meta_Max]
+			VAR Alvo = [POS_Meta_Alvo]
+			VAR Maximo = [POS_Meta_Min]
+			
+			VAR PercBarra =
+			    DIVIDE(Valor, Maximo, 0) * 100
+			
+			VAR EscalaMaxima = 
+			    Maximo * 1.2
+			
+			VAR PosMin =
+			    DIVIDE(Minimo, EscalaMaxima) * 100
+			
+			VAR PosAlvo =
+			    DIVIDE(Alvo, EscalaMaxima) * 100
+			
+			VAR PosMax =
+			    DIVIDE(Maximo, EscalaMaxima) * 100
+			
+			VAR PercBarraFinal =
+			    DIVIDE(Valor, EscalaMaxima, 0) * 100
+			
+			VAR CorBarra =
+			    SWITCH (
+			        TRUE(),
+			        Valor < Minimo, cor_abaixo_meta_maximo,
+			        Valor < Alvo, cor_entre_meta_maximo_alvo,
+			        Valor <= Maximo, cor_entre_meta_alvo_minima,
+			        cor_acima_meta_minima
+			    )
+			
+			VAR Status_Barra =
+			    SWITCH (
+			        TRUE(),
+			        Valor < Minimo, "Abaixo da Meta Máxima",
+			        Valor < Alvo, "Entre a Meta Máxima e a Alvo",
+			        Valor <= Maximo, "Entre a Meta Alvo e a Mínima",
+			        "Acima da Meta Mínima"
+			    )
+			
+			VAR Valor_Formato = 
+			    "R$ " & FORMAT(Valor, "#,##0.00")
+			
+			VAR Min_Formato =
+			    "R$ " & FORMAT(Minimo, "#,##0.00")
+			
+			VAR Alvo_Formato =
+			    "R$ " & FORMAT(Alvo, "#,##0.00")
+			
+			VAR Max_Formato =
+			    "R$ " & FORMAT(Maximo, "#,##0.00")
+			
+			VAR Valor_Barra =
+			    SUBSTITUTE(
+			        FORMAT(PercBarraFinal,"0.0"),
+			        ",",
+			        "."
+			    )
+			
+			-- ╔══════════════════════════════════════════════════════════════════╗
+			-- ║                   🧱 MONTAGEM DO HTML                           ║
+			-- ╚══════════════════════════════════════════════════════════════════╝
+			
+			RETURN
+			
+			"<div style='
+			    font-family:" & fonte_principal & ";
+			    padding:" & padding_card & ";
+			    background:" & cor_fundo_card & ";
+			    border-radius:" & raio_borda & ";
+			    box-shadow:" & sombra_card & ";
+			'>
+			    <div style='
+			        font-size:16px;
+			        font-weight:" & peso_titulo & ";
+			        color:" & cor_titulo & ";
+			        margin-bottom:10px;'>
+			        " & titulo_card & "
+			    </div>
+			
+			    <div style='display:flex;justify-content:space-between;
+			                margin-bottom:4px;font-size:12px;font-weight:600;'>
+			        <span>" & Status_Barra & "</span>
+			        <span>" & Valor_Formato & "</span>
+			    </div>
+			
+			    <div style='position:relative;width:100%;height:22px;'>
+			
+			        <div style='
+			            width:100%;
+			            height:18px;
+			            background:#E5E7EB;
+			            border-radius:9px;
+			            overflow:hidden;'>
+			
+			            <div style='
+			                width:" & Valor_Barra & "%;
+			                height:100%;
+			                background:" & CorBarra & ";
+			                border-radius:9px;'>
+			            </div>
+			
+			        </div>
+			
+			        <!-- Marco Meta Min -->
+			        <div style='
+			            position:absolute;
+			            left:calc(" & SUBSTITUTE(FORMAT(PosMin,"0.0"),",",".") & "% - 1px);
+			            transform:translateX(-50%);
+			            top:-4px;
+			            width:3px;
+			            height:26px;
+			            background:"& cor_abaixo_meta_maximo &";
+			            z-index:2;'>
+			        </div>
+			
+			
+			        <!-- Marco Meta Alvo -->
+			        <div style='
+			            position:absolute;
+			            left:calc(" & SUBSTITUTE(FORMAT(PosAlvo,"0.0"),",",".") & "% - 1px);
+			            transform:translateX(-50%);
+			            top:-4px;
+			            width:3px;
+			            height:26px;
+			            background:"& cor_entre_meta_maximo_alvo &";
+			            z-index:2;'>
+			        </div>
+			
+			        <!-- Marco Meta Max -->
+			        <div style='
+			            position:absolute;
+			            left:calc(" & SUBSTITUTE(FORMAT(PosMax,"0.0"),",",".") & "% - 1px);
+			            transform:translateX(-50%);
+			            top:-4px;
+			            width:3px;
+			            height:26px;
+			            background:"& cor_entre_meta_alvo_minima &";
+			            z-index:2;'>
+			        </div>
+			
+			    </div>
+			
+			    <footer style='
+			        display:flex;
+			        justify-content:space-between;
+			        margin-top:14px;
+			        padding-top:8px;
+			        border-top:1px solid #E5E7EB;'>
+			
+			        <div style='
+			            flex:1;
+			            text-align:center;'>
+			
+			            <div style='
+			                display:flex;
+			                align-items:center;
+			                justify-content:center;
+			                gap:6px;
+			            '>
+			
+			                <div style='
+			                    width:3px;
+			                    height:18px;
+			                    background:"& cor_abaixo_meta_maximo &";
+			                '>
+			                </div>
+			
+			                <span style='
+			                    font-size:11px;
+			                    color:#666;
+			                '>
+			                    Meta Máxima
+			                </span>
+			
+			            </div>
+			
+			            <div style='
+			                font-size:14px;
+			                font-weight:600;
+			                color:#333;
+			            '>
+			                " & Min_Formato & "
+			            </div>
+			
+			        </div>
+			
+			        <div style='
+			            flex:1;
+			            text-align:center;
+			        '>
+			
+			            <div style='
+			                display:flex;
+			                align-items:center;
+			                justify-content:center;
+			                gap:6px;
+			            '>
+			
+			                <div style='
+			                    width:3px;
+			                    height:18px;
+			                    background:"& cor_entre_meta_maximo_alvo &";
+			                '>
+			                </div>
+			
+			                <span style='
+			                    font-size:11px;
+			                    color:#666;
+			                '>
+			                    Meta Alvo
+			                </span>
+			
+			            </div>
+			
+			            <div style='
+			                font-size:14px;
+			                font-weight:600;
+			                color:#333;
+			            '>
+			                " & Alvo_Formato & "
+			            </div>
+			
+			        </div>
+			
+			        <div style='
+			            flex:1;
+			            text-align:center;
+			        '>
+			
+			            <div style='
+			                display:flex;
+			                align-items:center;
+			                justify-content:center;
+			                gap:6px;
+			            '>
+			
+			                <div style='
+			                    width:3px;
+			                    height:18px;
+			                    background:"& cor_entre_meta_alvo_minima &";
+			                '>
+			                </div>
+			
+			                <span style='
+			                    font-size:11px;
+			                    color:#666;
+			                '>
+			                    Meta Mínima
+			                </span>
+			
+			            </div>
+			
+			            <div style='
+			                font-size:14px;
+			                font-weight:600;
+			                color:#333;
+			            '>
+			                " & Max_Formato & "
+			            </div>
+			
+			        </div>
+			
+			    </footer>
+			
+			</div>"
+			```
+		lineageTag: 074d6f6b-bf31-45b8-bf98-8642cc072b9b
+
+	measure POS_PerCapita_com_Filtro = ```
+			
+			VAR _ConsideraCassi =
+			    SELECTEDVALUE('_Filtro Reciprocidade'[Cassi])
+			
+			RETURN 
+			    IF(
+			        _ConsideraCassi = "Sem",
+			        CALCULATE(
+			            [POS_PerCapita],
+			            'F - Custo Pos Pgto'[cassi] = "Não"
+			        ),
+			        [POS_PerCapita]
+			    )
+			```
+		lineageTag: 5a48face-6ba1-43d3-9f72-a18fe9854c85
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure POS_Tooltip_PerCapita_Total =
+			
+			"----- >>> CÁLCULO PER CAPITA TOTAL <<< -----" &
+			"Soma despesas total no período / Qtd. vidas total no período"
+		lineageTag: 07e0067e-791e-4bee-9b36-18a4eb2a362c
+
+	column Column
+		formatString: 0
+		lineageTag: 3c3e11c4-78e5-4577-b913-1f779d88f09c
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '_Medidas - Geral' = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = f13783dd9a724a738d25df93f9b30f98
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

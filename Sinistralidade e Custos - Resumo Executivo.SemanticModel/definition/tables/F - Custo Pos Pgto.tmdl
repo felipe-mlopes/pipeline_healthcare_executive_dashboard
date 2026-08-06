@@ -1,0 +1,119 @@
+table 'F - Custo Pos Pgto'
+	lineageTag: a025eb60-fb87-4dd7-a19d-6678fe1aa6f4
+
+	column operadora
+		dataType: string
+		lineageTag: a2709154-10f3-4bbc-8c2d-542a292df834
+		summarizeBy: none
+		sourceColumn: operadora
+
+		annotation SummarizationSetBy = Automatic
+
+	column plano
+		dataType: string
+		lineageTag: af7932fd-f018-4a0c-9b3b-55f8e73e6ad8
+		summarizeBy: none
+		sourceColumn: plano
+
+		annotation SummarizationSetBy = Automatic
+
+	column modulo
+		dataType: string
+		lineageTag: 5541bfb6-82b0-4deb-8fa8-6689dc0cc63c
+		summarizeBy: none
+		sourceColumn: modulo
+
+		annotation SummarizationSetBy = Automatic
+
+	column empresa
+		dataType: string
+		lineageTag: 9bff930e-43e7-4dc5-b97a-f748abdb3933
+		summarizeBy: none
+		sourceColumn: empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_pagamento
+		dataType: dateTime
+		formatString: yyyy-mm
+		lineageTag: b294d94d-1216-415f-9e9a-e1a241a23942
+		summarizeBy: none
+		sourceColumn: data_pagamento
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column uf_beneficiario
+		dataType: string
+		lineageTag: a2113e2e-5c28-44f5-b7e4-d087b5a3f7a4
+		summarizeBy: none
+		sourceColumn: uf_beneficiario
+
+		annotation SummarizationSetBy = Automatic
+
+	column despesa
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 0ef72915-c85e-408c-b98c-2e42b64e7299
+		summarizeBy: sum
+		sourceColumn: despesa
+
+		annotation SummarizationSetBy = Automatic
+
+	column VPP
+		dataType: double
+		lineageTag: 0a6b3cf8-2bee-401c-8ac6-8ae47eb587de
+		summarizeBy: sum
+		sourceColumn: VPP
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VPG
+		dataType: double
+		lineageTag: 828a913d-25c6-4fcb-a4af-5e1bfbb35650
+		summarizeBy: sum
+		sourceColumn: VPG
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Copart
+		dataType: double
+		lineageTag: d79867ef-f1e1-47ce-9837-b2c3d5c90b49
+		summarizeBy: sum
+		sourceColumn: Copart
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column cassi
+		dataType: string
+		lineageTag: 619238d8-e619-45ae-b52b-729747155f72
+		summarizeBy: none
+		sourceColumn: cassi
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'F - Custo Pos Pgto' = m
+		mode: import
+		source =
+				let
+				    Fonte = GoogleBigQuery.Database(),
+				    Projeto = Fonte{[Name="mythic-groove-491720-v4"]}[Data],
+				    Dataset = Projeto{[Name="health_care_lifes"]}[Data],
+				    Tabela = Dataset{[Name="custo_operadora_pos_pgto"]}[Data],
+				    #"Linhas Filtradas" = Table.SelectRows(Tabela, each true)
+				in
+				    #"Linhas Filtradas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

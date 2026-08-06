@@ -1,0 +1,74 @@
+table 'D - Calendario'
+	lineageTag: 6aa86dd2-f230-407c-8112-ba4b64f2675e
+
+	column Date
+		formatString: Short Date
+		lineageTag: f22a37e8-d2b3-4834-b2ab-82a912fa58a3
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		variation Variation
+			isDefault
+			relationship: 13fe6a41-694c-47b8-88f3-148080481217
+			defaultHierarchy: LocalDateTable_10f447e7-0d15-49fe-b724-a0416fbac14e.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ano
+		formatString: 0
+		lineageTag: fcc7d67e-7bb4-46d9-9fd4-040035e78033
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Ano]
+
+		annotation SummarizationSetBy = Automatic
+
+	column MesNumero
+		formatString: 0
+		lineageTag: 9729fa47-4037-4655-9eb5-bc3a0cdfd4b6
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [MesNumero]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		lineageTag: db43ee69-d56c-4833-ae84-c789c7974853
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Mes]
+
+		annotation SummarizationSetBy = Automatic
+
+	column AnoMes
+		lineageTag: 96efa527-500b-48d5-89a7-590227ca6b22
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [AnoMes]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Trimestre
+		lineageTag: fdaeb174-98a7-4f00-81ef-ac7c9772395b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Trimestre]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'D - Calendario' = calculated
+		mode: import
+		source =
+				
+				ADDCOLUMNS (
+				    CALENDARAUTO(),
+				    "Ano", YEAR ([Date]),
+				    "MesNumero", MONTH ( [Date] ),
+				    "Mes", FORMAT ( [Date], "MMMM" ),
+				    "AnoMes", FORMAT ( [Date], "YYYY-MM" ),
+				    "Trimestre", "T" & FORMAT ( [Date], "Q" )
+				)
+
+	annotation PBI_Id = 8238f88b29a44888895d19569beccd10
+

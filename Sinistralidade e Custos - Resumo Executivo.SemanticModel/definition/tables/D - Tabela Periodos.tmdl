@@ -1,0 +1,28 @@
+table 'D - Tabela Periodos'
+	lineageTag: 2f23f667-b156-4b60-8bf5-34ab6c8d628c
+
+	column Periodo
+		lineageTag: ef03b8e2-6484-489c-b2b7-c73f66f347f0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Periodo]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'D - Tabela Periodos' = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "Periodo", STRING,
+				    {
+				        {"Últimos 12 meses"},
+				        {"Últimos 6 meses"},
+				        {"YTD"},
+				        {"Mês Pgtº Vigente"} 
+				    }
+				)
+				```
+
+	annotation PBI_Id = 117a5190386a40da8d856d7800cdfb3f
+

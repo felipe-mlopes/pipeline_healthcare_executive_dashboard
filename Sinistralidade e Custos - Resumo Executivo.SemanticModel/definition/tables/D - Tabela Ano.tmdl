@@ -1,0 +1,25 @@
+table 'D - Tabela Ano'
+	lineageTag: 463ad245-af5b-489d-b650-32c5d3c34e14
+
+	column Ano
+		lineageTag: ade8bd1a-6800-46c5-b5ca-9c1a027eef86
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Ano]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'D - Tabela Ano' = calculated
+		mode: import
+		source =
+				DATATABLE(
+				    "Ano", STRING,
+				    {
+				        {"2024"},
+				        {"2025"},
+				        {"2026"}
+				    }
+				)
+
+	annotation PBI_Id = 3e283414e8b1418fa3b08edc8191ee7d
+

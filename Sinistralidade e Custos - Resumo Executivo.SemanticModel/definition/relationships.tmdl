@@ -1,0 +1,93 @@
+relationship 13fe6a41-694c-47b8-88f3-148080481217
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'D - Calendario'.Date
+	toColumn: LocalDateTable_10f447e7-0d15-49fe-b724-a0416fbac14e.Date
+
+relationship 8511c09e-8c36-6bc4-a166-f370566d345e
+	fromColumn: 'F - Sinistralidade Pre Pgto'.data_pagamento
+	toColumn: 'D - Calendario'.Date
+
+relationship b9ec9bf8-1c0d-b24c-6e71-abd116345d5d
+	fromColumn: 'F - Custo Pos Pgto'.data_pagamento
+	toColumn: 'D - Calendario'.Date
+
+relationship c79a6b24-6b5a-71e6-28c3-2a3334cd1f20
+	fromColumn: 'F - Vidas'.Mes
+	toColumn: 'D - Calendario'.Date
+
+relationship 59778962-cbe9-05b6-001c-e93a60576504
+	fromColumn: 'F - Custo Pos Pgto'.plano
+	toColumn: 'D - Planos'.Nome_plano
+
+relationship fe6ddb5e-55fb-46df-6339-a61b924fb3bd
+	fromColumn: 'F - Vidas'.Operadora
+	toColumn: 'D - Operadora'.Operadora
+
+relationship a6bf7977-35fa-f60a-5e49-940b00f3223a
+	fromColumn: 'F - Custo Pos Pgto'.operadora
+	toColumn: 'D - Operadora'.Operadora
+
+relationship fc9db651-24f3-6cb7-a228-d7abaff42f58
+	fromColumn: 'D - Calendario'.Mes
+	toColumn: 'D - Tabela Meses'.Mês
+
+relationship a124d410-be00-88ef-0ee2-03fe956a5621
+	fromColumn: 'F - Vidas'.Nome_plano
+	toColumn: 'D - Planos'.Nome_plano
+
+relationship bd2d5584-fe31-a7a4-1e75-0636fcd5be60
+	fromColumn: 'F - Vidas'.UF_Benef
+	toColumn: 'D - UF Estados'.UF
+
+relationship 06ec9ca2-03ba-be43-261c-4620b13f45bc
+	fromColumn: 'F - Sinistralidade Pre Pgto'.uf_benef
+	toColumn: 'D - UF Estados'.UF
+
+relationship 48f91e5d-30f3-6557-f463-0bd3e70aee32
+	fromColumn: 'F - Custo Pos Pgto'.uf_beneficiario
+	toColumn: 'D - UF Estados'.UF
+
+relationship 96946369-6d71-34ed-ea2c-e01f00e46795
+	fromColumn: 'F - Aberturas por Risco'.data_ref
+	toColumn: 'D - Calendario'.Date
+
+relationship f91b3bf7-2546-c04c-4f3c-b9ad7f99d09c
+	fromColumn: 'F - Aberturas por Risco'.uf_benef
+	toColumn: 'D - UF Estados'.UF
+
+relationship ee42e57e-f9b9-3d7e-0e42-216d9c79d42c
+	fromColumn: 'F - Aberturas por Risco'.Operadora
+	toColumn: 'D - Operadora'.Operadora
+
+relationship f958c43c-34b7-1242-0464-9f4d757db4e6
+	fromColumn: 'F - Aberturas por Risco'.plano
+	toColumn: 'D - Planos'.Nome_plano
+
+relationship 678044a4-d963-2395-1c00-9d84ca4937d3
+	fromColumn: 'F - Sinistralidade Pre Pgto'.plano
+	toColumn: 'D - Planos'.Nome_plano
+
+relationship 981250c1-bbc9-db4a-9d63-30ae4443fe86
+	fromColumn: 'D - Calendario'.Ano
+	toColumn: 'D - Tabela Ano'.Ano
+
+relationship f1a3b9b3-bcec-1700-4912-1e905c8be312
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'D - Grupos Empresas'.Empresas
+	toColumn: 'D - Empresas'.Nome_empresa
+
+relationship c51e4ea9-0e2a-5646-f9ba-014e4f41840d
+	fromColumn: 'F - Custo Pos Pgto'.empresa
+	toColumn: 'D - Empresas'.Nome_empresa
+
+relationship 375b2b0e-6497-116d-cc3e-e741c771df10
+	fromColumn: 'F - Vidas'.Nome_empresa
+	toColumn: 'D - Empresas'.Nome_empresa
+
+relationship f0cc06b2-9a57-2f58-8414-ae815e2d366d
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'D - Planos'.Nome_plano
+	toColumn: 'D - Tipos de Planos'.Planos
+

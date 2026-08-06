@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Sinistralidade e Custos - Resumo Executivo"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "c508301a-b706-4276-bfd8-3f2c34a5894a"
+  }
+}
