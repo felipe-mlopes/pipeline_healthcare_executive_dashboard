@@ -15,9 +15,6 @@ modulos = ['Modulo-1','Modulo-2','Modulo-3','Modulo-4']
 operadora_pre = ['Operadora X']
 operadora_pos = ['Operadora Y']
 
-## Período histórico
-# datas = pd.date_range('2024-01-01', '2026-06-01', freq='MS')
-
 ## Período corrente
 datas = [
     pd.Timestamp.today().replace(day=1) - pd.DateOffset(months=1)
@@ -34,51 +31,10 @@ MAX_ROWS = 200_000
 ## despesa
 ## receita
 def geracao_sinistralidade():
+
     rows_sinistralidade = []
 
     for d in datas:
-
-        # grupos_planos = [
-        #     (
-        #         ['Alfa','Beta','Gamma','Delta','Epsilon', 'Omega'],
-        #         float(rng.integers(35_000_000, 50_000_001)),
-        #         float(rng.integers(40_000_000, 42_000_001))
-        #     ),
-        #     (
-        #         ['Capa', 'Iota'],
-        #         float(rng.integers(150_000, 300_001)),
-        #         float(rng.integers(400_000, 420_001))
-        #     )
-        # ]
-
-        # for planos, despesas, receitas in grupos_planos:
-        #     n_combinacoes = (
-        #         len(planos_pre) *
-        #         len(ufs) 
-        #     )
-
-        #     pesos = rng.dirichlet(np.ones(n_combinacoes))
-
-        #     valores_desp = np.round(despesas * pesos, 2)
-        #     valores_rece = np.round(receitas * pesos, 2)
-
-        #     valores_desp[0] += round(despesas - valores_desp.sum(), 2)
-        #     valores_rece[0] += round(receitas - valores_rece.sum(), 2)
-
-        #     idx = 0
-
-        #     for plano, uf in product(planos, ufs):
-        #         rows_sinistralidade.append(
-        #             [
-        #                 d.date(),
-        #                 plano,
-        #                 uf,
-        #                 valores_desp[idx],
-        #                 valores_rece[idx]
-        #             ]
-        #         )
-
-        #         idx += 1
 
         # MÉDICO
         planos_medicos = ['Alfa','Beta','Gamma','Delta','Epsilon','Omega']
@@ -210,9 +166,9 @@ def geracao_sinistralidade():
                     ]
                 )
 
-    sin = pd.DataFrame(
-        rows_sinistralidade, 
-        columns=[
+    return pd.DataFrame(
+        rows_sinistralidade,
+                columns=[
             'data_pagamento',
             'plano',
             'uf_benef',
@@ -220,16 +176,6 @@ def geracao_sinistralidade():
             'receita'
         ]
     )
-
-    sin_path = './bases/Sinistralidade_Ficticia.csv'
-    sin.to_csv(sin_path, index=False)
-
-    print({
-        'sin_rows':len(sin),
-        'sin_path':sin_path,
-    })
-
-    return sin
 
 
 ## --- Vidas
@@ -242,6 +188,7 @@ def geracao_sinistralidade():
 ## UF_Benef
 ## Nome_empresa
 def geracao_vidas():
+
     rows_vidas = []
 
     for d, op in product(datas, operadoras):
@@ -309,8 +256,8 @@ def geracao_vidas():
 
                 idx += 1
 
-    vidas = pd.DataFrame(
-        rows_vidas, 
+    return pd.DataFrame(
+        rows_vidas,
         columns=[
             'Operadora', 
             'Mes', 
@@ -321,16 +268,6 @@ def geracao_vidas():
             'Nome_empresa'
         ]
     )
-
-    vidas_path = './bases/Vidas_Ficticia.csv'
-    vidas.to_csv(vidas_path, index=False)
-
-    print({
-        'vidas_rows':len(vidas),
-        'vidas_path':vidas_path
-    })
-
-    return vidas
 
 
 ## --- Custo Operadora Y
@@ -347,6 +284,7 @@ def geracao_vidas():
 ## Copart
 ## despesa
 def geracao_custo():
+
     rows_custo = []
 
     for o, r, d in islice(
@@ -406,8 +344,7 @@ def geracao_custo():
 
             idx += 1
 
-
-    custo = pd.DataFrame(
+    return pd.DataFrame(
         rows_custo,
         columns=[
             'operadora',
@@ -423,16 +360,6 @@ def geracao_custo():
             'despesa'
         ]
     )
-
-    custo_path = './bases/Custo_Ficticio.csv'
-    custo.to_csv(custo_path, index=False)
-
-    print({
-        'risco_rows': len(custo),
-        'risco_path': custo_path
-    })
-
-    return custo
 
 
 ## --- Abertura por Risco
@@ -467,7 +394,6 @@ def geracao_risco(sin, custo, vidas):
         Empresas D e E
             . Riscos = ['Grande Risco', 'Pequeno Risco', 'Odontológico', 'Farmácia']
     """
-
 
     rows_risco = []
 
@@ -663,8 +589,7 @@ def geracao_risco(sin, custo, vidas):
                 valor
             ])
 
-
-    abertura_por_risco = pd.DataFrame(
+    return pd.DataFrame(
         rows_risco, 
         columns=[
             'data_ref',
@@ -680,16 +605,3 @@ def geracao_risco(sin, custo, vidas):
             'Valor'
         ]
     )
-    abertura_por_risco_path = './bases/Abertura_por_Risco_Ficticia.csv'
-    abertura_por_risco.to_csv(abertura_por_risco_path, index=False)
-
-    print({
-        'risco_rows': len(abertura_por_risco),
-        'risco_path': abertura_por_risco_path
-    })
-
-
-sin = geracao_sinistralidade()
-vidas = geracao_vidas()
-custo = geracao_custo()
-abertura_risco = geracao_risco(sin, custo, vidas)
