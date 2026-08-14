@@ -4,8 +4,8 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 2060.3271745901957,
-        "y": 1119.9390922540088
+        "x": 2060.9434945878506,
+        "y": 1119.0696842517996
       },
       "nodes": [
         {
@@ -242,18 +242,6 @@
           "nodeLineageTag": "079be503-a57f-4936-91bb-7e3fd620a71f",
           "size": {
             "height": 128,
-            "width": 234
-          },
-          "zIndex": 0
-        },
-        {
-          "location": {
-            "x": 1773.9184553935847,
-            "y": 856.89551791044983
-          },
-          "nodeIndex": "_TabelaUF_POS",
-          "size": {
-            "height": 200,
             "width": 234
           },
           "zIndex": 0
