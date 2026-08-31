@@ -1,0 +1,57 @@
+name: Deploy
+
+on:
+    push:
+        branches: [main]
+        paths-ignore:
+            - "docs/**"
+            - "terraform/**"
+            - "**.md"
+
+permissions: 
+    contents: read
+    id-token: write
+
+env:
+    REGION: ${{ vars.GCP_REGION }}
+    PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+    AR_REPO: ${{ vars.AR_REPO }}
+    JOB_NAME: ${{ vars.CLOUD_RUN_JOB_NAME }}
+
+jobs:
+    test:
+        uses: ./.github/workflows/ci.yml
+
+    build-and-deploy:
+        needs: test
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - id: auth
+              name: Autenticar no GCP (Workload Identify Federation)
+              uses: google-github-actions/auth@v2
+              with:
+                workload_identity_provider: ${{ vars.WIF_PROVIDER }}
+                service_account: ${{ vars.WIF_SERVICE_ACCOUNT }}
+
+            - name: Setup gcloud
+              uses: google-github-actions/setup-gcloud@v2
+
+            - name: Configurar Docker para Artifact Registry
+              run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+
+            - name: Build e push da Image
+              id: build
+              run: |
+                IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.AR_REPO }}/pipeline:${{ github.sha }}"
+                docker build -t "$IMAGE" .
+                docker push "$IMAGE"
+                echo "IMAGE=$IMAGE" >> "$GITHUB_OUTPUT"
+
+            - name: Atualizar Cloud Run com a nova image
+              run: |
+                gcloud run jobs update "${{ env.JOB_NAME }}" \
+                --image="${{ steps.build.outputs.image }}" \
+                --region="${{ env.REGION }}" \
+                --project="${{ env.PROJECT_ID }}"
