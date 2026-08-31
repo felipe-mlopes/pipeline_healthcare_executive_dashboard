@@ -1,75 +1,121 @@
-import pandas as pd
+import sys
 
-from extract.generate_csv import geracao_custo, geracao_risco, geracao_sinistralidade, geracao_vidas
+import pandas as pd
+from google.cloud import bigquery
+
+from config.settings import GCP_PROJECT_ID, BQ_LOCATION, TABLE_MAP
+
+from extract.generate_csv import (
+    geracao_custo, 
+    geracao_risco, 
+    geracao_sinistralidade, 
+    geracao_vidas
+)
+
 from extract.save_monthly_csv import salvar_csv_mensal
 
-from load.bigquery_load import carregar_csv
+from load.bigquery_load import carregar_incremental
 
-from utils.execution_control import ja_processado, registrar_execucao
+from utils.bigquery_control import (
+    garantir_tabela_controle,
+    ja_processado,
+    registrar_execucao
+)
 
-def executar_pipeline():
+from utils.logger import get_logger
 
-    competencia = (
-        pd.Timestamp.today()
-        .replace(day=1)
-        - pd.DateOffset(month=1)
+log = get_logger('pipeline.main')
+
+def competencia_alvo() -> pd.Timestamp:
+    import os
+
+    override = os.getenv('COMPETENCIA')
+
+    if override:
+        return pd.Timestamp(override + '-01')
+
+    return pd.Timestamp.today().replace(day=1) - pd.DateOffset(month=1)
+
+def executar_pipeline() -> None:
+    client = bigquery.Client(
+        project=GCP_PROJECT_ID,
+        location=BQ_LOCATION
     )
 
-    competencia_txt = competencia.strftime("%Y-%m")
+    garantir_tabela_controle(client)
 
-    if ja_processado(competencia_txt):
-        print(
-            f"Competência: {competencia_txt} já processada."
+    competencia = competencia_alvo()
+    competencia_txt = competencia.strftime('%Y-%m')
+
+    if ja_processado(client, competencia_txt):
+        log.info(
+            f"Competência {competencia_txt} já processada. Nada a fazer."
         )
-
         return
 
-    print(f"Competência: {competencia:%Y-%m}")
-
-    sin = geracao_sinistralidade()
-    vidas = geracao_vidas()
-    custo = geracao_custo()
-    risco = geracao_risco(
-        sin, custo, vidas
+    log.info(
+        f"Iniciando processamento da competência {competencia_txt}"
     )
 
-    arq_sin = salvar_csv_mensal(
-        sin,
-        'sinistralidade',
-        competencia
-    )
+    try:
+        sin = geracao_sinistralidade()
+        vidas = geracao_vidas()
+        custo = geracao_custo()
+        risco = geracao_risco(
+            sin, custo, vidas
+        )
 
-    arq_vidas = salvar_csv_mensal(
-        vidas,
-        'sinistralidade',
-        competencia
-    )
+        dataframes = {
+            'sinistralidade': sin,
+            'vidas': vidas,
+            'custo': custo,
+            'risco': risco
+        }
 
-    arq_custo = salvar_csv_mensal(
-        custo,
-        'sinistralidade',
-        competencia
-    )
+        total_linhas = {}
 
-    arq_risco = salvar_csv_mensal(
-        risco,
-        'sinistralidade',
-        competencia
-    )
+        for chave, df in dataframes.items():
+            destino = TABLE_MAP[chave]
+            arquivo = salvar_csv_mensal(df, chave, competencia)
 
-    carregar_csv(arq_sin)
-    carregar_csv(arq_vidas)
-    carregar_csv(arq_custo)
-    carregar_csv(arq_risco)
+            linhas = carregar_incremental(
+                arquivo=arquivo,
+                tabela=destino['table'],
+                partition_field=destino['partition_field'],
+                competencia=competencia,
+                client=client
+            )
 
-    registrar_execucao(
-        competencia_txt
-    )
+            total_linhas[destino['table']] = linhas
 
-    print(
-        f"Competência {competencia_txt} registrada."
-    )
+        registrar_execucao(
+            client,
+            competencia_txt,
+            status='SUCCESS',
+            detalhes=(total_linhas)
+        )
 
+        log.info(
+            f"Competência {competencia_txt} registrada com sucesso: {total_linhas}"
+        )
+
+    except Exception as exc:
+        log.error(
+            f"Falha ao processar competência {competencia_txt}: {exc}",
+            exc_info=True
+        )
+
+        registrar_execucao(
+            client,
+            competencia_txt,
+            status='FAILED',
+            detalhes=str(exc)
+        )
+
+        raise
 
 if __name__ == '__main__':
-    executar_pipeline()
+    try:
+        executar_pipeline()
+    except Exception:
+        sys.exit(1)
