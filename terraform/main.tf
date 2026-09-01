@@ -9,6 +9,7 @@ locals {
     "bigquery.googleapis.com",
     "iam.googleapis.com",
     "iamcredentials.googleapis.com",
+    "sts.googleapis.com",
     ]
 }
 
@@ -162,4 +163,85 @@ resource "google_cloud_scheduler_job" "monthly_trigger" {
         google_project_service.apis,
         google_cloud_run_v2_job_iam_member.scheduler_can_invoker
     ]
+}
+
+# ---------------------------------------------------------------------------
+# Workload Identity Federation — permite o GitHub Actions autenticar no GCP
+# sem chave JSON estática, trocando o token OIDC do próprio workflow por
+# credenciais temporárias de uma service account dedicada ao deploy.
+# ---------------------------------------------------------------------------
+data "google_project" "current" {
+    project_id = var.project_id
+}
+
+resource "google_iam_workload_identity_pool" "github_pool" {
+    project = var.project_id
+    workload_identity_pool_id = "github-actions-pool"
+    display_name = "GitHub Actions"
+    description = "Pool de identidade federada para deploys via GitHub Actions"
+
+    depends_on = [ google_project_service.apis ]
+}
+
+resource "google_iam_workload_identity_pool_provider" "github_provider" {
+    project = var.project_id
+    workload_identity_pool_id = google_iam_workload_identity_pool.github_pool.workload_identity_pool_id
+    workload_identity_pool_provider_id = "github-actions-provider"
+    display_name = "GitHub Actions OIDC"
+
+    attribute_mapping = {
+        "google.subject" = "assertion.sub"
+        "attribute.repository" = "assertion.repository"
+        "attribute.repository_owner" = "assertion.repository_owner"
+    }
+
+    # Restringe QUAL repositório pode trocar o token OIDC por credenciais do GCP.
+    # Sem isso, qualquer repositório do GitHub (de qualquer usuário) que soubesse
+    # o resource name do provider poderia tentar se autenticar.
+    attribute_condition = "assertion.repository == \"${var.github_repository}\""
+
+    oidc {
+        issuer_uri = "https://token.actions.githubusercontent.com"
+    }
+}
+
+# Service account dedicada ao pipeline de deploy (não confundir com job_runner,
+# que é a identidade do CONTAINER em runtime). Esta SA só existe pro GitHub
+# Actions fazer push de imagem e atualizar o Cloud Run Job.
+resource "google_service_account" "github_deployer" {
+    project = var.project_id
+    account_id = "sa-github-deployer"
+    display_name = "GitHub Actions - Deploy pipeline"
+}
+
+# Permite push de imagens no Artifact Registry
+resource "google_project_iam_member" "deployer_artifact_writer" {
+    project = var.project_id
+    role = "roles/artifactregistry.writer"
+    member = "serviceAccount:${google_service_account.github_deployer.email}"
+}
+
+# Permite atualizar/gerenciar o Cloud Run Job (gcloud run jobs update)
+resource "google_project_iam_member" "deployer_run_developer" {
+    project = var.project_id
+    role = "roles/run.developer"
+    member = "serviceAccount:${google_service_account.github_deployer.email}"
+}
+
+# O Cloud Run exige que quem atualiza um Job também tenha permissão de "agir
+# como" a service account que o Job vai usar em runtime (job_runner) — sem
+# isso, o deploy falha com "iam.serviceaccounts.actAs" negado.
+resource "google_service_account_iam_member" "deployer_can_act_as_job_runner" {
+    service_account_id = google_service_account.job_runner.name
+    role = "roles/iam.serviceAccountUser"
+    member = "serviceAccount:${google_service_account.github_deployer.email}"
+}
+
+# Vincula o repositório GitHub (via WIF) à permissão de impersonar a SA de
+# deploy — só workflows rodando DENTRO desse repositório específico podem
+# assumir essa identidade.
+resource "google_service_account_iam_member" "github_can_impersonate_deployer" {
+    service_account_id = google_service_account.github_deployer.name
+    role = "roles/iam.workloadIdentityUser"
+    member = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.github_pool.name}/attribute.repository/${var.github_repository}"
 }

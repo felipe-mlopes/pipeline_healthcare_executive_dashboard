@@ -62,3 +62,9 @@ variable "job_timeout_seconds" {
     type = string
     default = "1800s"
 }
+
+variable "github_repository" {
+    description = "Repositório GitHub autorizado a assumir a identidade de deploy via Workload Identity Federation, no formato owner/repo"
+    type = string
+    default = "felipe-mlopes/pipeline_healthcare_executive_dashboard"
+}
