@@ -47,7 +47,7 @@ jobs:
                 IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.AR_REPO }}/pipeline:${{ github.sha }}"
                 docker build -t "$IMAGE" .
                 docker push "$IMAGE"
-                echo "IMAGE=$IMAGE" >> "$GITHUB_OUTPUT"
+                echo "image=$IMAGE" >> "$GITHUB_OUTPUT"
 
             - name: Atualizar Cloud Run com a nova image
               run: |
