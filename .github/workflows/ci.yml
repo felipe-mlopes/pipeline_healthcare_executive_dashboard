@@ -10,11 +10,11 @@ jobs:
     lint-and-test:
         runs-on: ubuntu-latest
         steps:
-            - uses: action/checkout@4
+            - uses: actions/checkout@v4
 
             - uses: actions/setup-python@v5
               with:
-                python-verson: "3.11"
+                python-version: "3.11"
                 cache: "pip"
             
             - name: Instalar dependências
