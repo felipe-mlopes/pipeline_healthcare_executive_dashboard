@@ -21,3 +21,13 @@ output "bigquery_dataset" {
 output "scheduler_job_name" {
     value = google_cloud_scheduler_job.monthly_trigger.name
 }
+
+output "wif_provider" {
+    description = "Valor para a variável WIF_PROVIDER no GitHub Actions"
+    value = google_iam_workload_identity_pool_provider.github_provider.name
+}
+
+output "wif_service_account" {
+    description = "Valor para a variável WIF_SERVICE_ACCOUNT no GitHub Actions"
+    value = google_service_account.github_deployer.email
+}
