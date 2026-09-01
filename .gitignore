@@ -1,3 +1,8 @@
 **/.pbi/localSettings.json
 **/.pbi/cache.abf
 /data/*
+.pytest_cache/**
+terraform/.terraform**
+terraform/terraform**
+**__pycache__
+.coverage
