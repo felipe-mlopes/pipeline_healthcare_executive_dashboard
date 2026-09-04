@@ -1,6 +1,7 @@
-import pandas as pd
+from itertools import islice, product
+
 import numpy as np
-from itertools import product, islice
+import pandas as pd
 
 ## Variáveis
 ufs = ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO']
@@ -17,9 +18,11 @@ operadora_pre = ['Operadora X']
 operadora_pos = ['Operadora Y']
 
 ## Período corrente
-datas = [
-    pd.Timestamp.today().replace(day=1) - pd.DateOffset(months=1)
-]
+##
+## A competência (mês de referência) é decidida em um único lugar: main.py
+## (função competencia_alvo). Cada função de geração recebe esse valor como
+## parâmetro explícito, evitando duas fontes de verdade divergentes sobre
+## "qual mês estamos processando".
 
 rng = np.random.default_rng(42)
 MAX_ROWS = 200_000
@@ -31,8 +34,9 @@ MAX_ROWS = 200_000
 ## uf_benef
 ## despesa
 ## receita
-def geracao_sinistralidade():
+def geracao_sinistralidade(competencia: pd.Timestamp):
 
+    datas = [competencia]
     rows_sinistralidade = []
 
     for d in datas:
@@ -188,8 +192,9 @@ def geracao_sinistralidade():
 ## Valor
 ## UF_Benef
 ## Nome_empresa
-def geracao_vidas():
+def geracao_vidas(competencia: pd.Timestamp):
 
+    datas = [competencia]
     rows_vidas = []
 
     for d, op in product(datas, operadoras):
@@ -284,8 +289,9 @@ def geracao_vidas():
 ## VPG
 ## Copart
 ## despesa
-def geracao_custo():
+def geracao_custo(competencia: pd.Timestamp):
 
+    datas = [competencia]
     rows_custo = []
 
     for o, r, d in islice(
