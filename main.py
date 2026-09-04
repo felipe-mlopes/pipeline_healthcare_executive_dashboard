@@ -34,7 +34,7 @@ def competencia_alvo() -> pd.Timestamp:
     if override:
         return pd.Timestamp(override + '-01')
 
-    return pd.Timestamp.today().replace(day=1) - pd.DateOffset(month=1)
+    return pd.Timestamp.today().replace(day=1) - pd.DateOffset(months=1)
 
 def executar_pipeline() -> None:
     client = bigquery.Client(
@@ -58,9 +58,9 @@ def executar_pipeline() -> None:
     )
 
     try:
-        sin = geracao_sinistralidade()
-        vidas = geracao_vidas()
-        custo = geracao_custo()
+        sin = geracao_sinistralidade(competencia)
+        vidas = geracao_vidas(competencia)
+        custo = geracao_custo(competencia)
         risco = geracao_risco(
             sin, custo, vidas
         )
