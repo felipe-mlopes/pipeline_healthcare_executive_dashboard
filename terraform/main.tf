@@ -65,6 +65,24 @@ resource "google_bigquery_dataset" "health_care_lifes" {
     depends_on = [ google_project_service.apis ]
 }
 
+# ---------------------------------------------------------------------------
+# Audit logs de "Data Access" para BigQuery 
+# ---------------------------------------------------------------------------
+resource "google_project_iam_audit_config" "bigquery_data_access" {
+    project = var.project_id
+    service = "bigquery.googleapis.com"
+
+    audit_log_config {
+        log_type = "DATA_READ"
+    }
+
+    audit_log_config {
+        log_type = "DATA_WRITE"
+    }
+
+    depends_on = [ google_project_service.apis ]
+}
+
 # Acesso de dados restrito AO DATASET (não ao projeto inteiro) — least privilege
 resource "google_bigquery_dataset_iam_member" "job_runner_data_editor" {
     project = var.project_id
