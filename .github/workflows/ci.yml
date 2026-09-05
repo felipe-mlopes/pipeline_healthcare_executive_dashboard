@@ -31,3 +31,11 @@ jobs:
 
             - name: Build de validação da imagem Docker
               run: docker build -t pipeline-ci:${{ github.sha }} .
+
+            - name: Scan de vulnerabilidades na imagem (Trivy)
+              uses: aquasecurity/trivy-action@0.24.0
+              with:
+                image-ref: pipeline-ci:${{ github.sha }}
+                format: table
+                severity: CRITICAL,HIGH
+                exit-code: "1"
