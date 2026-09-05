@@ -64,6 +64,11 @@ variable "job_timeout_seconds" {
 }
 
 variable "github_repository" {
+    # ATENÇÃO: este default concede à identidade de deploy (WIF) confiança
+    # explícita neste repositório específico. Se este projeto for usado como
+    # base/fork por outra pessoa/organização, sobrescreva este valor — caso
+    # contrário, o repositório abaixo continuaria autorizado a assumir a
+    # identidade de deploy no projeto GCP de quem aplicar o Terraform.
     description = "Repositório GitHub autorizado a assumir a identidade de deploy via Workload Identity Federation, no formato owner/repo"
     type = string
     default = "felipe-mlopes/pipeline_healthcare_executive_dashboard"
