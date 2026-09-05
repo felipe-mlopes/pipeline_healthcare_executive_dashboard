@@ -1,5 +1,5 @@
 # ---- Stage 1: build das dependências ----
-FROM python:3.11-slim AS builder
+FROM python:3.11-slim-bookworm AS builder
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --user -r requirements.txt
 
 # ---- Stage 2: imagem final, enxuta e sem root ----
-FROM python:3.11-slim 
+FROM python:3.11-slim-bookworm 
 
 # Cria usuário/grupo não-root dedicados (não roda como root em produção)
 RUN groupadd --gid 1000 appuser \
