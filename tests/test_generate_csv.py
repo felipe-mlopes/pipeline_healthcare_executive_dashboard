@@ -5,8 +5,8 @@ from extract.generate_csv import (
     geracao_vidas,
 )
 
-def test_geracao_sinistralidade_colunas_e_valores():
-    df = geracao_sinistralidade()
+def test_geracao_sinistralidade_colunas_e_valores(competencia):
+    df = geracao_sinistralidade(competencia)
 
     assert list(df.columns) == [
         "data_pagamento",
@@ -21,8 +21,8 @@ def test_geracao_sinistralidade_colunas_e_valores():
     assert (df["receita"] >= 0).all()
     assert df["uf_benef"].nunique() == 27  # 27 UFs definidas no gerador
 
-def test_geracao_vidas_colunas_e_valores():
-    df = geracao_vidas()
+def test_geracao_vidas_colunas_e_valores(competencia):
+    df = geracao_vidas(competencia)
 
     assert list(df.columns) == [
         "Operadora",
@@ -37,8 +37,8 @@ def test_geracao_vidas_colunas_e_valores():
     assert (df["Valor"] >= 0).all()
     assert set(df["Operadora"].unique()) <= {"Operadora X", "Operadora Y"}
 
-def test_geracao_custo_colunas_e_valores():
-    df = geracao_custo()
+def test_geracao_custo_colunas_e_valores(competencia):
+    df = geracao_custo(competencia)
 
     assert not df.empty
     for col in ["VPP", "VPG", "despesa"]:
@@ -56,10 +56,10 @@ def test_geracao_custo_colunas_e_valores():
     # VPP deve ser sempre maior ou igual ao VPG (fator 1.02 a 1.05 aplicado no gerador)
     assert (df["VPP"] >= df["VPG"]).all()
 
-def test_geracao_risco_soma_bate_com_insumos():
-    sin = geracao_sinistralidade()
-    vidas = geracao_vidas()
-    custo = geracao_custo()
+def test_geracao_risco_soma_bate_com_insumos(competencia):
+    sin = geracao_sinistralidade(competencia)
+    vidas = geracao_vidas(competencia)
+    custo = geracao_custo(competencia)
 
     risco = geracao_risco(sin, custo, vidas)
 
