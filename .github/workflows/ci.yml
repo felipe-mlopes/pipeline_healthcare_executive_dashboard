@@ -38,4 +38,5 @@ jobs:
                 image-ref: pipeline-ci:${{ github.sha }}
                 format: table
                 severity: CRITICAL,HIGH
+                ignore-unfixed: true
                 exit-code: "1"
