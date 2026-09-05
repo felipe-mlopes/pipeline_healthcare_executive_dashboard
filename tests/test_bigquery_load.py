@@ -19,7 +19,7 @@ def test_carregar_incremental_usa_partition_decorator_e_write_truncate(
 
     args, kwargs = fake_bq_client.load_table_from_file.call_args
     destino = args[1]
-    assert destino.endswith("sinistralidade_operadora_pre_pgto$202607")
+    assert destino.endswith("sinistralidade_operadora_pre_pgto$20260701")
 
     job_config = kwargs["job_config"]
     assert job_config.write_disposition == "WRITE_TRUNCATE"

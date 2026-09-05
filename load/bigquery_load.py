@@ -81,7 +81,7 @@ def _garantir_tabela(
         schema=schema
     )
     table.time_partitioning = bigquery.TimePartitioning(
-        type_=bigquery.TimePartitioningType.MONTH,
+        type_=bigquery.TimePartitioningType.DAY,
         field=partition_field
     )
     client.create_table(
@@ -90,7 +90,7 @@ def _garantir_tabela(
     )
 
     log.info(
-        f"Tabela criada: {GCP_PROJECT_ID}. {BQ_DATASET}.{tabela} (particionada por {partition_field}/MONTH)"
+        f"Tabela criada: {GCP_PROJECT_ID}. {BQ_DATASET}.{tabela} (particionada por {partition_field}/DAY)"
     )
 
 def carregar_incremental(
@@ -116,19 +116,17 @@ def carregar_incremental(
         partition_field
     )
 
-    partition_field = competencia.strftime('%Y%m')
-    destino = f"{GCP_PROJECT_ID}.{BQ_DATASET}.{tabela}${partition_field}"
+    tabela_completa = f"{GCP_PROJECT_ID}.{BQ_DATASET}.{tabela}"
+
+    partition_suffix = competencia.strftime('%Y%m%d')
+    destino = f"{tabela_completa}${partition_suffix}"
 
     job_config = bigquery.LoadJobConfig(
         source_format=bigquery.SourceFormat.CSV,
         field_delimiter=';',
         skip_leading_rows=1,
         schema=SCHEMAS[tabela],
-        write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,
-        time_partitioning=bigquery.TimePartitioning(
-            type_=bigquery.TimePartitioningType.MONTH,
-            field=partition_field,
-        )
+        write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE
     )
 
     with open(arquivo, 'rb') as source_file:
@@ -143,7 +141,7 @@ def carregar_incremental(
     linhas = job.output_rows or 0
 
     log.info(
-        f"Carga concluída: {destino} ({linhas}) linhas"
+        f"Carga concluída: {destino} (mês {competencia.strftime('%Y-%m')}, {linhas} linhas)"
     )
 
     return linhas

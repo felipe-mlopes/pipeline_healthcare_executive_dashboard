@@ -55,12 +55,30 @@ resource "google_service_account" "scheduler_invoker" {
 
 # ---------------------------------------------------------------------------
 # BigQuery — dataset (as tabelas são criadas em runtime pelo próprio código,
-# já particionadas por mês; aqui garantimos apenas o dataset)
+# já particionadas por dia; aqui garantimos apenas o dataset)
 # ---------------------------------------------------------------------------
 resource "google_bigquery_dataset" "health_care_lifes" {
     project = var.project_id
     dataset_id = var.bq_dataset_id
     location = var.bq_location
+
+    depends_on = [ google_project_service.apis ]
+}
+
+# ---------------------------------------------------------------------------
+# Audit logs de "Data Access" para BigQuery 
+# ---------------------------------------------------------------------------
+resource "google_project_iam_audit_config" "bigquery_data_access" {
+    project = var.project_id
+    service = "bigquery.googleapis.com"
+
+    audit_log_config {
+        log_type = "DATA_READ"
+    }
+
+    audit_log_config {
+        log_type = "DATA_WRITE"
+    }
 
     depends_on = [ google_project_service.apis ]
 }
@@ -141,7 +159,7 @@ resource "google_cloud_run_v2_job_iam_member" "scheduler_can_invoker" {
 }
 
 # ---------------------------------------------------------------------------
-# Cloud Scheduler — dispara o Job todo dia 1 de cada mês
+# Cloud Scheduler — dispara o Job todo dia 5 de cada mês
 # ---------------------------------------------------------------------------
 resource "google_cloud_scheduler_job" "monthly_trigger" {
     project = var.project_id
