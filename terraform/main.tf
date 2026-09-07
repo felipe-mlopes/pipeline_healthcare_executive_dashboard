@@ -118,7 +118,7 @@ resource "google_cloud_run_v2_job" "pipeline_job" {
                 image = var.image_url
 
                 env {
-                    name = "CGP_PROJECT_ID"
+                    name = "GCP_PROJECT_ID"
                     value = var.project_id
                 }
                 env {
@@ -159,7 +159,7 @@ resource "google_cloud_run_v2_job_iam_member" "scheduler_can_invoker" {
 }
 
 # ---------------------------------------------------------------------------
-# Cloud Scheduler — dispara o Job todo dia 5 de cada mês
+# Cloud Scheduler — dispara o Job todo dia 7 de cada mês
 # ---------------------------------------------------------------------------
 resource "google_cloud_scheduler_job" "monthly_trigger" {
     project = var.project_id
