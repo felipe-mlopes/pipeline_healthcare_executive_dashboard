@@ -40,9 +40,9 @@ variable "image_url" {
 }
 
 variable "scheduler_cron" {
-    description = "Expressão cron do Cloud Scheduler (dia 05 de cada mês, 06:00)"
+    description = "Expressão cron do Cloud Scheduler (dia 07 de cada mês, 13:00)"
     type = string
-    default = "0 6 5 * *"
+    default = "0 13 7 * *"
 }
 
 variable "scheduler_timezone" {
